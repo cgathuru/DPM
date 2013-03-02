@@ -2,6 +2,8 @@ package main;
 
 import java.io.IOException;
 
+import navigaion.Localization;
+
 
 import odometer.Odometer;
 import odometer.TwoWheeledRobot;
@@ -28,7 +30,7 @@ public class Dpm {
 		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
 		Odometer odo = new Odometer(patBot, true);
 		LCDInfo lcd = new LCDInfo(odo);
-		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S2);
+		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S3);
 		LightSensor ls = new LightSensor(SensorPort.S1);
 		do {
 			buttonChoice = Button.waitForAnyPress();
@@ -36,6 +38,8 @@ public class Dpm {
 				&& buttonChoice != Button.ID_RIGHT);
 		// perform the ultrasonic localization
 		USDetection usl = new USDetection(odo, us);
+		LightDetection ld = new LightDetection(odo, ls);
+		Localization localization = new Localization(odo, ld, usl);
 		/*Navigation nav = odo.getNavigation();
 		nav.turnTo(0);
 		nav.turnTo(90);
