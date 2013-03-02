@@ -3,6 +3,7 @@ package sensors;
 
 import odometer.Odometer;
 import odometer.TwoWheeledRobot;
+import main.Constants;
 import navigaion.Navigation;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
@@ -15,14 +16,12 @@ import lejos.nxt.UltrasonicSensor;
  */
 public class USLocalizer {
 	public enum LocalizationType { FALLING_EDGE, RISING_EDGE };
-	public static double ROTATION_SPEED = 15;
 
 	private Odometer odo;
 	private TwoWheeledRobot robot;
 	private UltrasonicSensor us;
 	private LocalizationType locType;
 	private Navigation nav;
-	private final int WALL_DIST = 60;
 	
 	/**
 	 * Initializes the classes attributes
@@ -46,11 +45,11 @@ public class USLocalizer {
 		double angleA = 0, angleB = 0, angleC = 0;
 		double theta;
 		//detect if facing the wall or away from the wall
-		if (getFilteredData() > WALL_DIST) {
+		if (getFilteredData() > Constants.WALL_DIST) {
 			//rotate until a wall is detected, then latch the angle
-			robot.setRotationSpeed(ROTATION_SPEED);
+			robot.setRotationSpeed(Constants.ROTATE_SPEED);
 			while(true){
-				if(getFilteredData() < WALL_DIST){
+				if(getFilteredData() < Constants.WALL_DIST){
 					Sound.beep();
 					//nav.stopMoving();
 					angleA = this.odo.getTheta();
@@ -59,40 +58,35 @@ public class USLocalizer {
 			}
 			
 			//switch direction and repeat
-			robot.setRotationSpeed(-ROTATION_SPEED);
+			robot.setRotationSpeed(-Constants.ROTATE_SPEED);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(2000);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			while(true){
-				if(getFilteredData() < WALL_DIST){
+				if(getFilteredData() < Constants.WALL_DIST){
 					Sound.beep();
 					angleB = this.odo.getTheta();
 					break;
 				}
 			}
 			//calculate the angle needed to turn to
-			angleC = angleA - angleB;
-			if(angleC < 0) {
+			angleC = Math.abs(angleA - angleB);
+			nav.turnTo(angleC);
+			/*if(angleC < 0) {
 				angleC = angleA + (360 - angleB);
 			}
 			//turn to the angle
 			//robot.turnToImmediate(-(angleC / 2 - 45) );
-			if(angleC/180 >0){
+			if(angleC/180 > 0){
 				angleC = -(360-angleC);
 			}
 			robot.turnToImmediate(-angleC);
 			//nav.turnTo(-angleC -90);
 			LCD.drawString("Turning " + -(angleC / 2 - 45), 0, 6);
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			*/
 			// angleA is clockwise from angleB, so assume the average of the
 			// angles to the right of angleB is 45 degrees past 'north'
 			
@@ -107,18 +101,23 @@ public class USLocalizer {
 			 */
 							
 				//rotating until the robot sees no wall, then latch the angle
-				robot.setRotationSpeed(ROTATION_SPEED);
+				robot.setRotationSpeed(Constants.ROTATE_SPEED);
 				while(true){
-					if(getFilteredData() > WALL_DIST){
+					if(getFilteredData() > Constants.WALL_DIST){
 						Sound.beep();
 						//nav.stopMoving();
 						angleA = this.odo.getTheta();
 						break;
 					}
 				}
-				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				//Switch direction, keep rotating until the robot sees no wall, then latch the angle
-				robot.setRotationSpeed(-ROTATION_SPEED);
+				robot.setRotationSpeed(-Constants.ROTATE_SPEED);
 				while(true){
 					try {
 						Thread.sleep(1000);
@@ -126,24 +125,25 @@ public class USLocalizer {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if(getFilteredData() > WALL_DIST){
+					if(getFilteredData() > Constants.WALL_DIST){
 						Sound.beep();
 						angleB = this.odo.getTheta();
 						break;
 					}
 				}
 				//calculate the angle needed to turn to
-				angleC = angleA - angleB;
-				if(angleC < 0) {
+				angleC = Math.abs(angleA - angleB);
+				/*if(angleC < 0) {
 					angleC = angleA + (360 - angleB);
 				}
-				nav.turnToImmediate(-(angleC / 2 - 45));
+				*/
+				nav.turnTo(angleC);
 					
 				// angleA is clockwise from angleB, so assume the average of the
 				// angles to the right of angleB is 45 degrees past 'north'
 				
 				// update the odometer position (example to follow:)
-				odo.setPosition(new double [] {0.0, 0.0, 0.0}, new boolean [] {true, true, true});
+				//odo.setPosition(new double [] {0.0, 0.0, 0.0}, new boolean [] {true, true, true});
 				
 		}
 				

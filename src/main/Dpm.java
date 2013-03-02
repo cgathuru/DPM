@@ -47,30 +47,26 @@ public class Dpm {
 		nav.turnTo(270);
 		nav.turnTo(360);
 		*/
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		// perform the light sensor localization
-		LightLocalizer lsl = new LightLocalizer(odo, ls);
-		lsl.doLocalization();
-		try {
+		//LightLocalizer lsl = new LightLocalizer(odo, ls);
+		//lsl.doLocalization();
+		/*try {
 			NXTSend.send(Instructions.SHOOT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		Button.waitForAnyPress();
-		try {
+		System.exit(0);
+		/*try {
 			NXTSend.send(Instructions.CLOSE_CONNECTION);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		NXTSend.closeConnection();
+		*/
 	}
 
 }

@@ -68,7 +68,7 @@ public class LightLocalizer {
 				
 				
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(20);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -85,14 +85,8 @@ public class LightLocalizer {
 		double newTheta = deltaTheta + odo.getTheta();
 		//adjust the position to calcuated position
 		odo.setPosition(new double [] {xDist, yDist, newTheta}, new boolean [] {true, true, true});
-		nav.travelTo(0, 0);
+		nav.turnTo(0);
 		//nav.turnTo(0);
-		
-		
-			
-		
-		
-		
 		
 	}
 	
