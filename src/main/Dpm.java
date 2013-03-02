@@ -2,19 +2,20 @@ package main;
 
 import java.io.IOException;
 
-import navigaion.Localization;
-
-
+import lejos.nxt.Button;
+import lejos.nxt.LightSensor;
+import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
+import lejos.nxt.UltrasonicSensor;
 import odometer.Odometer;
 import odometer.TwoWheeledRobot;
-import sensors.LightDetection;
-import sensors.USDetection;
+import sensors.LightLocalizer;
+import sensors.USLocalizer;
 
 import communication.Instructions;
 import communication.NXTSend;
-import display.LCDInfo;
 
-import lejos.nxt.*;
+import display.LCDInfo;
 
 /**
  * Contains the main method of the master brick. Initializes all the sensor 

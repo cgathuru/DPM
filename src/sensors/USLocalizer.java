@@ -1,6 +1,9 @@
-package dpmMaster;
+package sensors;
 
 
+import odometer.Odometer;
+import odometer.TwoWheeledRobot;
+import navigaion.Navigation;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.Sound;
