@@ -1,97 +1,124 @@
 package sensors;
 
-
+import navigaion.Navigation;
 import odometer.Odometer;
 import odometer.TwoWheeledRobot;
-import main.Constants;
-import navigaion.Navigation;
 import lejos.nxt.LCD;
-import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
-/**
- * Localizes the robot using the onboard ultrasonic sensor
- * @author charles
- *
- */
+
 public class USLocalizer {
+	
+
+	private final double DIST_TOL= 70;
+	
 	public enum LocalizationType { FALLING_EDGE, RISING_EDGE };
+	public static double ROTATION_SPEED = 40;
 
 	private Odometer odo;
 	private TwoWheeledRobot robot;
 	private UltrasonicSensor us;
 	private LocalizationType locType;
 	private Navigation nav;
+	public double angleA, angle1 = 0;
+	public double angleB, angle2 =0;
 	
-	/**
-	 * Initializes the classes attributes
-	 * @param odo Odomometer
-	 * @param us Ultrasonic sensor
-	 * @param locType Localization type. Can either be rising or falling edge.
-	 */
 	public USLocalizer(Odometer odo, UltrasonicSensor us, LocalizationType locType) {
+		
 		this.odo = odo;
 		this.robot = odo.getTwoWheeledRobot();
+		this.nav = odo.getNavigation();
 		this.us = us;
 		this.locType = locType;
-		this.nav = odo.getNavigation();
-		
-		// switch off the ultrasonic sensor
 		us.off();
 	}
 	
 	public void doLocalization() {
-		double [] pos = new double [3];
-		double angleA = 0, angleB = 0, angleC = 0;
-		double theta;
-		//detect if facing the wall or away from the wall
-		if (getFilteredData() > Constants.WALL_DIST) {
-			//rotate until a wall is detected, then latch the angle
-			robot.setRotationSpeed(Constants.ROTATE_SPEED);
-			while(true){
-				if(getFilteredData() < Constants.WALL_DIST){
-					Sound.beep();
-					//nav.stopMoving();
-					angleA = this.odo.getTheta();
-					break;
+
+		this.angleA = 0;
+		this.angleB = 0;
+		double delta = 0;
+		int distance;
+		boolean polling = true;
+		
+		if (locType == LocalizationType.FALLING_EDGE) {
+			
+			// rotate the robot until it sees no wall
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4);
+				robot.setRotationSpeed(ROTATION_SPEED);
+				if (distance > DIST_TOL){
+					polling = false;
 				}
+			}
+			Sound.beep();
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+					
+			// keep rotating until the robot sees a wall, then latch the angle
+			polling = true;
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4); 
+				robot.setRotationSpeed(ROTATION_SPEED);
+				if (distance < DIST_TOL){
+					robot.setRotationSpeed(0);
+					this.angleB = odo.getTheta();
+					angle2 = angleB;
+					polling = false;
+				}	
 			}
 			
-			//switch direction and repeat
-			robot.setRotationSpeed(-Constants.ROTATE_SPEED);
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			while(true){
-				if(getFilteredData() < Constants.WALL_DIST){
-					Sound.beep();
-					angleB = this.odo.getTheta();
-					break;
+			Sound.beep();			
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		
+			
+			// switch direction and wait until it sees no wall
+			polling = true;
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4);
+				robot.setRotationSpeed(-ROTATION_SPEED);
+				if (distance > DIST_TOL){
+					polling = false;
 				}
 			}
-			//calculate the angle needed to turn to
-			angleC = Math.abs(angleA - angleB);
-			nav.turnTo(angleC);
-			/*if(angleC < 0) {
-				angleC = angleA + (360 - angleB);
+			Sound.beep();
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		
+			
+			// keep rotating until the robot sees a wall, then latch the angle
+			polling = true;
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4);
+				robot.setRotationSpeed(-ROTATION_SPEED);
+				if (distance < DIST_TOL){
+					robot.setRotationSpeed(0);
+					this.angleA = odo.getTheta();
+					polling = false;
+				}	
 			}
-			//turn to the angle
-			//robot.turnToImmediate(-(angleC / 2 - 45) );
-			if(angleC/180 > 0){
-				angleC = -(360-angleC);
+			
+			
+			if(angleA<angleB){
+				
+				delta = 45 - (angleA + angleB)/2;  //tweak the 45
+				
 			}
-			robot.turnToImmediate(-angleC);
-			//nav.turnTo(-angleC -90);
-			LCD.drawString("Turning " + -(angleC / 2 - 45), 0, 6);
-			*/
+			else{
+				
+				delta = 225 - (angleA + angleB)/2;  //tweak the 225
+			}
+			
 			// angleA is clockwise from angleB, so assume the average of the
 			// angles to the right of angleB is 45 degrees past 'north'
-			
 			// update the odometer position (example to follow:)
-			odo.setPosition(new double [] {0.0, 0.0, 0.0}, new boolean [] {true, true, true});
+			odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
+			
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			nav.turnTo(0);
+			
 		} else {
 			/*
 			 * The robot should turn until it sees the wall, then look for the
@@ -99,60 +126,92 @@ public class USLocalizer {
 			 * This is very similar to the FALLING_EDGE routine, but the robot
 			 * will face toward the wall for most of it.
 			 */
-							
-				//rotating until the robot sees no wall, then latch the angle
-				robot.setRotationSpeed(Constants.ROTATE_SPEED);
-				while(true){
-					if(getFilteredData() > Constants.WALL_DIST){
-						Sound.beep();
-						//nav.stopMoving();
-						angleA = this.odo.getTheta();
-						break;
-					}
+			
+			//turn until it sees a wall
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4);
+				robot.setRotationSpeed(ROTATION_SPEED);
+				if (distance < DIST_TOL){
+					polling = false;
 				}
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+			}
+			
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			Sound.beep();
+			
+			polling = true;
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4);
+				robot.setRotationSpeed(ROTATION_SPEED);
+				if (distance > DIST_TOL){
+					this.angleA = odo.getTheta();
+					angle1 = angleA;
+					robot.setRotationSpeed(0);
+					polling = false;
 				}
-				//Switch direction, keep rotating until the robot sees no wall, then latch the angle
-				robot.setRotationSpeed(-Constants.ROTATE_SPEED);
-				while(true){
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if(getFilteredData() > Constants.WALL_DIST){
-						Sound.beep();
-						angleB = this.odo.getTheta();
-						break;
-					}
+			}
+			
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			Sound.beep();
+			
+			
+			polling = true;
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4);
+				robot.setRotationSpeed(-ROTATION_SPEED);
+				if (distance < DIST_TOL){
+					polling = false;
 				}
-				//calculate the angle needed to turn to
-				angleC = Math.abs(angleA - angleB);
-				/*if(angleC < 0) {
-					angleC = angleA + (360 - angleB);
+			}
+			
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			Sound.beep();
+			
+			polling = true;
+			while (polling){
+				distance = getFilteredData();
+				LCD.drawInt(distance, 0, 4);
+				robot.setRotationSpeed(-ROTATION_SPEED);
+				if (distance > DIST_TOL){
+					angleB = odo.getTheta();
+					angle2 = angleB;
+					robot.setRotationSpeed(0);
+					polling = false;
 				}
-				*/
-				nav.turnTo(angleC);
-					
+			}
+				
+			
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			Sound.beep();
+		
+			
+			if(angleA < angleB){
+				
+				delta = 45 - (angleA + angleB)/2;  //tweak the 45
+				
+			}
+			else{
+				
+				delta = 225 - (angleA + angleB)/2;  //tweak the 225
+			}
+			
+			
 				// angleA is clockwise from angleB, so assume the average of the
 				// angles to the right of angleB is 45 degrees past 'north'
-				
 				// update the odometer position (example to follow:)
-				//odo.setPosition(new double [] {0.0, 0.0, 0.0}, new boolean [] {true, true, true});
-				
+			odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
+			
+			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			
+			nav.turnTo(0);
+									
 		}
-				
+		
 	}
 	
-	/**
-	 * 
-	 * @return The filtered distance between the robot and the detected obstance
-	 */
 	private int getFilteredData() {
 		int distance;
 		
@@ -162,10 +221,22 @@ public class USLocalizer {
 		// wait for the ping to complete
 		try { Thread.sleep(50); } catch (InterruptedException e) {}
 		
+		
 		// there will be a delay here
 		distance = us.getDistance();
-				
+		
+	    if (distance > 80){             
+			distance = 80;
+		}
+							
 		return distance;
 	}
-
+	
+	public int getAngle1(){
+		return (int)angleA;
+	}
+	
+	public int getAngle2(){
+		return (int)angleB;
+	}
 }

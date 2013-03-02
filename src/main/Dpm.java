@@ -30,15 +30,17 @@ public class Dpm {
 		// setup the odometer, display, and ultrasonic and light sensors
 		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
 		Odometer odo = new Odometer(patBot, true);
-		LCDInfo lcd = new LCDInfo(odo);
 		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S3);
 		LightSensor ls = new LightSensor(SensorPort.S1);
+		USLocalizer usl = new USLocalizer(odo, us, USLocalizer.LocalizationType.FALLING_EDGE);
+		LCDInfo lcd = new LCDInfo(odo, usl);
+		
 		do {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_LEFT
 				&& buttonChoice != Button.ID_RIGHT);
 		// perform the ultrasonic localization
-		USLocalizer usl = new USLocalizer(odo, us, USLocalizer.LocalizationType.FALLING_EDGE);
+		
 		usl.doLocalization();
 		/*Navigation nav = odo.getNavigation();
 		nav.turnTo(0);

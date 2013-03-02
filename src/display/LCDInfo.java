@@ -1,6 +1,7 @@
 package display;
 
 import odometer.Odometer;
+import sensors.USLocalizer;
 import lejos.nxt.LCD;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
@@ -14,6 +15,7 @@ public class LCDInfo implements TimerListener{
 	public static final int LCD_REFRESH = 100;
 	private Odometer odo;
 	private Timer lcdTimer;
+	private USLocalizer usl;
 	
 	// arrays for displaying data
 	private double [] pos;
@@ -21,9 +23,10 @@ public class LCDInfo implements TimerListener{
 	 * Initializes all variables in the class
 	 * @param odo
 	 */
-	public LCDInfo(Odometer odo) {
+	public LCDInfo(Odometer odo, USLocalizer usl) {
 		this.odo = odo;
 		this.lcdTimer = new Timer(LCD_REFRESH, this);
+		this.usl = usl;
 		
 		// initialise the arrays for displaying data
 		pos = new double [3];
@@ -43,5 +46,9 @@ public class LCDInfo implements TimerListener{
 		LCD.drawInt((int)(pos[0] * 10), 3, 0);
 		LCD.drawInt((int)(pos[1] * 10), 3, 1);
 		LCD.drawInt((int)pos[2], 3, 2);
+		LCD.drawString("Angle A: ", 0, 3);
+		LCD.drawString("Angle B: ", 0, 4);
+		LCD.drawInt(usl.getAngle1(), 9, 3);
+		LCD.drawInt(usl.getAngle2(), 9, 4);
 	}
 }
