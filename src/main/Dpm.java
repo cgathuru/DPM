@@ -37,9 +37,8 @@ public class Dpm {
 		} while (buttonChoice != Button.ID_LEFT
 				&& buttonChoice != Button.ID_RIGHT);
 		// perform the ultrasonic localization
-		USDetection usl = new USDetection(odo, us);
-		LightDetection ld = new LightDetection(odo, ls);
-		Localization localization = new Localization(odo, ld, usl);
+		USLocalizer usl = new USLocalizer(odo, us, USLocalizer.LocalizationType.FALLING_EDGE);
+		usl.doLocalization();
 		/*Navigation nav = odo.getNavigation();
 		nav.turnTo(0);
 		nav.turnTo(90);
@@ -54,7 +53,7 @@ public class Dpm {
 			e.printStackTrace();
 		}
 		// perform the light sensor localization
-		LightDetection lsl = new LightDetection(odo, ls);
+		LightLocalizer lsl = new LightLocalizer(odo, ls);
 		lsl.doLocalization();
 		try {
 			NXTSend.send(Instructions.SHOOT);
