@@ -1,0 +1,5 @@
+*.class
+// for eclipse file
+*.metadata
+// eclipse settings file
+*.prefs
