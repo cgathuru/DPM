@@ -36,8 +36,8 @@ public class TwoWheeledRobot {
 						   double rightRadius) {
 		this.leftMotor = leftMotor;
 		this.rightMotor = rightMotor;
-		this.leftRadius = Constants.RIGHT_RADIUS;
-		this.rightRadius = Constants.RIGHT_RADIUS;
+		this.leftRadius = Constants.WHEEL_RADIUS;
+		this.rightRadius = Constants.WHEEL_RADIUS;
 		this.width = Constants.WIDTH;
 	}
 	
@@ -47,7 +47,7 @@ public class TwoWheeledRobot {
 	 * @param rightMotor Right motor
 	 */
 	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
-		this(leftMotor, rightMotor, Constants.WIDTH, Constants.LEFT_RADIUS, Constants.RIGHT_RADIUS);
+		this(leftMotor, rightMotor, Constants.WIDTH, Constants.WHEEL_RADIUS, Constants.WHEEL_RADIUS);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class TwoWheeledRobot {
 	 * @param width wheel-to-wheel distance
 	 */
 	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor, double width) {
-		this(leftMotor, rightMotor, width, Constants.LEFT_RADIUS, Constants.RIGHT_RADIUS);
+		this(leftMotor, rightMotor, width, Constants.WHEEL_RADIUS, Constants.WHEEL_RADIUS);
 	}
 	
 	// accessors

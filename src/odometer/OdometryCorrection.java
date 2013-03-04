@@ -19,6 +19,8 @@ public class OdometryCorrection implements TimerListener{
 	private double x, y, theta, taco1, taco2;
 	private boolean filter;
 	
+	private long startTime, endTime;
+	
 	public static int xCor = 0;
 	public static int yCor = 0;
 	
@@ -34,6 +36,7 @@ public class OdometryCorrection implements TimerListener{
 		tacoCount = new Stack<Double>();
 		filter = true;
 		correctionTimer = new Timer(Constants.ODOMETER_CORRECTION_TIMEOUT, this);
+		resetInternalTimer();
 	}
 
 	@Override
@@ -41,6 +44,8 @@ public class OdometryCorrection implements TimerListener{
 
 		//if left sensor detects a line
 		if(leftLs.getLightValue() < Constants.DARK_LINE_VALUE){
+			//save the time
+			resetInternalTimer();
 			//store the tacoCount
 			taco1 = leftMotor.getTachoCount();
 			tacoCount.push(new Double(taco1));
@@ -50,13 +55,27 @@ public class OdometryCorrection implements TimerListener{
 		//if right sensor detects a line
 		if(rightLs.getLightValue() < Constants.DARK_LINE_VALUE){
 			//store the tacoCount
+			resetInternalTimer();
 			taco2 = leftMotor.getTachoCount(); /*Use left motor to main consistency after obstacle avoidance*/
 			tacoCount.push(new Double(taco2));
 			setOdometerValues();
 		}
 		
+		
 	}//timeout
 
+	/**
+	 * Resets the internal line refresh timer
+	 */
+	public void resetInternalTimer() {
+		startTime = System.currentTimeMillis();
+		endTime = startTime + Constants.TIME_REFRESH_CONSTANT;
+	}
+
+	/**
+	 * Sets the odometer x and y values based on the line detected
+	 * and sets the value of theta
+	 */
 	private void setOdometerValues() {
 		//get odometer values of x and y
 		x = odometer.getX();
@@ -84,6 +103,11 @@ public class OdometryCorrection implements TimerListener{
 	 * @param value
 	 */
 	private void lineCheck(double value) {
+		//if timeout has occurred clear the stored line
+		if(System.currentTimeMillis() > endTime){
+			line.clear();
+			filter = true;
+		}
 		//check if this is first time detecting the line
 		if(line.isEmpty()){
 			//if it is, add it too the stack
@@ -94,7 +118,8 @@ public class OdometryCorrection implements TimerListener{
 			Double valueDouble = new Double(value);
 			if(Math.abs(line.peek() - valueDouble) < Constants.MAX_LINE_CORRECTION_BANDWIDTH){
 				//calculate the length of the adjacent side
-				double side = valueDouble - line.pop();
+				double diff = valueDouble - line.pop();
+				double side = convertTacoToLength(diff);
 				//calculate theta
 				theta = Math.toDegrees(Math.atan(Constants.WIDTH/ side));
 				//set theta
@@ -117,6 +142,18 @@ public class OdometryCorrection implements TimerListener{
 		}
 	}
 
+	/**
+	 * Converts the tachometer reading into a distance
+	 * @param diff The difference in the tachometer count
+	 * @return The distance moved
+	 */
+	public double convertTacoToLength(double diff) {
+		return (diff/360)*2*Math.PI*Constants.WHEEL_RADIUS;
+	}
+
+	/**
+	 * Starts the internal timer for the line detection refresh
+	 */
 	public void startCorrectionTimer(){
 		correctionTimer.start();
 	}
