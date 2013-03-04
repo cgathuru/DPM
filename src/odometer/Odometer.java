@@ -181,4 +181,34 @@ public class Odometer implements TimerListener {
 	public double getX(){
 		return this.x;
 	}
+	
+	/**
+	 * Sets the x value of the odometer
+	 * @param x x value
+	 */
+	public void setX(double x){
+		synchronized (lock) {
+			this.x = x;
+		}
+	}
+	
+	/**
+	 * Sets the y value of the the odometer
+	 * @param y y value
+	 */
+	public void setY(double y){
+		synchronized (lock) {
+			this.y = y;
+		}
+	}
+	
+	/**
+	 * Sets the value of theta
+	 * @param theta the angle/heading of the the robot
+	 */
+	public void setTheta(double theta){
+		synchronized (lock) {
+			this.theta = theta;
+		}
+	}
 }

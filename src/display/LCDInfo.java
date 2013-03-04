@@ -1,6 +1,7 @@
 package display;
 
 import odometer.Odometer;
+import odometer.OdometryCorrection;
 import sensors.USLocalizer;
 import lejos.nxt.LCD;
 import lejos.util.Timer;
@@ -50,5 +51,9 @@ public class LCDInfo implements TimerListener{
 		LCD.drawString("Angle B: ", 0, 4);
 		LCD.drawInt(usl.getAngle1(), 9, 3);
 		LCD.drawInt(usl.getAngle2(), 9, 4);
+		LCD.drawString("XCor: ", 0, 5);
+		LCD.drawString("YCor: ", 0, 6);
+		LCD.drawInt(OdometryCorrection.xCor, 5, 5);
+		LCD.drawInt(OdometryCorrection.yCor, 5, 6);
 	}
 }

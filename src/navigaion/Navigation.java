@@ -110,9 +110,7 @@ public class Navigation {
 	}
 	
 	public void turnToImmediate(double theta){
-		robot.setRotationSpeed(Constants.ROTATE_SPEED);
-		leftMotor.rotate( convertAngle(Constants.LEFT_RADIUS, width, theta), true);
-		rightMotor.rotate(-convertAngle(Constants.RIGHT_RADIUS, width, theta), false);	
+		robot.turnToImmediate(theta);
 	}
 	
 	

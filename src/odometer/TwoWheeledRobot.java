@@ -14,7 +14,7 @@ public class TwoWheeledRobot {
 	
 	private NXTRegulatedMotor leftMotor, rightMotor;
 	private double leftRadius, rightRadius, width;
-	private double forwardSpeed , rotationSpeed;
+	private double forwardSpeed = Constants.FORWARD_SPEED, rotationSpeed = Constants.ROTATE_SPEED;
 	private double currentX = 0;
 	private double currentY = 0;
 	private double xTarget = 0;
@@ -180,13 +180,8 @@ public class TwoWheeledRobot {
 	 * @param distance The distance to move forard by in cm.
 	 */
 	public void moveForwardBy(double distance){
-		moveForward();
-		for (NXTRegulatedMotor motor : new NXTRegulatedMotor[] { leftMotor, rightMotor }) {
-			motor.stop();
-			motor.setAcceleration(1000);
-		}
 		leftMotor.rotate(convertDistance(leftRadius, distance), true);
-		rightMotor.rotate(convertDistance(rightRadius, distance), false);
+		rightMotor.rotate(convertDistance(rightRadius, distance));
 	}
 	
 	/**

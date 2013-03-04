@@ -2,12 +2,15 @@ package main;
 
 import java.io.IOException;
 
+import navigaion.Navigation;
+
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import odometer.Odometer;
+import odometer.OdometryCorrection;
 import odometer.TwoWheeledRobot;
 import sensors.LightLocalizer;
 import sensors.USLocalizer;
@@ -31,7 +34,8 @@ public class Dpm {
 		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
 		Odometer odo = new Odometer(patBot, true);
 		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S3);
-		LightSensor ls = new LightSensor(SensorPort.S1);
+		LightSensor lsLeft = new LightSensor(SensorPort.S1);
+		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		USLocalizer usl = new USLocalizer(odo, us, USLocalizer.LocalizationType.FALLING_EDGE);
 		LCDInfo lcd = new LCDInfo(odo, usl);
 		
@@ -41,16 +45,31 @@ public class Dpm {
 				&& buttonChoice != Button.ID_RIGHT);
 		// perform the ultrasonic localization
 		
-		usl.doLocalization();
-		/*Navigation nav = odo.getNavigation();
+		//usl.doLocalization();
+		Navigation nav = odo.getNavigation();
+		OdometryCorrection odometertyCorrection = new OdometryCorrection(odo, lsLeft, lsRight, Motor.A, Motor.B);
+		nav.travelTo(0, 60);
+		//nav.moveForwardBy(60);
+		odometertyCorrection.startCorrectionTimer();
+		nav.travelTo(60, 0);
+		nav.travelTo(0, 0);
 		nav.turnTo(0);
+		/*nav.turnToImmediate(90);
+		nav.moveForwardBy(60);
+		nav.turnToImmediate(90);
+		nav.moveForwardBy(60);
+		nav.turnToImmediate(90);
+		nav.moveForwardBy(60);
+		nav.turnToImmediate(90);
+	*/
+		/*nav.turnTo(0);
 		nav.turnTo(90);
 		nav.turnTo(180);
 		nav.turnTo(270);
 		nav.turnTo(360);
 		*/
 		// perform the light sensor localization
-		//LightLocalizer lsl = new LightLocalizer(odo, ls);
+		//LightLocalizer lsl = new LightLocalizer(odo, ls1);
 		//lsl.doLocalization();
 		/*try {
 			NXTSend.send(Instructions.SHOOT);
