@@ -47,7 +47,7 @@ public class Dpm {
 		
 		//usl.doLocalization();
 		Navigation nav = odo.getNavigation();
-		OdometryCorrection odometertyCorrection = new OdometryCorrection(odo, lsLeft, lsRight, Motor.A, Motor.B);
+		OdometryCorrection odometertyCorrection = new OdometryCorrection(odo, lsLeft, lsRight, Motor.A);
 		nav.travelTo(0, 60);
 		//nav.moveForwardBy(60);
 		odometertyCorrection.startCorrectionTimer();

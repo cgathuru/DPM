@@ -3,6 +3,7 @@ package communication;
 import lejos.nxt.*;
 import lejos.nxt.comm.*;
 import lejos.util.TextMenu;
+import main.Constants;
 
 import java.io.*;
 
@@ -20,15 +21,15 @@ public final class NXTSend implements Runnable{
 	public static int feedback = 0;
 	private Navigation nav;
 
+	private static NXTCommConnector connector = RS485.getConnector();
+	private static NXTConnection con = connector.connect(Constants.SLAVE_NAME, NXTConnection.PACKET);
+	private static DataInputStream dis = con.openDataInputStream();
+    private static DataOutputStream dos = con.openDataOutputStream();
+	
 	public NXTSend(Navigation nav){
 		this.nav =nav;
 	}
 	
-	private static String slave = "Group34";
-	private static NXTCommConnector connector = RS485.getConnector();
-	private static NXTConnection con = connector.connect(slave, NXTConnection.PACKET);
-	private static DataInputStream dis = con.openDataInputStream();
-    private static DataOutputStream dos = con.openDataOutputStream();
     
 	/**
 	 * Constantly check for new instructions

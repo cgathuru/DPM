@@ -2,7 +2,6 @@ package odometer;
 
 import java.util.Stack;
 
-import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.util.Timer;
@@ -14,7 +13,7 @@ public class OdometryCorrection implements TimerListener{
 	private Odometer odometer;
 	private LightSensor leftLs;
 	private LightSensor rightLs;
-	private NXTRegulatedMotor leftMotor, rightMotor;
+	private NXTRegulatedMotor leftMotor;
 	private Stack<Double> line, tacoCount;
 	private double x, y, theta, taco1, taco2;
 	private boolean filter;
@@ -26,16 +25,16 @@ public class OdometryCorrection implements TimerListener{
 	
 	private Timer correctionTimer;
 	
-	public OdometryCorrection(Odometer odometer, LightSensor ls1, LightSensor ls2, NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor){
+	public OdometryCorrection(Odometer odometer, LightSensor ls1, LightSensor ls2, NXTRegulatedMotor leftMotor){
 		this.odometer = odometer;
 		this.leftLs = ls1;
 		this.rightLs = ls2;
 		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
 		line = new Stack<Double>();
 		tacoCount = new Stack<Double>();
 		filter = true;
 		correctionTimer = new Timer(Constants.ODOMETER_CORRECTION_TIMEOUT, this);
+		correctionTimer.start();
 		resetInternalTimer();
 	}
 
