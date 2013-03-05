@@ -25,7 +25,7 @@ package communication.bluetooth;
  */
 public class Transmission {
 	
-	public int goalX;
-	public int goalY;
+	public static int goalX;
+	public static int goalY;
 	
 }

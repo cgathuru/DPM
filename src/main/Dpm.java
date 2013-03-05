@@ -5,6 +5,7 @@ import java.io.IOException;
 import navigaion.Navigation;
 
 import lejos.nxt.Button;
+import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
@@ -17,6 +18,7 @@ import sensors.USLocalizer;
 
 import communication.Instructions;
 import communication.NXTSend;
+import communication.bluetooth.BluetoothConnection;
 
 import display.LCDInfo;
 
@@ -37,8 +39,12 @@ public class Dpm {
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		USLocalizer usl = new USLocalizer(odo, us, USLocalizer.LocalizationType.FALLING_EDGE);
+		//Bluetooth connection with Mufasa (our robot)
+		BluetoothConnection connection = new BluetoothConnection();
+		LCD.clear();
+		connection.printTransmission();
 		LCDInfo lcd = new LCDInfo(odo, usl);
-		
+		/*
 		do {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_LEFT
@@ -46,14 +52,15 @@ public class Dpm {
 		// perform the ultrasonic localization
 		
 		//usl.doLocalization();
+		 */
 		Navigation nav = odo.getNavigation();
-		OdometryCorrection odometertyCorrection = new OdometryCorrection(odo, lsLeft, lsRight, Motor.A);
-		nav.travelTo(0, 60);
+		OdometryCorrection odometertyCorrection = new OdometryCorrection(odo, lsLeft, lsRight);
+		//nav.travelTo(0, 60);
 		//nav.moveForwardBy(60);
 		odometertyCorrection.startCorrectionTimer();
-		nav.travelTo(60, 0);
-		nav.travelTo(0, 0);
-		nav.turnTo(0);
+		//nav.travelTo(60, 0);
+		//nav.travelTo(0, 0);
+		//nav.turnTo(0);
 		/*nav.turnToImmediate(90);
 		nav.moveForwardBy(60);
 		nav.turnToImmediate(90);

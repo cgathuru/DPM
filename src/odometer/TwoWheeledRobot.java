@@ -1,5 +1,6 @@
 package odometer;
 
+import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import main.Constants;
 
@@ -29,36 +30,16 @@ public class TwoWheeledRobot {
 	 * @param leftRadius radius of the left wheel
 	 * @param rightRadius radius of the right wheel
 	 */
-	public TwoWheeledRobot(NXTRegulatedMotor leftMotor,
-						   NXTRegulatedMotor rightMotor,
-						   double width,
-						   double leftRadius,
-						   double rightRadius) {
+	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
 		this.leftMotor = leftMotor;
 		this.rightMotor = rightMotor;
 		this.leftRadius = Constants.WHEEL_RADIUS;
 		this.rightRadius = Constants.WHEEL_RADIUS;
 		this.width = Constants.WIDTH;
+		
 	}
 	
-	/**
-	 * Sets the left and right motors
-	 * @param leftMotor Left motor
-	 * @param rightMotor Right motor
-	 */
-	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
-		this(leftMotor, rightMotor, Constants.WIDTH, Constants.WHEEL_RADIUS, Constants.WHEEL_RADIUS);
-	}
 	
-	/**
-	 * Sets the motors and the wheel-to-wheel distance
-	 * @param leftMotor left motor
-	 * @param rightMotor right motor
-	 * @param width wheel-to-wheel distance
-	 */
-	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor, double width) {
-		this(leftMotor, rightMotor, width, Constants.WHEEL_RADIUS, Constants.WHEEL_RADIUS);
-	}
 	
 	// accessors
 	/**
@@ -156,8 +137,8 @@ public class TwoWheeledRobot {
 	
 	/**
 	 * Converts the distance of the 
-	 * @param radius
-	 * @param distance
+	 * @param radius Wheel radius
+	 * @param distance Wheel-to-wheel distance
 	 * @return
 	 */
 	private static int convertDistance(double radius, double distance) {
@@ -180,10 +161,11 @@ public class TwoWheeledRobot {
 	 * @param distance The distance to move forard by in cm.
 	 */
 	public void moveForwardBy(double distance){
+		moveForward();
 		leftMotor.rotate(convertDistance(leftRadius, distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance));
 	}
-	
+
 	/**
 	 * Makes the robot move forward.
 	 */
@@ -196,9 +178,8 @@ public class TwoWheeledRobot {
 	 * @param theta The angle by which to rotate to
 	 */
 	public void turnToImmediate(double theta){
-		setRotationSpeed(Constants.ROTATE_SPEED);
 		leftMotor.rotate( convertAngle(leftRadius, width, theta), true);
-		rightMotor.rotate(-convertAngle(rightRadius, width, theta), false);	
+		rightMotor.rotate(-convertAngle(rightRadius, width, theta));	
 	}
 	
 }
