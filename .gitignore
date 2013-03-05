@@ -4,5 +4,5 @@
 // eclipse settings file
 *.prefs
 //auto generated main lejos file
-Dpm.nxd
-Dpm.nxj
+*.nxd
+*.nxj
