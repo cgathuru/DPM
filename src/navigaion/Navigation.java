@@ -34,7 +34,11 @@ public class Navigation {
 		double deltaY = y - odometer.getY();	
 		autoRotate(deltaX, deltaY);
 		
-		moveForwardBy(distance);
+		//moveForwardBy(distance);
+		robot.setForwardSpeed(Constants.FORWARD_SPEED);
+		while(isNavigating()){
+			
+		}
 		
 		
 	}

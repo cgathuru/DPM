@@ -13,5 +13,13 @@ public final class Constants {
 	public static final double MAX_LINE_CORRECTION_BANDWIDTH = 1; //difference between the two 'same' values by each light sensor
 	public static final long TIME_REFRESH_CONSTANT = 2000; //amount of time passed before line latched is removed from stack
 	public static final String SLAVE_NAME = "Group34";
+	public static final int WALL_FOLLWER_REFRESH = 50; //the amount of times passed before the us sensor is re-pinged
+	public static final int WALL_FOLLOWER_BANDWIDTH = 3;
+	public static final int WALL_FOLLOWER_BANDCENTER = 28; 
+	public static final int WALL_FOLLOWER_DELTA = 25; //incremental increase/decrease to wheels speed.
+	public static final int WALL_FOLLOWER_FILTER_OUT = 20; //number of readings before considered no wall present
+	public static final int WALL_FOLLOWER_MAX_SPEED = 200; //max speed to move wheel at
+	public static final int WALL_FOLLOWER_MIN_SPEED = 60;  //min speed to move wheel at
+	
 
 }
