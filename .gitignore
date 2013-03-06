@@ -6,3 +6,5 @@
 //auto generated main lejos file
 *.nxd
 *.nxj
+//ignore bin folder
+bin/
