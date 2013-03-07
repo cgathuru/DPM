@@ -4,6 +4,7 @@ public final class Constants {
 
 	public static final double WHEEL_RADIUS = 2.9;
 	public static final double WIDTH = 17.15; //wheel center
+	public static final int US_LOCALIZATION_ROTATE_SPEED = 100;
 	public static final int ROTATE_SPEED = 25;
 	public static final int FORWARD_SPEED = 100;
 	public static final double DARK_LINE_VALUE = 38;

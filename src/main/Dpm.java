@@ -38,7 +38,7 @@ public class Dpm {
 		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S3);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		USLocalizer usl = new USLocalizer(odo, us, USLocalizer.LocalizationType.FALLING_EDGE);
+		USLocalizer usl = new USLocalizer(odo, us);
 		//Bluetooth connection with Mufasa (our robot)
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();

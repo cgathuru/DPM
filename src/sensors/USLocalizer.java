@@ -1,5 +1,6 @@
 package sensors;
 
+import main.Constants;
 import navigaion.Navigation;
 import odometer.Odometer;
 import odometer.TwoWheeledRobot;
@@ -12,42 +13,57 @@ public class USLocalizer {
 
 	private final double DIST_TOL= 70;
 	
-	public enum LocalizationType { FALLING_EDGE, RISING_EDGE };
-	public static double ROTATION_SPEED = 40;
-
+	//public enum LocalizationType { FALLING_EDGE, RISING_EDGE };
+	private int rotator = Constants.US_LOCALIZATION_ROTATE_SPEED;
 	private Odometer odo;
 	private TwoWheeledRobot robot;
 	private UltrasonicSensor us;
-	private LocalizationType locType;
+	//private LocalizationType locType;
 	private Navigation nav;
 	public double angleA, angle1 = 0;
 	public double angleB, angle2 =0;
 	
-	public USLocalizer(Odometer odo, UltrasonicSensor us, LocalizationType locType) {
+	public USLocalizer(Odometer odo, UltrasonicSensor us) {
 		
 		this.odo = odo;
 		this.robot = odo.getTwoWheeledRobot();
 		this.nav = odo.getNavigation();
 		this.us = us;
-		this.locType = locType;
+		//this.locType = locType;
 		us.off();
 	}
 	
 	public void doLocalization() {
-
+		//facing wall: localization =1 (RISING EDGE)
+		//facing away from wall: localization =0 (FALLING EDGE)
 		this.angleA = 0;
 		this.angleB = 0;
 		double delta = 0;
 		int distance;
 		boolean polling = true;
+		int locType;
+		if(getFilteredData() > 60){
+			locType=0;
+		}
+		else{
+			locType=1;}
 		
-		if (locType == LocalizationType.FALLING_EDGE) {
+		
+		
+		if (locType == 0) {
 			
+			LCD.drawString("I AM NOT FACING A WALL", 3, 0);
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			// rotate the robot until it sees no wall
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4);
-				robot.setRotationSpeed(ROTATION_SPEED);
+				robot.setRotationSpeed(rotator);
 				if (distance > DIST_TOL){
 					polling = false;
 				}
@@ -60,7 +76,7 @@ public class USLocalizer {
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4); 
-				robot.setRotationSpeed(ROTATION_SPEED);
+				robot.setRotationSpeed(rotator);
 				if (distance < DIST_TOL){
 					robot.setRotationSpeed(0);
 					this.angleB = odo.getTheta();
@@ -78,7 +94,7 @@ public class USLocalizer {
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4);
-				robot.setRotationSpeed(-ROTATION_SPEED);
+				robot.setRotationSpeed(-rotator);
 				if (distance > DIST_TOL){
 					polling = false;
 				}
@@ -92,7 +108,7 @@ public class USLocalizer {
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4);
-				robot.setRotationSpeed(-ROTATION_SPEED);
+				robot.setRotationSpeed(-rotator);
 				if (distance < DIST_TOL){
 					robot.setRotationSpeed(0);
 					this.angleA = odo.getTheta();
@@ -114,12 +130,20 @@ public class USLocalizer {
 			// angleA is clockwise from angleB, so assume the average of the
 			// angles to the right of angleB is 45 degrees past 'north'
 			// update the odometer position (example to follow:)
-			odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
+			//odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
 			
 			try { Thread.sleep(500); } catch (InterruptedException e) {}
 			nav.turnTo(0);
 			
 		} else {
+			
+			LCD.drawString("I AM  FACING A WALL", 3, 0);
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			/*
 			 * The robot should turn until it sees the wall, then look for the
 			 * "rising edges:" the points where it no longer sees the wall.
@@ -131,7 +155,7 @@ public class USLocalizer {
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4);
-				robot.setRotationSpeed(ROTATION_SPEED);
+				robot.setRotationSpeed(rotator);
 				if (distance < DIST_TOL){
 					polling = false;
 				}
@@ -144,7 +168,7 @@ public class USLocalizer {
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4);
-				robot.setRotationSpeed(ROTATION_SPEED);
+				robot.setRotationSpeed(rotator);
 				if (distance > DIST_TOL){
 					this.angleA = odo.getTheta();
 					angle1 = angleA;
@@ -161,7 +185,7 @@ public class USLocalizer {
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4);
-				robot.setRotationSpeed(-ROTATION_SPEED);
+				robot.setRotationSpeed(-rotator);
 				if (distance < DIST_TOL){
 					polling = false;
 				}
@@ -174,7 +198,7 @@ public class USLocalizer {
 			while (polling){
 				distance = getFilteredData();
 				LCD.drawInt(distance, 0, 4);
-				robot.setRotationSpeed(-ROTATION_SPEED);
+				robot.setRotationSpeed(-rotator);
 				if (distance > DIST_TOL){
 					angleB = odo.getTheta();
 					angle2 = angleB;
@@ -202,7 +226,7 @@ public class USLocalizer {
 				// angleA is clockwise from angleB, so assume the average of the
 				// angles to the right of angleB is 45 degrees past 'north'
 				// update the odometer position (example to follow:)
-			odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
+		//	odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
 			
 			try { Thread.sleep(500); } catch (InterruptedException e) {}
 			
