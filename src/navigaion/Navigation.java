@@ -36,9 +36,6 @@ public class Navigation {
 		
 		//moveForwardBy(distance);
 		robot.setForwardSpeed(Constants.FORWARD_SPEED);
-		while(isNavigating()){
-			
-		}
 		
 		
 	}

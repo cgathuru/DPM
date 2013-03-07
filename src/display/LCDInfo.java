@@ -24,7 +24,7 @@ public class LCDInfo implements TimerListener{
 	 * Initializes all variables in the class
 	 * @param odo
 	 */
-	public LCDInfo(Odometer odo, USLocalizer usl) {
+	public LCDInfo(Odometer odo) {
 		this.odo = odo;
 		this.lcdTimer = new Timer(LCD_REFRESH, this);
 		this.usl = usl;
@@ -47,7 +47,7 @@ public class LCDInfo implements TimerListener{
 		LCD.drawInt((int)(pos[0] * 10), 3, 0);
 		LCD.drawInt((int)(pos[1] * 10), 3, 1);
 		LCD.drawInt((int)pos[2], 3, 2);
-		LCD.drawString("Angle A: ", 0, 3);
+		/*LCD.drawString("Angle A: ", 0, 3);
 		LCD.drawString("Angle B: ", 0, 4);
 		LCD.drawInt(usl.getAngle1(), 9, 3);
 		LCD.drawInt(usl.getAngle2(), 9, 4);
@@ -55,5 +55,6 @@ public class LCDInfo implements TimerListener{
 		LCD.drawString("YCor: ", 0, 6);
 		LCD.drawInt(OdometryCorrection.xCor, 5, 5);
 		LCD.drawInt(OdometryCorrection.yCor, 5, 6);
+		*/
 	}
 }

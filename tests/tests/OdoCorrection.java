@@ -33,7 +33,7 @@ public class OdoCorrection {
 		USLocalizer usl = new USLocalizer(odo,us, LocalizationType.FALLING_EDGE);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		new LCDInfo(odo, usl);
+		new LCDInfo(odo);
 		OdometryCorrection odoCorrect = new OdometryCorrection(odo, lsLeft, lsRight);
 		do {
 			buttonChoice = Button.waitForAnyPress();

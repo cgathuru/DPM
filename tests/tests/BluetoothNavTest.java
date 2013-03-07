@@ -33,7 +33,7 @@ public class BluetoothNavTest {
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
 		connection.printTransmission();
-		LCDInfo lcd = new LCDInfo(odo, usl);
+		LCDInfo lcd = new LCDInfo(odo);
 		Navigation nav = odo.getNavigation();
 		nav.travelTo(Transmission.goalX, Transmission.goalY);
 

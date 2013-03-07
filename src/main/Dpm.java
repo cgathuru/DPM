@@ -43,7 +43,7 @@ public class Dpm {
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
 		connection.printTransmission();
-		LCDInfo lcd = new LCDInfo(odo, usl);
+		LCDInfo lcd = new LCDInfo(odo);
 		/*
 		do {
 			buttonChoice = Button.waitForAnyPress();
