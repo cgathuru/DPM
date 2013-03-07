@@ -1,28 +1,21 @@
 package tests;
 
-import display.LCDInfo;
 import navigaion.Navigation;
-import lejos.nxt.Button;
-import lejos.nxt.LightSensor;
-import lejos.nxt.Motor;
-import lejos.nxt.SensorPort;
-import lejos.nxt.UltrasonicSensor;
 import odometer.Odometer;
 import odometer.OdometryCorrection;
 import odometer.TwoWheeledRobot;
 import sensors.USLocalizer;
 import sensors.USLocalizer.LocalizationType;
 import utilities.OdoLCD;
+import lejos.nxt.Button;
+import lejos.nxt.LightSensor;
+import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
+import lejos.nxt.UltrasonicSensor;
 
-/**
- * This class tests the {@code OdometryCorrection} class to determine how how accurate the correction is.
- * @author charles
- *
- */
-public class OdoCorrection {
+public class OdoCorrectFloat {
 
 	/**
-	 * Drives in a square to and checks how accurate the 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -41,22 +34,12 @@ public class OdoCorrection {
 		} while (buttonChoice != Button.ID_LEFT
 				&& buttonChoice != Button.ID_RIGHT);
 		odoCorrect.startCorrectionTimer();
-		//int repeatNumber =4;
-		//for(int i =0; i < repeatNumber; i++){
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			
-			odoCorrect.stopCorrectionTimer();
+		Motor.A.flt();
+		Motor.B.flt();
+		
+		Button.waitForAnyPress();
+		System.exit(0);
 
-			Button.waitForAnyPress();
-			System.exit(0);
-		//}
 	}
 
 }

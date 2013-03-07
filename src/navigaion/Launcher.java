@@ -35,11 +35,14 @@ public class Launcher {
 			// there is nothing to be done here because it is not expected that
 			// the launcher will be interrupted by another thread
 		}
-
+			Motor.A.flt();
+			Motor.B.flt();
+			/*
 			rightMotor.setAcceleration(3000);
 			leftMotor.setAcceleration(3000);
 			//rotation made by the three motors to have a good launch angle
 			rightMotor.rotate(125,true);
 			leftMotor.rotate(125,true);
+			*/
 	}
 }
