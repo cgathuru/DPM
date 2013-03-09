@@ -21,6 +21,7 @@ public class TwoWheeledRobot {
 	private double xTarget = 0;
 	private double yTarget = 0;
 	private double theta= 0;
+	private boolean isRotating;
 	
 	/**
 	 * Sets all controllable attributes of the class
@@ -36,6 +37,7 @@ public class TwoWheeledRobot {
 		this.leftRadius = Constants.WHEEL_RADIUS;
 		this.rightRadius = Constants.WHEEL_RADIUS;
 		this.width = Constants.WIDTH;
+		isRotating = false;
 		
 	}
 	
@@ -49,11 +51,13 @@ public class TwoWheeledRobot {
 	}
 	
 	public void turnToImmediate(double theta){
+		isRotating = true;
 		leftMotor.rotate(convertAngle(leftRadius,width,theta),true);
 		rightMotor.rotate(-convertAngle(rightRadius,width,theta),false);
 	}
 	
 	public void moveForwardBy(double distance){
+		isRotating = false;
 		rightMotor.setSpeed(Constants.FORWARD_SPEED);
 		leftMotor.setSpeed(Constants.FORWARD_SPEED);
 		leftMotor.forward();
@@ -74,6 +78,7 @@ public class TwoWheeledRobot {
 	}
 	
 	 public void setForwardSpeed(int speed) {
+		 isRotating = false;
 		 leftMotor.setSpeed(speed);
 		 rightMotor.setSpeed(speed);
 		 leftMotor.forward();
@@ -81,6 +86,7 @@ public class TwoWheeledRobot {
 		 }
 
 	 public void setRotationSpeed(double speed){
+		 isRotating = true;
 		 rightMotor.setSpeed((int)speed);
 		 leftMotor.setSpeed((int)speed);
 		 if (speed>0){
@@ -95,6 +101,14 @@ public class TwoWheeledRobot {
 	 public void motorFloat(){
 		 leftMotor.flt();
 		 rightMotor.flt();
+	 }
+	 
+	 /**
+	  * 
+	  * @return True if the robot is rotating
+	  */
+	 public boolean isRotating(){
+		 return this.isRotating;
 	 }
 }
 

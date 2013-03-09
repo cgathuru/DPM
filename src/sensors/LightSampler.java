@@ -22,9 +22,9 @@ public class LightSampler implements TimerListener{
 		lightTimer = new Timer(Constants.LIGHT_SAMPLER_REFRESH, this);
 		lightAverage = Constants.DARK_LINE_VALUE;
 		lightValue = Constants.DARK_LINE_VALUE;
-		for(int i = 0; i< Constants.LIGHT_SAMPLE_SIZE; i++){
-			lightSamples.add(Constants.DARK_LINE_VALUE); //pre-fill samples
-		}
+		//for(int i = 0; i< Constants.LIGHT_SAMPLE_SIZE; i++){
+			//lightSamples.add(Constants.DARK_LINE_VALUE); //pre-fill samples
+		///}
 		
 	}
 
@@ -71,6 +71,9 @@ public class LightSampler implements TimerListener{
 	 * @return If the percentage difference is greater than 20 %
 	 */
 	public boolean isDarkLine (){
+		if(lightSamples.size() < 10){
+			return lightValue < Constants.DARK_LINE_VALUE;
+		}
 		double decimal = (lightValue-lightAverage)/lightAverage;
 		return  (Math.abs(decimal) > Constants.LIGHT_VALUE_PERCENTAGE);
 	}
