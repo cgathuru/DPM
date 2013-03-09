@@ -21,6 +21,7 @@ public class OdometryCorrection implements TimerListener{
 	private boolean filter;
 	
 	private long startTime, endTime;
+	private long endTimeLight;
 	
 	public static long xCor = 0;
 	public static long yCor = 0;
@@ -49,7 +50,7 @@ public class OdometryCorrection implements TimerListener{
 			
 		//if left sensor detects a line
 		//if(isDarkLine(lsValue, this.leftLightValues)){
-		if(leftLs.isDarkLine()){
+		if(leftLs.isDarkLine() && (System.currentTimeMillis() > endTimeLight)){
 		  //if(lsValue < Constants.DARK_LINE_VALUE){
 			Sound.beep();
 			//save the time
@@ -66,7 +67,7 @@ public class OdometryCorrection implements TimerListener{
 		//if right sensor detects a line
 		//if(isDarkLine(rsValue, this.rightLightValues)){
 		//if(rsValue < Constants.DARK_LINE_VALUE){
-		if(rightLs.isDarkLine()){
+		if(rightLs.isDarkLine() && (System.currentTimeMillis() > endTimeLight)){
 			Sound.beep();
 			//store the tacoCount
 			resetInternalTimer();
@@ -171,6 +172,7 @@ public class OdometryCorrection implements TimerListener{
 	 * Starts the odometry correction timer and the internal light samplers
 	 */
 	public void startCorrectionTimer(){
+		endTimeLight = System.currentTimeMillis() + Constants.LIGHT_CALIBRATION_TIME;
 		this.leftLs.startCorrectionTimer(); //start the left light sampler
 		this.rightLs.startCorrectionTimer(); //start the right light sampler
 		correctionTimer.start();
