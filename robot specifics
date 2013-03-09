@@ -1,3 +1,6 @@
-Wheel centre= 23.4cm
-wheel radius = 2.775cm
-Light sensor distance = 10.5cm
+Wheel centre= 17.15cm
+wheel radius = 2.9cm
+Light sensor xdistance = 8 cm
+Light sensor ydistance = 11.5cm
+light sensor theta = acos(8/11.5) = 45.92 degrees
+Light sensor distance = 14.01 cm

@@ -1,6 +1,9 @@
-package odometer;
+package expermental;
 
+import java.util.LinkedList;
 import java.util.Stack;
+
+import odometer.Odometer;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
@@ -9,12 +12,12 @@ import lejos.nxt.Sound;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import main.Constants;
-import sensors.LightSampler;
 
-public class OdometryCorrection implements TimerListener{
+public class OdoCorrecitionTDD implements TimerListener{
 	
 	private Odometer odometer;
-	private LightSampler leftLs, rightLs;
+	private LightSensor leftLs;
+	private LightSensor rightLs;
 	private NXTRegulatedMotor leftMotor;
 	private Stack<Double> line, tacoCount;
 	private double x, y, theta, taco1, taco2;
@@ -22,22 +25,25 @@ public class OdometryCorrection implements TimerListener{
 	
 	private long startTime, endTime;
 	
-	public static long xCor = 0;
-	public static long yCor = 0;
+	public static int xCor = 0;
+	public static int yCor = 0;
 	public static int tCor = 0;
-	public static int lsValue = Constants.DARK_LINE_VALUE;
-	public static int rsValue = Constants.DARK_LINE_VALUE;
+	public static int lsValue = 0;
+	public static int rsValue = 0;
 	
+	private LinkedList<Integer> leftLightValues, rightLightValues;
 	
 	private Timer correctionTimer;
 	
-	public OdometryCorrection(Odometer odometer, LightSensor ls1, LightSensor ls2){
+	public OdoCorrecitionTDD(Odometer odometer, LightSensor ls1, LightSensor ls2){
 		this.odometer = odometer;
-		this.leftLs = new LightSampler(ls1);
-		this.rightLs = new LightSampler(ls2);
+		this.leftLs = ls1;
+		this.rightLs = ls2;
 		this.leftMotor = Motor.A;
 		line = new Stack<Double>();
 		tacoCount = new Stack<Double>();
+		leftLightValues = new LinkedList<Integer>();
+		rightLightValues = new LinkedList<Integer>();
 		filter = true;
 		correctionTimer = new Timer(Constants.ODOMETER_CORRECTION_TIMEOUT, this);
 		resetInternalTimer();
@@ -45,28 +51,23 @@ public class OdometryCorrection implements TimerListener{
 
 	@Override
 	public void timedOut() {
-		
+		lsValue = leftLs.getLightValue();
 			
 		//if left sensor detects a line
-		//if(isDarkLine(lsValue, this.leftLightValues)){
-		if(leftLs.isDarkLine()){
-		  //if(lsValue < Constants.DARK_LINE_VALUE){
+		if(isDarkLine(lsValue, this.leftLightValues)){
 			Sound.beep();
 			//save the time
 			resetInternalTimer();
 			//store the tacoCount
 			taco1 = leftMotor.getTachoCount();
 			tacoCount.push(new Double(taco1));
-			
 			setOdometerValues();			
 		}
 		
-		
+		rsValue = rightLs.getLightValue();
 		
 		//if right sensor detects a line
-		//if(isDarkLine(rsValue, this.rightLightValues)){
-		//if(rsValue < Constants.DARK_LINE_VALUE){
-		if(rightLs.isDarkLine()){
+		if(isDarkLine(rsValue, this.rightLightValues)){
 			Sound.beep();
 			//store the tacoCount
 			resetInternalTimer();
@@ -74,8 +75,7 @@ public class OdometryCorrection implements TimerListener{
 			tacoCount.push(new Double(taco2));
 			setOdometerValues();
 		}
-		lsValue = leftLs.getLightValue();
-		rsValue = rightLs.getLightValue();
+		
 		
 	}//timeout
 
@@ -96,20 +96,20 @@ public class OdometryCorrection implements TimerListener{
 		x = odometer.getX();
 		y = odometer.getY();
 		// check if the line is x or y
-		if(Math.abs(x % 30) < 1){
+		if(Math.abs(x % 30) < 2){
 			//correct the x value
 			x = ((int)(x/30))* 30;
 			xCor++;
 			odometer.setX(x);
-			//lineCheck(x);
+			lineCheck(x);
 		}
 		//if the line is y
-		if(Math.abs(y % 30) < 1){
+		else{
 			//correct the y value
 			y = ((int)(y/30))* 30;
 			yCor++;
 			odometer.setY(y);
-			//lineCheck(y);
+			lineCheck(y);
 		}
 	}
 
@@ -168,22 +168,81 @@ public class OdometryCorrection implements TimerListener{
 	}
 
 	/**
-	 * Starts the odometry correction timer and the internal light samplers
+	 * Starts the internal timer for the line detection refresh
 	 */
 	public void startCorrectionTimer(){
-		this.leftLs.startCorrectionTimer(); //start the left light sampler
-		this.rightLs.startCorrectionTimer(); //start the right light sampler
 		correctionTimer.start();
 	}
 	
-	/**
-	 * Stops the odometry correction timer and the internal light samplers
-	 */
 	public void stopCorrectionTimer(){
-		this.leftLs.stopCorrectionTimer(); //stop the left light sampler
-		this.rightLs.stopCorrectionTimer(); //stop the right light sampler
 		correctionTimer.stop();		
 	}
 	
+	/**
+	 * Averages out the  the light sensor values to determine if a line was detected or not 
+	 * @param lightSensorValues an array of light values
+	 * @return The average of the lightValues
+	 */
+	public double calculateAverage(LinkedList<Integer> lightSensorValues){
+		double value = 0;
+		for(int i =0; i< lightSensorValues.size(); i++){
+			value += lightSensorValues.get(i);
+		}
+		return (value/lightSensorValues.size());
+	}
 	
+
+	/**
+	 * Checks if a dark line is detected. If not line is detected then it add the light value
+	 * to the sample of light values for the light sensor.
+	 * @param lightValue The detected light value
+	 * @param lightSensorValues A LinkedList representing the last 10 sampled light values, excluding detection values
+	 * @return If a dark line was detected
+	 */
+	public boolean isDarkLine(int lightValue, LinkedList<Integer> lightSensorValues){
+		if(lightSensorValues.size() < 2){ //if there are not enough samples
+			if(lightValue < Constants.DARK_LINE_VALUE){
+				return true;
+			}
+			else{
+				lightSensorValues.add(lightValue); //add the value to the samples
+				return false;
+			}
+		}
+		double lightAverage = calculateAverage(lightSensorValues);
+		
+		if(percentageCheck(lightValue, lightAverage)){
+			return true;
+		}
+		else{
+			populationCheck(lightValue, lightSensorValues);
+			return false;
+		}		
+	}
+
+	/**
+	 * @param lightValue The reported light value
+	 * @param lightAverage The calculated average light value
+	 * @return If the percentage difference is grater than 20 %
+	 */
+	public boolean percentageCheck(int lightValue, double lightAverage) {
+		double decimal = (lightValue-lightAverage)/lightAverage;
+		return  (Math.abs(decimal) > 0.2);
+	}
+	
+	/**
+	 * Checks the size of the light samples. If there not enough samples,the light value
+	 * is added to the list of samples
+	 * @param lightValue The current light value obtained
+	 * @param lightSensorValues A LinkedListed representing all the light value samples.
+	 */
+	public void populationCheck(int lightValue, LinkedList<Integer> lightSensorValues){
+		if(lightSensorValues.size() < 10){ //if there are not enough samples
+			lightSensorValues.add(lightValue); //add the value to the samples
+		}
+		else{
+			lightSensorValues.remove(0); //remove the oldest item from the list
+			lightSensorValues.add(lightValue); //add new value to light sample
+		}
+	}
 }

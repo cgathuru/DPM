@@ -56,8 +56,8 @@ public class TwoWheeledRobot {
 	public void moveForwardBy(double distance){
 		rightMotor.setSpeed(Constants.FORWARD_SPEED);
 		leftMotor.setSpeed(Constants.FORWARD_SPEED);
-		rightMotor.forward();
 		leftMotor.forward();
+		rightMotor.forward();
 		leftMotor.rotate(convertDistance(leftRadius,distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance), false);
 		

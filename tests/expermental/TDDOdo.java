@@ -1,4 +1,4 @@
-package tests;
+package expermental;
 
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
@@ -12,15 +12,9 @@ import odometer.TwoWheeledRobot;
 import sensors.USLocalizer;
 import utilities.OdoLCD;
 
-/**
- * This class tests the {@code OdometryCorrection} class to determine how how accurate the correction is.
- * @author charles
- *
- */
-public class OdoCorrection {
+public class TDDOdo {
 
 	/**
-	 * Drives in a square to and checks how accurate the 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -32,27 +26,16 @@ public class OdoCorrection {
 		USLocalizer usl = new USLocalizer(odo,us);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		new OdoLCD(odo, lsLeft, lsRight);
+		new TDDOdoScreen(odo, lsLeft, lsRight);
 		OdometryCorrection odoCorrect = new OdometryCorrection(odo, lsLeft, lsRight);
-		Button.waitForAnyPress();
-		odoCorrect.startCorrectionTimer();
-		//int repeatNumber =4;
-		//for(int i =0; i < repeatNumber; i++){
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			patBot.moveForwardBy(30);
-			patBot.turnToImmediate(-90);
-			
-			odoCorrect.stopCorrectionTimer();
-			//nav.turnTo(0);
+		do {
+			buttonChoice = Button.waitForAnyPress();
+		} while (buttonChoice != Button.ID_LEFT
+				&& buttonChoice != Button.ID_RIGHT);
+		OdoCorrecitionTDD.startCorrectionTimer();
 
-			Button.waitForAnyPress();
-			System.exit(0);
-		//}
 	}
+	
+	
 
 }
