@@ -8,6 +8,7 @@ import lejos.nxt.LCD;
 import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 
+
 public class USLocalizer {
 	
 
@@ -22,6 +23,11 @@ public class USLocalizer {
 	private Navigation nav;
 	public double angleA, angle1 = 0;
 	public double angleB, angle2 =0;
+	private int cornerMode;
+	//BL cornerMode 0
+	//BR cornerMode 1
+	//TL cornerMode 2
+	//TR cornerMode 3
 	
 	public USLocalizer(Odometer odo, UltrasonicSensor us) {
 		
@@ -29,8 +35,9 @@ public class USLocalizer {
 		this.robot = odo.getTwoWheeledRobot();
 		this.nav = odo.getNavigation();
 		this.us = us;
+		this.cornerMode = cornerMode;
 		//this.locType = locType;
-		us.off();
+		//us.off();
 	}
 	
 	public void doLocalization() {
@@ -53,12 +60,12 @@ public class USLocalizer {
 		if (locType == 0) {
 			
 			LCD.drawString("I AM NOT FACING A WALL", 3, 0);
-			try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+//			try {
+//			//	Thread.sleep(4000);
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 			// rotate the robot until it sees no wall
 			while (polling){
 				distance = getFilteredData();
@@ -69,7 +76,7 @@ public class USLocalizer {
 				}
 			}
 			Sound.beep();
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			//try { Thread.sleep(2000); } catch (InterruptedException e) {}
 					
 			// keep rotating until the robot sees a wall, then latch the angle
 			polling = true;
@@ -86,7 +93,7 @@ public class USLocalizer {
 			}
 			
 			Sound.beep();			
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		//	try { Thread.sleep(2000); } catch (InterruptedException e) {}
 		
 			
 			// switch direction and wait until it sees no wall
@@ -100,7 +107,7 @@ public class USLocalizer {
 				}
 			}
 			Sound.beep();
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		//	try { Thread.sleep(2000); } catch (InterruptedException e) {}
 		
 			
 			// keep rotating until the robot sees a wall, then latch the angle
@@ -130,20 +137,20 @@ public class USLocalizer {
 			// angleA is clockwise from angleB, so assume the average of the
 			// angles to the right of angleB is 45 degrees past 'north'
 			// update the odometer position (example to follow:)
-			//odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
+			odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {false, false, true});
 			
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
-			nav.turnTo(0);
+			//try { Thread.sleep(2000); } catch (InterruptedException e) {}
+			//nav.turnTo(0);
 			
 		} else {
 			
 			LCD.drawString("I AM  FACING A WALL", 3, 0);
-			try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+//			try {
+//			//	Thread.sleep(4000);
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 			/*
 			 * The robot should turn until it sees the wall, then look for the
 			 * "rising edges:" the points where it no longer sees the wall.
@@ -161,7 +168,7 @@ public class USLocalizer {
 				}
 			}
 			
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		//	try { Thread.sleep(2000); } catch (InterruptedException e) {}
 			Sound.beep();
 			
 			polling = true;
@@ -177,7 +184,7 @@ public class USLocalizer {
 				}
 			}
 			
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		//	try { Thread.sleep(2000); } catch (InterruptedException e) {}
 			Sound.beep();
 			
 			
@@ -191,7 +198,7 @@ public class USLocalizer {
 				}
 			}
 			
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		//	try { Thread.sleep(2000); } catch (InterruptedException e) {}
 			Sound.beep();
 			
 			polling = true;
@@ -208,9 +215,13 @@ public class USLocalizer {
 			}
 				
 			
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+			//try { Thread.sleep(2000); } catch (InterruptedException e) {}
 			Sound.beep();
 		
+			if (cornerMode==0){}
+			if (cornerMode==1){}
+			if (cornerMode==2){}
+			if (cornerMode==3){}
 			
 			if(angleA < angleB){
 				
@@ -226,11 +237,11 @@ public class USLocalizer {
 				// angleA is clockwise from angleB, so assume the average of the
 				// angles to the right of angleB is 45 degrees past 'north'
 				// update the odometer position (example to follow:)
-		//	odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {true, true, true});
+			odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta}, new boolean [] {false, false, true});
 			
-			try { Thread.sleep(500); } catch (InterruptedException e) {}
+		//	try { Thread.sleep(2000); } catch (InterruptedException e) {}
 			
-			nav.turnTo(0);
+			//nav.turnTo(0);
 									
 		}
 		
@@ -243,7 +254,7 @@ public class USLocalizer {
 		us.ping();
 		
 		// wait for the ping to complete
-		try { Thread.sleep(50); } catch (InterruptedException e) {}
+	//	try { Thread.sleep(50); } catch (InterruptedException e) {}
 		
 		
 		// there will be a delay here
@@ -262,5 +273,5 @@ public class USLocalizer {
 	
 	public int getAngle2(){
 		return (int)angleB;
-	}
+	} 	
 }
