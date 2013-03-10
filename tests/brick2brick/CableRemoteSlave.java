@@ -9,7 +9,6 @@ import lejos.util.TextMenu;
  * Create an LCP responder to handle LCP requests. Allow the
  * User to choose between Bluetooth, USB and RS485 protocols.
  * 
- * @author Andy Shaw
  *
  */
 public class CableRemoteSlave

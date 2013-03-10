@@ -63,11 +63,16 @@ public class OdometryCorrection implements TimerListener{
 		 * If another line is detected determine if 
 		 */
 		if(System.currentTimeMillis() > endTimeX){ //if timer runs out flush memory for x values
-
+			lineX.clear();
+			tachoCountX.clear();
+			sensorSideX.clear();
 			resetInternalXTimer();
 			
 		}
 		if(System.currentTimeMillis() > endTimeY){ //if timer runs out flush memory for y values
+			lineY.clear();
+			tachoCountY.clear();
+			sensorSideY.clear();
 			resetInternalYTimer();
 			
 		}
@@ -82,7 +87,6 @@ public class OdometryCorrection implements TimerListener{
 				switch(lineType){
 				case X:
 					if(sensorSideX.empty()){ //if its the first time detecting the line add it to the stack
-						xCor++;
 						sensorSideX.addElement(SensorSide.LEFT); //add the sensor which detected the line
 						tachoCountX.push(new Double(taco1)); //save the tachometer count
 						lineX.push(x); //save the value of the line
@@ -90,8 +94,12 @@ public class OdometryCorrection implements TimerListener{
 					}
 					else if(!isSameSensor(sensorSideX, SensorSide.LEFT) && isSameLine(lineType)){ //if its the second time and not the same sensor
 						tachoCountX.push(new Double(taco1)); //store the tachometer value
+						sensorSideX.addElement(SensorSide.LEFT); //add the sensor which detected the line
 						double diff = Math.abs(tachoCountX.pop() - tachoCountX.pop()); //get the difference in tachometer readings
 						calculateAndSetTheta(diff); //calculate and set theta
+						lineX.clear();
+						tachoCountX.clear();
+						sensorSideX.clear();
 						resetInternalXTimer(); //reset the x timer
 						
 					}
@@ -104,13 +112,17 @@ public class OdometryCorrection implements TimerListener{
 					if(sensorSideY.empty()){ //if its the first time detecting the line add it to the stack
 						sensorSideY.addElement(SensorSide.LEFT); //add the sensor which detected the line
 						tachoCountY.push(new Double(taco1)); //save the tachometer count
-						lineX.push(y); //save the value of the line
+						lineY.push(y); //save the value of the line
 						resetInternalYTimer(); // start the y timer
 					}
 					else if(!isSameSensor(sensorSideY, SensorSide.LEFT) && isSameLine(lineType)){ //if its the second time and not the same sensor
 						tachoCountY.push(new Double(taco1)); //store the tachometer value
+						sensorSideY.addElement(SensorSide.LEFT); //add the sensor which detected the line
 						double diff = Math.abs(tachoCountY.pop() - tachoCountY.pop()); //get the difference in tachometer readings
 						calculateAndSetTheta(diff); //calculate and set theta
+						lineY.clear();
+						tachoCountY.clear();
+						sensorSideY.clear();
 						resetInternalYTimer(); //reset the y timer
 						
 					}
@@ -144,10 +156,14 @@ public class OdometryCorrection implements TimerListener{
 						lineX.push(x); //save the value of the line
 						resetInternalXTimer(); // start the x timer
 					}
-					else if(!isSameSensor(sensorSideX, SensorSide.RIGHT)){ //&& isSameLine(lineType)){ //if its the second time and not the same sensor
+					else if(!isSameSensor(sensorSideX, SensorSide.RIGHT) && isSameLine(lineType)){ //if its the second time and not the same sensor
 						tachoCountX.push(new Double(taco1)); //store the tachometer value
+						sensorSideX.addElement(SensorSide.RIGHT); //add the sensor which detected the line
 						double diff = Math.abs(tachoCountX.pop() - tachoCountX.pop()); //get the difference in tachometer readings
 						calculateAndSetTheta(diff); //calculate and set theta
+						lineX.clear();
+						tachoCountX.clear();
+						sensorSideX.clear();
 						resetInternalXTimer(); //reset the x timer
 						
 					}
@@ -157,25 +173,29 @@ public class OdometryCorrection implements TimerListener{
 					setX();
 					break;
 				case Y:
-					setY();
+					
 					if(sensorSideY.empty()){ //if its the first time detecting the line add it to the stack
 						sensorSideY.addElement(SensorSide.RIGHT); //add the sensor which detected the line
 						tachoCountY.push(new Double(taco1)); //save the tachometer count
-						lineX.push(y); //save the value of the line
+						lineY.push(y); //save the value of the line
 						resetInternalYTimer(); // start the y timer
 					}
-					//else if(!isSameSensor(sensorSideY, SensorSide.RIGHT)){//&& isSameLine(lineType)){ //if its the second time and not the same sensor
-					else{
+					else if(!isSameSensor(sensorSideY, SensorSide.RIGHT) && isSameLine(lineType)){ //if its the second time and not the same sensor
+					//else{
 						tachoCountY.push(new Double(taco1)); //store the tachometer value
+						sensorSideY.addElement(SensorSide.RIGHT); //add the sensor which detected the line
 						double diff = Math.abs(tachoCountY.pop() - tachoCountY.pop()); //get the difference in tachometer readings
 						calculateAndSetTheta(diff); //calculate and set theta
+						lineY.clear();
+						tachoCountY.clear();
+						sensorSideY.clear();
 						resetInternalYTimer(); //reset the y timer
 						
-					//}
-					//else{
+					}
+					else{
 						//do nothing because it was the same sensor
 					}
-					
+					setY();
 					break;
 				}
 				
@@ -192,9 +212,6 @@ public class OdometryCorrection implements TimerListener{
 	 * Resets the internal line refresh timer for x
 	 */
 	public void resetInternalXTimer() {
-		lineX.clear();
-		tachoCountX.clear();
-		sensorSideX.clear();
 		startTimeX = System.currentTimeMillis();
 		endTimeX = startTimeX + Constants.TIME_REFRESH_CONSTANT;
 	}
@@ -203,40 +220,14 @@ public class OdometryCorrection implements TimerListener{
 	 * Resets the internal line refresh timer for y
 	 */
 	public void resetInternalYTimer() {
-		lineY.clear();
-		tachoCountY.clear();
-		sensorSideY.clear();
 		startTimeY = System.currentTimeMillis();
 		endTimeY = startTimeY + Constants.TIME_REFRESH_CONSTANT;
 	}
 
-	/**
-	 * Sets the odometer x and y values based on the line detected
-	 * and sets the value of theta
-	 */
-	/*Needs to be corrected to account for approach at angle*/
-	private void setOdometerValues() {
-		//get odometer values of x and y
-		
-		// check if the line is x or y
-		if(Math.abs(x % 30) < 1){
-			//correct the x value
-			x = ((int)(x/30))* 30;
-			xCor++;
-			odometer.setX(x);
-			//lineCheck(x);
-		}
-		//if the line is y
-		if(Math.abs(y % 30) < 1){
-			//correct the y value
-			y = ((int)(y/30))* 30;
-			yCor++;
-			odometer.setY(y);
-			//lineCheck(y);
-		}
-	}
-
 	public boolean isSameSensor(Stack<SensorSide> storedSensorSide, SensorSide sensorSide){
+		if(storedSensorSide.empty()){
+			return false;
+		}
 		return (storedSensorSide.peek().equals(sensorSide));
 	}
 	
@@ -244,29 +235,38 @@ public class OdometryCorrection implements TimerListener{
 	public LineType determineLineType(){
 		x = odometer.getX();
 		y = odometer.getY();
-		if(Math.abs(x % 300) == 0){
+		int xValue = (int)x;
+		int yValue = (int)y;
+		if((x + Math.abs((Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta())))) % 30 < 5){
+			xValue = (int) Math.abs(((x +  (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta())))/30));
+			xValue = xValue*30;
+			x = xValue;
 			return LineType.X;
 		}
+
+		yValue = (int) Math.abs(((y +  (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.sin(Math.toRadians(odometer.getTheta())))/30));
+		yValue = yValue*30;
+		y = yValue;
 		return LineType.Y;
 	}
-	/**
-	 * Checks the line to determine if the same line has been crossed or not
-	 * @param value
-	 */
-	private void lineCheck() {
-		
-		
-		
-	}
+
 
 	/**
 	 * Calculates theta based on the difference in the tachometer readings
 	 * @param diff The difference in the tachometer readings
 	 */
 	public void calculateAndSetTheta(double diff) {
+		double odoTheta = odometer.getTheta();
 		double side = convertTacoToLength(diff);
 		//calculate theta
-		theta = Math.toDegrees(Math.atan(Constants.WIDTH/ side));
+		theta += Math.toDegrees(Math.atan(side/Constants.WIDTH));
+		if(odoTheta > 270 && odoTheta < 360){
+			theta = theta +360;
+		}
+		if(odoTheta >90 && odoTheta < 180 ){
+			theta = theta + 180;
+		}
+		
 		//set theta
 		odometer.setTheta(theta);
 		tCor++;
@@ -304,8 +304,14 @@ public class OdometryCorrection implements TimerListener{
 	public boolean isSameLine(LineType lineType){
 		switch(lineType){
 			case X:
+				if(lineX.empty()){
+					return false;
+				}
 				return Math.abs(lineX.peek() - x) < Constants.MAX_LINE_CORRECTION_BANDWIDTH;
 			case Y:
+				if(lineY.empty()){
+					return false;
+				}
 				return Math.abs(lineY.peek() - y) < Constants.MAX_LINE_CORRECTION_BANDWIDTH;
 		}
 		return false;
@@ -315,15 +321,28 @@ public class OdometryCorrection implements TimerListener{
 	 * Sets the x value of the odometer
 	 */
 	public void setX(){
-		if(Math.abs(x % 30) < 1){
-			//correct the x value
-			x = ((int)(x/30))* 30;
-			xCor++;
-			double value = length*Math.sin(Math.toRadians(theta));
-			value = value/2;
-			odometer.setX( x);
-			//lineCheck(x);
+//		if(Math.abs(x % 30) < 1){
+//			//correct the x value
+//			x = ((int)(x/30))* 30;
+//			xCor++;
+//			double value = length*Math.sin(Math.toRadians(theta));
+//			value = value/2;
+//			odometer.setX( x);
+//			//lineCheck(x);
+//		}
+		if( !sensorSideX.empty()){
+			if(sensorSideX.peek().equals(SensorSide.LEFT)){
+				x= x - (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta()));
+				odometer.setX(x);
+				xCor++;
+			}
+			else{
+				x= x + (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta()));
+				odometer.setX(x);
+				xCor++;
+			}
 		}
+		
 	}
 	
 	/**
@@ -331,15 +350,27 @@ public class OdometryCorrection implements TimerListener{
 	 */
 	public void setY(){
 		yCor++;
-		if(Math.abs(y % 30) < 1){
-			//correct the y value
-			y = ((int)(y/30))* 30;
-			yCor++;
-			double value = length*Math.sin(Math.toRadians(theta));
-			value = value/2;
-			odometer.setY(y);
-			//lineCheck(x);
+//		if(Math.abs(y % 30) < 1){
+//			//correct the y value
+//			y = ((int)(y/30))* 30;
+//			yCor++;
+//			double value = length*Math.sin(Math.toRadians(theta));
+//			value = value/2;
+//			odometer.setY(y);
+//			//lineCheck(x);
+//		}
+		if(!sensorSideY.empty()){
+			if(sensorSideY.peek().equals(SensorSide.LEFT)){
+				y= y- (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.sin(Math.toRadians(odometer.getTheta()));
+
+			}
+			else{
+				y= y+ (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.sin(Math.toRadians(odometer.getTheta()));
+			}
 		}
+		
+		}
+		
+		
 	}
 	
-}

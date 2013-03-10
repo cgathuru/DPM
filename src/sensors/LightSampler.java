@@ -16,12 +16,14 @@ public class LightSampler implements TimerListener{
 	private double lightAverage;
 	private int lightValue;
 	
+	private int consecutiveDark =0 ;
+	
 	public LightSampler(LightSensor ls){
 		this.ls = ls;
 		lightSamples = new LinkedList<Integer>();
 		lightTimer = new Timer(Constants.LIGHT_SAMPLER_REFRESH, this);
 		lightAverage = Constants.DARK_LINE_VALUE;
-		lightValue = Constants.DARK_LINE_VALUE;
+		lightValue = Constants.DARK_LINE_VALUE;;
 		//for(int i = 0; i< Constants.LIGHT_SAMPLE_SIZE; i++){
 			//lightSamples.add(Constants.DARK_LINE_VALUE); //pre-fill samples
 		///}
@@ -31,7 +33,7 @@ public class LightSampler implements TimerListener{
 	@Override
 	public void timedOut() {
 		lightValue = ls.getLightValue(); //get the light value
-		if(!isDarkLine()){ //if its not a line detection
+		if(!darkLineCheck()){ //if its not a line detection
 			populationCheck(); //add light value to the light samples
 			calculateAverage(); //calculate the new average
 		}
@@ -70,12 +72,33 @@ public class LightSampler implements TimerListener{
 	 * If a dark line was detected
 	 * @return If the percentage difference is greater than 20 %
 	 */
-	public boolean isDarkLine (){
+	public boolean isDarkLine(){
+		if(consecutiveDark < Constants.CONSECUTIVE_DARK_LINES){
+			return darkLineCheck();
+		}
+		return false;		
+	}
+	
+	public boolean darkLineCheck(){
 		if(lightSamples.size() < 10){
-			return lightValue < Constants.DARK_LINE_VALUE;
+			if(lightValue < Constants.DARK_LINE_VALUE){
+				consecutiveDark++;
+				return true;
+			}
+			else{
+				consecutiveDark = 0;
+				return false;
+			}
 		}
 		double decimal = (lightValue-lightAverage)/lightAverage;
-		return  (Math.abs(decimal) > Constants.LIGHT_VALUE_PERCENTAGE);
+		if(Math.abs(decimal) > Constants.LIGHT_VALUE_PERCENTAGE){
+			consecutiveDark++;
+			return true;
+		}
+		else{
+			consecutiveDark = 0;
+			return false;
+		}
 	}
 	
 	/**
@@ -94,6 +117,10 @@ public class LightSampler implements TimerListener{
 		}
 	}
 	
+	/**
+	 * 
+	 * @return The current light value from the light sensor
+	 */
 	public int getLightValue(){
 		return this.lightValue; 
 	}
