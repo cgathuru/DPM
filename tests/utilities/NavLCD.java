@@ -1,6 +1,6 @@
 package utilities;
 
-import odometer.Odometer;
+import robot.Odometer;
 import display.LCDInfo;
 
 public class NavLCD extends LCDInfo{

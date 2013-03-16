@@ -4,8 +4,8 @@ import display.LCDInfo;
 import navigaion.Navigation;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
-import odometer.Odometer;
-import odometer.TwoWheeledRobot;
+import robot.Odometer;
+import robot.TwoWheeledRobot;
 
 public class turntoTest {
 	public static void main (String[] args){

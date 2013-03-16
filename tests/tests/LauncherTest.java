@@ -11,7 +11,8 @@ public class LauncherTest {
 	 */
 	public static void main(String[] args) {
 		Button.waitForAnyPress();
-		new Launcher().drive(Motor.A, Motor.B);
+		new Launcher();
+		Launcher.drive(Motor.A, Motor.B);
 		Button.waitForAnyPress();
 		System.exit(0);
 

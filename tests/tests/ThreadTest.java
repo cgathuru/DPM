@@ -21,7 +21,7 @@ class Printing implements Runnable{
 	public void run() {
 		long i =0;
 		while(true){	
-			System.out.println(Thread.currentThread());
+			System.out.println(Thread.currentThread() + " " +i);
 			i++;
 		}
 		

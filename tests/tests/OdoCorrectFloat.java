@@ -4,9 +4,9 @@ import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
-import odometer.Odometer;
-import odometer.OdometryCorrection;
-import odometer.TwoWheeledRobot;
+import robot.Odometer;
+import robot.OdometryCorrection;
+import robot.TwoWheeledRobot;
 import utilities.OdoLCD;
 
 public class OdoCorrectFloat {
@@ -20,7 +20,7 @@ public class OdoCorrectFloat {
 		Odometer odo = new Odometer(patBot, true);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		new OdoLCD(odo, lsLeft, lsRight);
+		new OdoLCD(odo);
 		OdometryCorrection odoCorrect = new OdometryCorrection(odo, lsLeft, lsRight);
 		do {
 			buttonChoice = Button.waitForAnyPress();

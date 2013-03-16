@@ -11,7 +11,7 @@ public final class Constants {
 	public static final double LIGHT_VALUE_PERCENTAGE = 0.123;
 	public static final double LIGHT_DIST = 0; //distance between light sensor and center of robot
 	public static final int LIGHT_SAMPLE_SIZE = 20;
-	public static final int LIGHT_SAMPLER_REFRESH = 10;
+	public static final int LIGHT_SAMPLER_REFRESH = 20;
 	public static final long LIGHT_CALIBRATION_TIME = 10;
 	public static final int CONSECUTIVE_DARK_LINES = 5; //number of consecutive dark lines allowed
 	public static final int WALL_DIST = 60; //for ultrasonic sensor

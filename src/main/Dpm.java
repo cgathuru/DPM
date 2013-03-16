@@ -1,24 +1,18 @@
 package main;
 
-import java.io.IOException;
-
-import navigaion.Navigation;
-
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
-import odometer.Odometer;
-import odometer.OdometryCorrection;
-import odometer.TwoWheeledRobot;
-import sensors.LightLocalizer;
+import navigaion.Navigation;
+import robot.Odometer;
+import robot.OdometryCorrection;
+import robot.TwoWheeledRobot;
 import sensors.USLocalizer;
 
-import communication.Instructions;
-import communication.NXTSend;
-import communication.bluetooth.BluetoothConnection;
+import communication.BluetoothConnection;
 
 import display.LCDInfo;
 

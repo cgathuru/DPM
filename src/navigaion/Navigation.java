@@ -1,8 +1,8 @@
 package navigaion;
 
 
-import odometer.Odometer;
-import odometer.TwoWheeledRobot;
+import robot.Odometer;
+import robot.TwoWheeledRobot;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;

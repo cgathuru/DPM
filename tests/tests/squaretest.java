@@ -3,8 +3,8 @@ package tests;
 import display.LCDInfo;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
-import odometer.Odometer;
-import odometer.TwoWheeledRobot;
+import robot.Odometer;
+import robot.TwoWheeledRobot;
 
 public class squaretest {
 

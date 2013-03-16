@@ -1,21 +1,15 @@
 package utilities;
 
 import lejos.nxt.LCD;
-import lejos.nxt.LightSensor;
-import lejos.nxt.Sound;
-import main.Constants;
-import odometer.Odometer;
-import odometer.OdometryCorrection;
+import robot.Odometer;
+import robot.OdometryCorrection;
 import display.LCDInfo;
 
 public class OdoLCD extends LCDInfo{
 	
-	private LightSensor leftLs, rightLs;
 
-	public OdoLCD(Odometer odo, LightSensor leftLs, LightSensor rightLs) {
+	public OdoLCD(Odometer odo) {
 		super(odo);
-		this.leftLs = leftLs;
-		this.rightLs = rightLs;
 		
 	}
 	
@@ -32,6 +26,10 @@ public class OdoLCD extends LCDInfo{
 		LCD.drawString("" + OdometryCorrection.xCor, 5, 5);
 		LCD.drawString("" + OdometryCorrection.yCor, 5, 6);
 		LCD.drawInt(OdometryCorrection.tCor, 5, 7);
+		LCD.drawString("Y1: ", 7, 5);
+		LCD.drawString("Y2: ", 7, 6);
+		LCD.drawInt((int)OdometryCorrection.y1, 10, 5);
+		LCD.drawInt((int)OdometryCorrection.y2, 10, 6);
 		
 	}
 

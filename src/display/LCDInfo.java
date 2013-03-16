@@ -1,7 +1,7 @@
 package display;
 
-import odometer.Odometer;
-import odometer.OdometryCorrection;
+import robot.Odometer;
+import robot.OdometryCorrection;
 import sensors.USLocalizer;
 import lejos.nxt.LCD;
 import lejos.util.Timer;

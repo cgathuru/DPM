@@ -2,13 +2,17 @@ package sensors;
 
 import main.Constants;
 import navigaion.Navigation;
-import odometer.Odometer;
-import odometer.TwoWheeledRobot;
+import robot.Odometer;
+import robot.TwoWheeledRobot;
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 
-
+/**
+ * This class controls the ultrasonic sensor used for localization
+ * @author charles
+ *
+ */
 public class USLocalizer {
 	
 
@@ -29,6 +33,11 @@ public class USLocalizer {
 	//TL cornerMode 2
 	//TR cornerMode 3
 	
+	/**
+	 * Initializes all the classes properties and values
+	 * @param odo
+	 * @param us
+	 */
 	public USLocalizer(Odometer odo, UltrasonicSensor us) {
 		
 		this.odo = odo;
@@ -40,6 +49,9 @@ public class USLocalizer {
 		//us.off();
 	}
 	
+	/**
+	 * Start the ultrasonic localization process
+	 */
 	public void doLocalization() {
 		//facing wall: localization =1 (RISING EDGE)
 		//facing away from wall: localization =0 (FALLING EDGE)
@@ -246,7 +258,10 @@ public class USLocalizer {
 		}
 		
 	}
-	
+	/**
+	 * 
+	 * @return The ultrasonic sensor reading
+	 */
 	private int getFilteredData() {
 		int distance;
 		
@@ -267,10 +282,17 @@ public class USLocalizer {
 		return distance;
 	}
 	
+	/**
+	 * Gets the first angle
+	 * @return The first angle latched
+	 */
 	public int getAngle1(){
 		return (int)angleA;
 	}
-	
+	/**
+	 * Gets the second sample
+	 * @return The second angle latched
+	 */
 	public int getAngle2(){
 		return (int)angleB;
 	} 	

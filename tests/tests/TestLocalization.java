@@ -7,8 +7,8 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
-import odometer.Odometer;
-import odometer.TwoWheeledRobot;
+import robot.Odometer;
+import robot.TwoWheeledRobot;
 import sensors.USLocalizer;
 
 public class TestLocalization {

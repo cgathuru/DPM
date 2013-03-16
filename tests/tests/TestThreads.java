@@ -40,7 +40,7 @@ class PrintingExtend extends Thread{
 	public void run() {
 		long i =0;
 		while(true){	
-			System.out.println(name);
+			System.out.println(name +" " + i);
 			i++;
 		
 			try {

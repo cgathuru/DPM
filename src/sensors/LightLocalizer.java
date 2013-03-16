@@ -1,13 +1,12 @@
 package sensors;
 
-import main.Constants;
-import navigaion.Navigation;
-import odometer.Odometer;
-import odometer.TwoWheeledRobot;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
-import lejos.nxt.Motor;
 import lejos.nxt.Sound;
+import main.Constants;
+import navigaion.Navigation;
+import robot.Odometer;
+import robot.TwoWheeledRobot;
 
 /**
  * This class  contains the light localizer class that helps the robot determine it current position accurately.
@@ -47,7 +46,6 @@ public class LightLocalizer {
 		// when done travel to (0,0) and turn to 0 degrees
 		LCD.drawString("Light Value: " + ls.getLightValue(), 0, 4);
 		double[] angles = new double[4];
-		double theta = odo.getTheta();
 		int count = 0;
 		robot.setRotationSpeed(Constants.ROTATE_SPEED);
 		try {

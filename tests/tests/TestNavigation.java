@@ -5,11 +5,10 @@ import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
-import odometer.Odometer;
-import odometer.OdometryCorrection;
-import odometer.TwoWheeledRobot;
+import robot.Odometer;
+import robot.OdometryCorrection;
+import robot.TwoWheeledRobot;
 import utilities.OdoLCD;
-import display.LCDInfo;
 
 public class TestNavigation {
 
@@ -22,7 +21,7 @@ public class TestNavigation {
 		Navigation nav = odo.getNavigation();
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		new OdoLCD(odo, lsLeft, lsRight);
+		new OdoLCD(odo);
 		OdometryCorrection odoCorrect = new OdometryCorrection(odo, lsLeft, lsRight);
 		Button.waitForAnyPress();
 		odoCorrect.startCorrectionTimer();
