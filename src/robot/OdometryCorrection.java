@@ -350,9 +350,10 @@ public class OdometryCorrection implements TimerListener{
 		if(odoTheta < 90){
 			switch(sensorSide){
 			case LEFT:
-				theta = 360- theta;
+				theta = 90- theta;
 				break;
 			case RIGHT:
+				
 				break;
 			}
 		}

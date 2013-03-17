@@ -12,7 +12,7 @@ import main.Constants;
 public class Navigation {
 	// put your navigation code here 
 	private NXTRegulatedMotor leftMotor = Motor.A, rightMotor = Motor.B;
-	private static double width = 23.4;                                                                               ;
+	//private static double width = 23.4;                                                                               ;
 	private double currentX = 0;
 	private double currentY = 0;
 	private double xTarget = 0;
@@ -86,19 +86,20 @@ public class Navigation {
 	
 	private void rotationCorrection(double x, double y, double theta){
 		if(y == 0 && x > 0){
-			turnTo(0);
-		}
-		else if(y == 0 && x < 0){
-			turnTo(180);
-		}
-		else if(x == 0 && y > 0){
 			turnTo(90);
 		}
-		else if(x == 0 && y < 0){
+		else if(y == 0 && x < 0){
 			turnTo(270);
+		}
+		else if(x == 0 && y > 0){
+			turnTo(0);
+		}
+		else if(x == 0 && y < 0){
+			turnTo(180);
 		}
 		else{
 			turnTo(theta);
+		
 		}
 	}
 	

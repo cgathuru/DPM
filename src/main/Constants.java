@@ -3,9 +3,9 @@ package main;
 public final class Constants {
 
 	public static final double WHEEL_RADIUS = 2.775;
-	public static final double WIDTH = 16.5; //wheel center
+	public static final double WIDTH = 17.2; //wheel center
 	public static final int US_LOCALIZATION_ROTATE_SPEED = 100;
-	public static final int ROTATE_SPEED = 25;
+	public static final int ROTATE_SPEED = 150;
 	public static final int FORWARD_SPEED = 100;
 	public static final int DARK_LINE_VALUE = 44;
 	public static final double LIGHT_VALUE_PERCENTAGE = 0.123;
@@ -15,6 +15,7 @@ public final class Constants {
 	public static final long LIGHT_CALIBRATION_TIME = 10;
 	public static final int CONSECUTIVE_DARK_LINES = 5; //number of consecutive dark lines allowed
 	public static final int WALL_DIST = 60; //for ultrasonic sensor
+	public static final int US_ANGLE_OFFSET = 35;
 	public static final int ODOMETER_CORRECTION_TIMEOUT = 20; //number of miliseconds after which correction is called again
 	public static final double ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE = WIDTH/2;
 	public static final double MAX_LINE_CORRECTION_BANDWIDTH = 2; //difference between the two 'same' values by each light sensor

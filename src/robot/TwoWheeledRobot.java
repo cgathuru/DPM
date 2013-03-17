@@ -24,13 +24,15 @@ public class TwoWheeledRobot {
 	private boolean isRotating;
 	private double currentTachoCount;
 	private double previousTachoCount;
+	private Odometer odo;
 	
 	/**
 	 * Sets all controllable attributes of the class
 	 * @param leftMotor Left Motor
 	 * @param rightMotor Right Motor
 	 */
-	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
+	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor, Odometer odo) {
+		this.odo = odo;
 		this.leftMotor = leftMotor;
 		this.rightMotor = rightMotor;
 		this.leftRadius = Constants.WHEEL_RADIUS;
@@ -69,11 +71,63 @@ public class TwoWheeledRobot {
 	 * Turns robot by the given number of degrees anti-clockwise
 	 * @param theta The angle in degrees which the robot should rotate by
 	 */
+	
 	public void turnToImmediate(double theta){
 		isRotating = true;
+		leftMotor.setSpeed(Constants.ROTATE_SPEED);
+		rightMotor.setSpeed(Constants.ROTATE_SPEED);
+		leftMotor.forward();
+		rightMotor.forward();
 		leftMotor.rotate(convertAngle(leftRadius,width,theta),true);
 		rightMotor.rotate(-convertAngle(rightRadius,width,theta),false);
 	}
+	
+	public void travelTo(int x, int y){
+		double currentX= odo.getX();
+		double currentY = odo.getY();
+		turnTo(currentX, currentY, x, y);
+		
+		//
+		
+		
+		
+	}
+	
+//	public double calculateDistance(double x, double y){
+//		double deltaX = x - odo.getX();
+//		double deltaY = y - odo.getY();
+//		double x2 = Math.pow(deltaX, 2);
+//		double y2 = Math.pow(deltaY, 2);
+//		
+//		return Math.sqrt(y2 +x2);
+//	}
+//NOT TECHNICALLY USED LATER ON	
+	
+	
+	public void turnTo(double currentX, double currentY, int targetX, int targetY){
+		double deltaX = targetX -currentX;
+		double deltaY = targetY - currentY;
+		
+		double angle = 90- Math.toDegrees(Math.atan2(deltaY, deltaX));
+		double robotAngle = odo.getTheta();
+		double theta = 0;
+		double deltaTheta = angle - robotAngle;
+		if(Math.abs(deltaTheta) <= 180){
+			theta = deltaTheta;
+		}
+		else if(deltaTheta < -180){
+			theta = deltaTheta + 360;
+		}
+		else if(deltaTheta > 180){
+			theta = deltaTheta -360;
+		}
+		
+		turnToImmediate(theta);
+	}
+	
+	
+	
+	
 	
 	/**
 	 * Moves the robot forward  in a straight line by a given distance
