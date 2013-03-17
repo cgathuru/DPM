@@ -20,8 +20,8 @@ public class LightLocalizer {
 	private LightSensor ls;
 	
 	/**
-	 * Initialises all the variables contained within the class
-	 * @param odo Odometer to get and set positional values
+	 * Initializes all the variables contained within the class
+	 * @param robot The {@link Robot} that controls the robots movements
 	 * @param ls Light sensor
 	 */
 	public LightLocalizer(TwoWheeledRobot robot, LightSensor ls) {

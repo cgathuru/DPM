@@ -29,6 +29,11 @@ public class USLocalizer {
 	 public double angleA, angle1 = 0;
 	 public double angleB, angle2 =0;
 	 
+	 /**
+	  * Initializes the class attributes
+	  * @param robot The {@link TwoWheelRobot} that controls the robots movement
+	  * @param us
+	  */
 	 public USLocalizer(TwoWheeledRobot robot, UltrasonicSensor us) {
 	  
 	  this.odo = robot.getOdometer();
@@ -38,6 +43,9 @@ public class USLocalizer {
 	  us.off();
 	 }
 	 
+	 /**
+	  * Starts the ultrasonic localization routine
+	  */
 	 public void doLocalization() {
 	  //facing wall: localization =1 (RISING EDGE)
 	  //facing away from wall: localization =0 (FALLING EDGE)

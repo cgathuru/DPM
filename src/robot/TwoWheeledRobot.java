@@ -71,7 +71,6 @@ public class TwoWheeledRobot {
 	 * Turns robot by the given number of degrees anti-clockwise
 	 * @param theta The angle in degrees which the robot should rotate by
 	 */
-	
 	public void turnToImmediate(double theta){
 		isRotating = true;
 		leftMotor.setSpeed(Constants.ROTATE_SPEED);
@@ -82,26 +81,39 @@ public class TwoWheeledRobot {
 		rightMotor.rotate(-convertAngle(rightRadius,width,theta),false);
 	}
 	
-	public void travelTo(int x, int y){
-		turnToFace(x, y);
-		
-		//
-		
-		
-		
+	/**
+	 * Travels to a specified position. This operation cannot be interrupted.
+	 * @param xTarget The x value of the target position
+	 * @param yTarget The y value of the target position
+	 */
+	public void travelTo(int xTarget, int yTarget){
+		turnToFace(xTarget, yTarget);
+		double distance = calculateDistance(xTarget, yTarget);
+		moveForwardBy(distance);
+			
 	}
 	
-//	public double calculateDistance(double x, double y){
-//		double deltaX = x - odo.getX();
-//		double deltaY = y - odo.getY();
-//		double x2 = Math.pow(deltaX, 2);
-//		double y2 = Math.pow(deltaY, 2);
-//		
-//		return Math.sqrt(y2 +x2);
-//	}
-//NOT TECHNICALLY USED LATER ON	
+	/**
+	 * Calculates the distance between the robot and its target position
+	 * @param x The x value of the target position
+	 * @param y the y value of the target position
+	 * @return The distance between the robot and its target position
+	 */
+	public double calculateDistance(double x, double y){
+		double deltaX = x - odo.getX();
+		double deltaY = y - odo.getY();
+		double x2 = Math.pow(deltaX, 2);
+		double y2 = Math.pow(deltaY, 2);
+		
+		return Math.sqrt(y2 +x2);
+	}
 	
 	
+	/**
+	 * Rotates the robot to face in the direction of a given target position
+	 * @param targetX The x value of the target position 
+	 * @param targetY the y value of the target position
+	 */
 	public void turnToFace(int targetX, int targetY){
 		double currentX = odo.getX();
 		double currentY = odo.getY();
@@ -125,6 +137,11 @@ public class TwoWheeledRobot {
 		turnToImmediate(theta);
 	}
 	
+	/**
+	 * Turns the robot to face a given heading
+	 * @param angle The heading the robot should to rotate towards as measured from the positive y axis
+	 * in a clockwise direction
+	 */
 	public void turnTo(double angle){
 			
 			double robotAngle = odo.getTheta();
@@ -229,10 +246,37 @@ public class TwoWheeledRobot {
 		 return true;
 	 }
 	 
+	 /**
+	  * Gets the {@link Odometer} used by the robot 
+	  * @return An {@link Odometer} 
+	  */
 	 public Odometer getOdometer(){
 		 return this.odo;
 	 }
 	 
+	 /**
+	  * Returns the robots current x position
+	  * @return The robots x position
+	  */
+	 public double getX(){
+		 return this.odo.getX();
+	 }
+	 
+	 /**
+	  * Returns the robots current y position
+	  * @return The robots y position
+	  */
+	 public double getY(){
+		 return this.odo.getY();
+	 }
+	 
+	 /**
+	  * Returns the robots current heading
+	  * @return The heading of the robot
+	  */
+	 public double getTheta(){
+		 return this.odo.getTheta();
+	 }
 }
 
 	 

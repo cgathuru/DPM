@@ -8,7 +8,11 @@ import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import main.Constants;
 
-
+/**
+ * Controls the flow of events that determines the robots movements
+ * @author charles
+ *
+ */
 public class Navigation {
 	// put your navigation code here 
 	private NXTRegulatedMotor leftMotor = Motor.A, rightMotor = Motor.B;

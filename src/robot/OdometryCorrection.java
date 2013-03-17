@@ -11,8 +11,8 @@ import lejos.util.TimerListener;
 import main.Constants;
 import sensors.LightSampler;
 /**
- * Corrects the odometer periodically to make sure it stays accurate.
- *  Implements a {@code TimeListener} to periodically correct the odometer
+ * Corrects the {@link Odometer} periodically to make sure it stays accurate.
+ *  Implements a {@code TimeListener} to periodically correct the {@link Odometer}
  * @author charles
  *
  */
