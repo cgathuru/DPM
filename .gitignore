@@ -8,3 +8,6 @@
 *.nxj
 //ignore bin folder
 bin/
+//ignore uml files
+*.umlcd
+*uml
