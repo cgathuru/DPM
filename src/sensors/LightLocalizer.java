@@ -18,19 +18,16 @@ public class LightLocalizer {
 	private Odometer odo;
 	private TwoWheeledRobot robot;
 	private LightSensor ls;
-	private Navigation nav;
-
 	
 	/**
 	 * Initialises all the variables contained within the class
 	 * @param odo Odometer to get and set positional values
 	 * @param ls Light sensor
 	 */
-	public LightLocalizer(Odometer odo, LightSensor ls) {
-		this.odo = odo;
-		this.robot = odo.getTwoWheeledRobot();
+	public LightLocalizer(TwoWheeledRobot robot, LightSensor ls) {
+		this.odo = robot.getOdometer();
+		this.robot = robot;
 		this.ls = ls;
-		this.nav = odo.getNavigation();
 		
 		// turn on the light
 		ls.setFloodlight(true);
@@ -83,7 +80,7 @@ public class LightLocalizer {
 		double newTheta = deltaTheta + odo.getTheta();
 		//adjust the position to calcuated position
 		odo.setPosition(new double [] {xDist, yDist, newTheta}, new boolean [] {true, true, true});
-		nav.turnTo(0);
+		robot.turnTo(0);
 		//nav.turnTo(0);
 		
 	}

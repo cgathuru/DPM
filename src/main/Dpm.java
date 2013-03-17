@@ -26,13 +26,13 @@ public class Dpm {
 
 	public static void main(String[] args) {
 		int buttonChoice;
-		// setup the odometer, display, and ultrasonic and light sensors
-		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
-		Odometer odo = new Odometer(patBot, true);
+		// setup the odometer, display, and ultrasonic and light sensors		
+		Odometer odo = new Odometer(true);
+		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S3);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		USLocalizer usl = new USLocalizer(odo, us);
+		USLocalizer usl = new USLocalizer(patBot, us);
 		//Bluetooth connection with Mufasa (our robot)
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
@@ -47,8 +47,8 @@ public class Dpm {
 		
 		//usl.doLocalization();
 		 */
-		Navigation nav = odo.getNavigation();
-		OdometryCorrection odometertyCorrection = new OdometryCorrection(odo, lsLeft, lsRight);
+		Navigation nav = new Navigation(patBot);
+		OdometryCorrection odometertyCorrection = new OdometryCorrection(patBot, lsLeft, lsRight);
 		//nav.travelTo(0, 60);
 		//nav.moveForwardBy(60);
 		odometertyCorrection.startCorrectionTimer();

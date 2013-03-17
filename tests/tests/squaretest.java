@@ -13,8 +13,8 @@ public class squaretest {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
-		Odometer odo = new Odometer(patBot, true);
+		Odometer odo = new Odometer(true);
+		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		new LCDInfo(odo);
 		int buttonChoice = Button.waitForAnyPress();
 		if(buttonChoice== Button.ID_LEFT){

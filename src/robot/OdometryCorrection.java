@@ -95,9 +95,9 @@ public class OdometryCorrection implements TimerListener{
 	 * @param ls1 The {@link LightSensor} on the left side of the robot
 	 * @param ls2 The {@link LightSensor} on the right side of the robot
 	 */
-	public OdometryCorrection(Odometer odometer, LightSensor ls1, LightSensor ls2){
-		this.odometer = odometer;
-		this.robot = odometer.getTwoWheeledRobot();
+	public OdometryCorrection(TwoWheeledRobot robot, LightSensor ls1, LightSensor ls2){
+		this.odometer = robot.getOdometer();
+		this.robot = robot;
 		this.leftLs = new LightSampler(ls1);
 		this.rightLs = new LightSampler(ls2);
 		this.leftMotor = Motor.A;

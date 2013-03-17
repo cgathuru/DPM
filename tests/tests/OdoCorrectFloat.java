@@ -16,12 +16,12 @@ public class OdoCorrectFloat {
 	 */
 	public static void main(String[] args) {
 		int buttonChoice;
-		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
-		Odometer odo = new Odometer(patBot, true);
+		Odometer odo = new Odometer(true);
+		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		new OdoLCD(odo);
-		OdometryCorrection odoCorrect = new OdometryCorrection(odo, lsLeft, lsRight);
+		OdometryCorrection odoCorrect = new OdometryCorrection(patBot, lsLeft, lsRight);
 		do {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_LEFT

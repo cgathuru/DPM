@@ -22,9 +22,9 @@ public class Navigation {
 	private TwoWheeledRobot robot;
 	
 	
-	public Navigation(Odometer odo) {
-		this.odometer = odo;
-		this.robot = odo.getTwoWheeledRobot();
+	public Navigation(TwoWheeledRobot robot) {
+		this.odometer = robot.getOdometer();
+		this.robot = robot;
 	}
 	
 	public void travelTo(double x, double y){

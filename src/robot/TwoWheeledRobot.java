@@ -31,7 +31,7 @@ public class TwoWheeledRobot {
 	 * @param leftMotor Left Motor
 	 * @param rightMotor Right Motor
 	 */
-	public TwoWheeledRobot(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor, Odometer odo) {
+	public TwoWheeledRobot(Odometer odo, NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
 		this.odo = odo;
 		this.leftMotor = leftMotor;
 		this.rightMotor = rightMotor;
@@ -83,9 +83,7 @@ public class TwoWheeledRobot {
 	}
 	
 	public void travelTo(int x, int y){
-		double currentX= odo.getX();
-		double currentY = odo.getY();
-		turnTo(currentX, currentY, x, y);
+		turnToFace(x, y);
 		
 		//
 		
@@ -104,7 +102,9 @@ public class TwoWheeledRobot {
 //NOT TECHNICALLY USED LATER ON	
 	
 	
-	public void turnTo(double currentX, double currentY, int targetX, int targetY){
+	public void turnToFace(int targetX, int targetY){
+		double currentX = odo.getX();
+		double currentY = odo.getY();
 		double deltaX = targetX -currentX;
 		double deltaY = targetY - currentY;
 		
@@ -125,6 +125,23 @@ public class TwoWheeledRobot {
 		turnToImmediate(theta);
 	}
 	
+	public void turnTo(double angle){
+			
+			double robotAngle = odo.getTheta();
+			double theta = 0;
+			double deltaTheta = angle - robotAngle;
+			if(Math.abs(deltaTheta) <= 180){
+				theta = deltaTheta;
+			}
+			else if(deltaTheta < -180){
+				theta = deltaTheta + 360;
+			}
+			else if(deltaTheta > 180){
+				theta = deltaTheta -360;
+			}
+			
+			turnToImmediate(theta);
+		}
 	
 	
 	
@@ -210,6 +227,10 @@ public class TwoWheeledRobot {
 	  */
 	 public boolean isMoving(){
 		 return true;
+	 }
+	 
+	 public Odometer getOdometer(){
+		 return this.odo;
 	 }
 	 
 }

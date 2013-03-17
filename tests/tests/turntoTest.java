@@ -10,17 +10,16 @@ import robot.TwoWheeledRobot;
 public class turntoTest {
 	public static void main (String[] args){
 		
-		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
-		Odometer odo = new Odometer(patBot, true);
-		Navigation navigator = new Navigation(odo);
+		Odometer odo = new Odometer(true);
+		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		new LCDInfo(odo);
 		Button.waitForAnyPress();
-		navigator.turnTo(90);
-		navigator.turnTo(45);
-		navigator.turnTo(180);
-		navigator.turnTo(270);
-		navigator.turnTo(355);
-		navigator.turnTo(0);
+		patBot.turnTo(90);
+		patBot.turnTo(45);
+		patBot.turnTo(180);
+		patBot.turnTo(270);
+		patBot.turnTo(355);
+		patBot.turnTo(0);
 		
 		Button.waitForAnyPress();
 		

@@ -23,15 +23,14 @@ public class BluetoothNavTest {
 	 * @param args general
 	 */
 	public static void main(String[] args) {
-		TwoWheeledRobot patBot = new TwoWheeledRobot(Motor.A, Motor.B);
-		Odometer odo = new Odometer(patBot, true);
+		Odometer odo = new Odometer(true);
+		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		//Bluetooth connection with Mufasa (our robot)
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
 		connection.printTransmission();
 		new LCDInfo(odo);
-		Navigation nav = odo.getNavigation();
-		nav.travelTo(Transmission.goalX, Transmission.goalY);
+		patBot.travelTo(Transmission.goalX, Transmission.goalY);
 
 	}
 

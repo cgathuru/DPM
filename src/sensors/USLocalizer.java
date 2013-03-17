@@ -26,15 +26,13 @@ public class USLocalizer {
 	 private TwoWheeledRobot robot;
 	 private UltrasonicSensor us;
 	 //private LocalizationType locType;
-	 private Navigation nav;
 	 public double angleA, angle1 = 0;
 	 public double angleB, angle2 =0;
 	 
-	 public USLocalizer(Odometer odo, UltrasonicSensor us) {
+	 public USLocalizer(TwoWheeledRobot robot, UltrasonicSensor us) {
 	  
-	  this.odo = odo;
-	  this.robot = odo.getTwoWheeledRobot();
-	  this.nav = odo.getNavigation();
+	  this.odo = robot.getOdometer();
+	  this.robot = robot;
 	  this.us = us;
 	  //this.locType = locType;
 	  us.off();
@@ -140,7 +138,7 @@ public class USLocalizer {
 	   odo.setPosition(new double [] {0.0, 0.0, odo.getTheta()+delta-Constants.US_ANGLE_OFFSET}, new boolean [] {true, true, true});
 	   
 	   try { Thread.sleep(500); } catch (InterruptedException e) {}
-	   nav.turnTo(0);
+	   robot.turnTo(0);
 	   
 	  } else {
 	   
@@ -237,7 +235,7 @@ public class USLocalizer {
 	   
 	   try { Thread.sleep(500); } catch (InterruptedException e) {}
 	   
-	   nav.turnTo(0);
+	   robot.turnTo(0);
 	         
 	  }
 	  
