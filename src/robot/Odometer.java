@@ -14,7 +14,6 @@ public class Odometer implements TimerListener {
 	public static final int DEFAULT_PERIOD = 25;
 	private TwoWheeledRobot robot;
 	private Timer odometerTimer;
-	private Navigation nav;
 	// position data
 	private Object lock;
 	private double x, y, theta;
@@ -26,10 +25,8 @@ public class Odometer implements TimerListener {
 	 * @param period The timeout period
 	 * @param start true if the odometer should be started immediately
 	 */
-	public Odometer(TwoWheeledRobot robot, int period, boolean start) {
+	public Odometer(int period, boolean start) {
 		// initialize variables
-		this.robot = robot;
-		this.nav = new Navigation(this);
 		odometerTimer = new Timer(period, this);
 		x = 0.0;
 		y = 0.0;
@@ -44,29 +41,19 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * Only shows the setting of the robot
-	 * @param robot The robot
-	 */
-	public Odometer(TwoWheeledRobot robot) {
-		this(robot, DEFAULT_PERIOD, false);
-	}
-	
-	/**
 	 * Allows for the setting of the robot
-	 * @param robot Robot
 	 * @param start Boolean to start odometer immidietly
 	 */
-	public Odometer(TwoWheeledRobot robot, boolean start) {
-		this(robot, DEFAULT_PERIOD, start);
+	public Odometer(boolean start) {
+		this( DEFAULT_PERIOD, start);
 	}
 	
 	/**
 	 * Allows for the setting of the robot and the timout period
-	 * @param robot The robot
 	 * @param period the timout period
 	 */
-	public Odometer(TwoWheeledRobot robot, int period) {
-		this(robot, period, false);
+	public Odometer(int period) {
+		this(period, false);
 	}
 	
 	/**
@@ -102,21 +89,7 @@ public class Odometer implements TimerListener {
 			pos[2] = theta;
 		}
 	}
-	/**
-	 * 
-	 * @return An instance of the robot class
-	 */
-	public TwoWheeledRobot getTwoWheeledRobot() {
-		return robot;
-	}
-	
-	/**
-	 * 
-	 * @return An instance of the Navigation class
-	 */
-	public Navigation getNavigation() {
-		return this.nav;
-	}
+
 	/**
 	 * Sets the position of the robot
 	 * @param pos Position to set to
