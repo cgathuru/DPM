@@ -1,4 +1,4 @@
-package navigaion;
+package navigation;
 
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;

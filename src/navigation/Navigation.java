@@ -1,4 +1,4 @@
-package navigaion;
+package navigation;
 
 
 import robot.Odometer;

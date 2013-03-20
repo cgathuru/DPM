@@ -7,7 +7,7 @@ import main.Constants;
 
 import java.io.*;
 
-import navigaion.Navigation;
+import navigation.Navigation;
 
 
 /**

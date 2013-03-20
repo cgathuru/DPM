@@ -1,7 +1,10 @@
 package robot;
 
 
-import navigaion.Navigation;
+import main.Constants;
+import navigation.Navigation;
+import lejos.nxt.Motor;
+import lejos.nxt.NXTRegulatedMotor;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 
@@ -11,9 +14,9 @@ import lejos.util.TimerListener;
  *
  */
 public class Odometer implements TimerListener {
-	public static final int DEFAULT_PERIOD = 25;
-	private TwoWheeledRobot robot;
 	private Timer odometerTimer;
+	private NXTRegulatedMotor leftMotor;
+	private NXTRegulatedMotor rightMotor;
 	// position data
 	private Object lock;
 	private double x, y, theta;
@@ -28,6 +31,8 @@ public class Odometer implements TimerListener {
 	public Odometer(int period, boolean start) {
 		// initialize variables
 		odometerTimer = new Timer(period, this);
+		this.leftMotor = Motor.A;
+		this.rightMotor = Motor.B;
 		x = 0.0;
 		y = 0.0;
 		theta = 0;
@@ -45,7 +50,7 @@ public class Odometer implements TimerListener {
 	 * @param start Boolean to start odometer immidietly
 	 */
 	public Odometer(boolean start) {
-		this( DEFAULT_PERIOD, start);
+		this(Constants.ODOMETER_DEFAULT_PERIOD, start);
 	}
 	
 	/**
@@ -60,7 +65,7 @@ public class Odometer implements TimerListener {
 	 * Updates the x and y position, as well as the heading.
 	 */
 	public void timedOut() {
-		robot.getDisplacementAndHeading(dDH);
+		getDisplacementAndHeading(dDH);
 		dDH[0] -= oldDH[0];
 		dDH[1] -= oldDH[1];
 		
@@ -183,5 +188,19 @@ public class Odometer implements TimerListener {
 		synchronized (lock) {
 			this.theta = theta;
 		}
+	}
+	
+	/**
+	 * Gets the robots displacement and heading from the motors
+	 * @param data An array in which the collected displacement and heading of the robot will be stored
+	 */
+	public void getDisplacementAndHeading(double[] data){
+		int leftTacho, rightTacho;
+		leftTacho = leftMotor.getTachoCount();
+		rightTacho = rightMotor.getTachoCount();
+	
+		 
+		data[0] = (leftTacho * Constants.WHEEL_RADIUS + rightTacho * Constants.WHEEL_RADIUS) * Math.PI / 360.0;
+		data[1] = (leftTacho * Constants.WHEEL_RADIUS - rightTacho * Constants.WHEEL_RADIUS) / Constants.WIDTH;		
 	}
 }

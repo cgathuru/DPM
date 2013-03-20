@@ -7,4 +7,4 @@
  * other parameters required for the robot to function. 
  */
 
-package navigaion;
+package navigation;

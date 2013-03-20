@@ -1,6 +1,6 @@
 package tests;
 
-import navigaion.Navigation;
+import navigation.Navigation;
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;

@@ -178,19 +178,7 @@ public class TwoWheeledRobot {
 		
 	}
 
-	/**
-	 * Gets the robots displacement and heading from the motors
-	 * @param data An array in which the collected displacement and heading of the robot will be stored
-	 */
-	public void getDisplacementAndHeading(double[] data){
-		int leftTacho, rightTacho;
-		leftTacho = leftMotor.getTachoCount();
-		rightTacho = rightMotor.getTachoCount();
 	
-		 
-		data[0] = (leftTacho * leftRadius + rightTacho * rightRadius) * Math.PI / 360.0;
-		data[1] = (leftTacho * leftRadius - rightTacho * rightRadius) / width;		
-	}
 	
 	/**
 	 * Sets the robots forward speed to the given value

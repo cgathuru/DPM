@@ -8,7 +8,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.comm.NXTCommConnector;
 import lejos.nxt.comm.NXTConnection;
 import lejos.nxt.comm.RS485;
-import navigaion.Launcher;
+import navigation.Launcher;
 
 /**
  * Receive data from another NXT using RS485 using a packet based

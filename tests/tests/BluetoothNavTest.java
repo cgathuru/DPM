@@ -2,7 +2,7 @@ package tests;
 
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
-import navigaion.Navigation;
+import navigation.Navigation;
 import robot.Odometer;
 import robot.TwoWheeledRobot;
 

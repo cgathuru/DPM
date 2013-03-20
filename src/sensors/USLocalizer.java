@@ -1,7 +1,7 @@
 package sensors;
 
 import main.Constants;
-import navigaion.Navigation;
+import navigation.Navigation;
 import robot.Odometer;
 import robot.TwoWheeledRobot;
 import lejos.nxt.LCD;

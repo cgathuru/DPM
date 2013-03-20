@@ -2,7 +2,7 @@ package tests;
 
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
-import navigaion.Launcher;
+import navigation.Launcher;
 
 public class LauncherTest {
 

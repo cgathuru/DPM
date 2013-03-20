@@ -1,7 +1,7 @@
 package tests;
 
 import display.LCDInfo;
-import navigaion.Navigation;
+import navigation.Navigation;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;

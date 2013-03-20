@@ -4,7 +4,7 @@ import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Sound;
 import main.Constants;
-import navigaion.Navigation;
+import navigation.Navigation;
 import robot.Odometer;
 import robot.TwoWheeledRobot;
 

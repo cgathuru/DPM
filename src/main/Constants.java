@@ -4,6 +4,7 @@ public final class Constants {
 
 	public static final double WHEEL_RADIUS = 2.775;
 	public static final double WIDTH = 17.2; //wheel center
+	public static final int ODOMETER_DEFAULT_PERIOD = 25;
 	public static final int US_LOCALIZATION_ROTATE_SPEED = 100;
 	public static final int ROTATE_SPEED = 150;
 	public static final int FORWARD_SPEED = 100;
