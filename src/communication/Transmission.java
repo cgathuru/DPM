@@ -1,16 +1,16 @@
-/*
-* @author Sean Lawlor
+/**
+* @author Sean Lawlor, Stepan Salenikovich
 * @date November 3, 2011
 * @class ECSE 211 - Design Principle and Methods
 */
 package communication;
 
-/*
+/**
  * Skeleton class to hold datatypes needed for final project
  * 
  * Simply all public variables so can be accessed with 
  * Transmission t = new Transmission();
- * int d1 = t.d1;
+ * int fx = t.fx;
  * 
  * and so on...
  * 
@@ -18,41 +18,34 @@ package communication;
  * Role.NULL)
  */
 
-/**
- * Contains all the data that will be sent during the bluetooth connection
- * @author charles
- *
- */
 public class Transmission {
-	
 	/**
-	 * The corner type. An {@code enum} is used because there can only be 4 corners
+	 * The role, Defender or Attacker
 	 */
-	public static enum CORNER_LOCATION{ TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
+	public PlayerRole role;
 	/**
-	 * The x position of the location of the goal
+	 * Ball dispenser X tile position
 	 */
-	public static int goalX;
+	public int bx;
 	/**
-	 * The y position of the location of the goal
+	 * Ball dispenser Y tile position
 	 */
-	public static int goalY;
-	
+	public int by;
 	/**
-	 * the corner the robot is starting in
+	 * Defender zone dimension 1
 	 */
-	public static CORNER_LOCATION cornerLocation;
-	
+	public int w1;
 	/**
-	 * The x position of the location of the ball dispenser
+	 * Defender zone dimension 2
 	 */
-	public static int ballDispenserX;
-	
+	public int w2;
 	/**
-	 * The y position of the location of the ball dispenser
+	 * Forward line distance from goal
 	 */
-	public static int ballDispenserY;
-	
-	
+	public int d1;
+	/**
+	 * starting corner, 1 through 4
+	 */
+	public StartCorner startingCorner;
 	
 }

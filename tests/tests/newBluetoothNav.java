@@ -1,26 +1,19 @@
 package tests;
 
-import oldCommunication.oldTransmission;
+import communication.BluetoothConnection;
+import communication.Transmission;
+
+import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import robot.Odometer;
 import robot.TwoWheeledRobot;
-
-import communication.BluetoothConnection;
-import communication.Transmission;
-
 import display.LCDInfo;
 
-/**
- * This class tests the navigation class and the bluetooth communication class.
- * @author charles
- *
- */
-public class BluetoothNavTest {
+public class newBluetoothNav {
 
 	/**
-	 * Tests if the robot, can receive coordinates and successfully navigate to them.
-	 * @param args general
+	 * @param args
 	 */
 	public static void main(String[] args) {
 		Odometer odo = new Odometer(true);
@@ -29,8 +22,11 @@ public class BluetoothNavTest {
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
 		connection.printTransmission();
+		Transmission trans = connection.getTransmission();
 		new LCDInfo(odo);
-		patBot.travelTo(oldTransmission.goalX, oldTransmission.goalY);
+		
+		patBot.travelTo(trans.bx, trans.by);
+		Button.waitForAnyPress();
 
 	}
 

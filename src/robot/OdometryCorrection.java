@@ -167,7 +167,7 @@ public class OdometryCorrection implements TimerListener{
 					else{
 						//do nothing because it was the same sensor
 					}
-					setX();
+					//setX();
 					break;
 				case Y:
 					if(sensorSideY.empty()){ //if its the first time detecting the line add it to the stack
@@ -233,7 +233,7 @@ public class OdometryCorrection implements TimerListener{
 					else{
 						//do nothing because it was the same sensor
 					}
-					setX();
+					//setX();
 					break;
 				case Y:
 					
@@ -335,7 +335,7 @@ public class OdometryCorrection implements TimerListener{
 		double odoTheta = odometer.getTheta();
 		double side = convertTacoToLength(diff);
 		//calculate theta
-		theta = Math.toDegrees(Math.atan(side/Constants.WIDTH));
+		theta = Math.abs(Math.toDegrees(Math.atan(side/Constants.WIDTH)));
 		/*if(odoTheta > 270 && odoTheta < 360){
 			theta = theta +360;
 		}
@@ -347,10 +347,20 @@ public class OdometryCorrection implements TimerListener{
 		 * Left side means veering to the left and
 		 * right side veering to the right
 		 */
-		if(odoTheta < 90){
+		if(odoTheta == 0){
 			switch(sensorSide){
 			case LEFT:
-				theta = 90- theta;
+				theta = 360 - theta;
+				break;
+			case RIGHT:
+				
+				break;
+			}
+		}
+		else if(odoTheta < 90 && odoTheta > 0){
+			switch(sensorSide){
+			case LEFT:
+				theta = 360 - theta;
 				break;
 			case RIGHT:
 				
@@ -380,7 +390,7 @@ public class OdometryCorrection implements TimerListener{
 		else if(odoTheta == 180){
 			switch(sensorSide){
 			case LEFT:
-				theta = 180- theta;
+				theta = 180 - theta;
 				break;
 			case RIGHT:
 				theta = theta +180;
@@ -417,7 +427,6 @@ public class OdometryCorrection implements TimerListener{
 				break;
 			}
 		}
-		
 		//set theta
 		odometer.setTheta(theta);
 		tCor++;
@@ -496,7 +505,7 @@ public class OdometryCorrection implements TimerListener{
 //			odometer.setX( x);
 //			//lineCheck(x);
 //		}
-		if( !sensorSideX.empty()){
+		if( !sensorSideX.empty() && (odometer.getTheta() % 30 < 5)){
 			xCor++;
 			if(sensorSideX.peek().equals(SensorSide.LEFT)){
 				x= x - (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta()));

@@ -3,33 +3,26 @@
 * @date November 3, 2011
 * @class ECSE 211 - Design Principle and Methods
 */
-package communication;
+package main;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import communication.PlayerRole;
+import communication.StartCorner;
+import communication.Transmission;
 
 import lejos.nxt.LCD;
 
-/*
+/**
  * Static parsers for parsing data off the communication channel
  * 
  * The order of data is defined in the Server's Transmission class
  */
 
-/**
- * This class processes the incoming transmission data that is sent to the NXT via bluetooth
- * @author charles
- *
- */
 public class ParseTransmission {
-	
-	/**
-	 * Processes the data sent via buetooth to the NXT, into useful information that can be
-	 * used the by the NXT
-	 * @param dis The {@code DataInputStream} opened during the bluetooth connection initialization
-	 * @return A {@link Transmission} object containing information the 
-	 */
+
+
 	public static Transmission parse (DataInputStream dis) {
 		Transmission trans = null;
 		try {
@@ -38,9 +31,19 @@ public class ParseTransmission {
 				Thread.sleep(10); // spin waiting for data
 			
 			trans = new Transmission();
-			trans.goalX = dis.readInt();
+			trans.role = PlayerRole.lookupRole(dis.readInt());
 			ignore(dis);
-			trans.goalY = dis.readInt();
+			trans.startingCorner = StartCorner.lookupCorner(dis.readInt());
+			ignore(dis);
+			trans.bx = Constants.TILE_DISTANCE*dis.readInt();
+			ignore(dis);
+			trans.by = Constants.TILE_DISTANCE*dis.readInt();
+			ignore(dis);
+			trans.w1 = Constants.TILE_DISTANCE*dis.readInt();
+			ignore(dis);
+			trans.w2 = Constants.TILE_DISTANCE*dis.readInt();
+			ignore(dis);
+			trans.d1 = Constants.TILE_DISTANCE*dis.readInt();
 			
 			return trans;
 		} catch (IOException e) {
@@ -53,11 +56,6 @@ public class ParseTransmission {
 		
 	}
 	
-	/**
-	 * Ignores the character that is transmitted through the bluetooth connection
-	 * @param dis The {@code DataInputStream} opened during the bluetooth connection initialization
-	 * @throws IOException
-	 */
 	public static void ignore(DataInputStream dis) throws IOException {
 		dis.readChar();
 	}

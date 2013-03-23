@@ -36,6 +36,8 @@ public class LightSampler implements TimerListener{
 		lightTimer = new Timer(Constants.LIGHT_SAMPLER_REFRESH, this);
 		lightAverage = Constants.DARK_LINE_VALUE;
 		lightValue = Constants.DARK_LINE_VALUE;;
+		if(ls.isFloodlightOn())
+			ls.setFloodlight(false);
 		//for(int i = 0; i< Constants.LIGHT_SAMPLE_SIZE; i++){
 			//lightSamples.add(Constants.DARK_LINE_VALUE); //pre-fill samples
 		///}
@@ -62,13 +64,15 @@ public class LightSampler implements TimerListener{
 	 */
 	public void startCorrectionTimer(){
 		lightTimer.start();
+		ls.setFloodlight(true);
 	}
 	
 	/**
 	 * Stops the timer for the {@code LightSampler}
 	 */
 	public void stopCorrectionTimer(){
-		lightTimer.stop();		
+		lightTimer.stop();
+		ls.setFloodlight(false);
 	}
 	
 	/**

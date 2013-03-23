@@ -1,6 +1,7 @@
 package tests;
 
-import oldCommunication.oldTransmission;
+import navigation.Launcher;
+import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import robot.Odometer;
@@ -11,26 +12,27 @@ import communication.Transmission;
 
 import display.LCDInfo;
 
-/**
- * This class tests the navigation class and the bluetooth communication class.
- * @author charles
- *
- */
-public class BluetoothNavTest {
+public class BlutoothLocNav {
 
 	/**
-	 * Tests if the robot, can receive coordinates and successfully navigate to them.
-	 * @param args general
+	 * @param args
 	 */
 	public static void main(String[] args) {
+		int goalX = 5*30;
+		int goalY = 10*30;
+		int goalTargetX = 5*30;
+		int goalTargetY = 2*30;
 		Odometer odo = new Odometer(true);
 		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		//Bluetooth connection with Mufasa (our robot)
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
 		connection.printTransmission();
+		Transmission trans = connection.getTransmission();
 		new LCDInfo(odo);
-		patBot.travelTo(oldTransmission.goalX, oldTransmission.goalY);
+		patBot.travelTo(goalTargetX, goalTargetY);
+		patBot.turnToFace(goalTargetX, goalTargetY);
+		Button.waitForAnyPress();
 
 	}
 
