@@ -32,7 +32,7 @@ public class LightLocalizer {
 		sampler = new LightSampler(ls);
 		
 		// turn on the light
-		//ls.setFloodlight(true);
+		ls.setFloodlight(true);
 	}
 	
 	/**

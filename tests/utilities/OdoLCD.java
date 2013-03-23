@@ -18,6 +18,10 @@ public class OdoLCD extends LCDInfo{
 		super.timedOut();
 		LCD.drawString("Ls: ", 0, 3);
 		LCD.drawString("Rs: ", 0, 4);
+		LCD.drawString("LType: ", 5, 0);
+		LCD.drawString("RType: ", 5, 1);
+		LCD.drawString(OdometryCorrection.left , 12, 0);
+		LCD.drawString(OdometryCorrection.right, 12, 1);
 		LCD.drawInt(OdometryCorrection.lsValue, 5, 3);
 		LCD.drawInt(OdometryCorrection.rsValue, 5, 4);
 		LCD.drawString("XCor: ", 0, 5);

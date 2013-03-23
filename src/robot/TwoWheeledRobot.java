@@ -15,7 +15,8 @@ public class TwoWheeledRobot {
 	
 	private NXTRegulatedMotor leftMotor, rightMotor;
 	private double leftRadius, rightRadius, width;
-	private double forwardSpeed = Constants.FORWARD_SPEED, rotationSpeed = Constants.ROTATE_SPEED;
+	private int forwardSpeed = Constants.FORWARD_SPEED;
+	private double rotationSpeed = Constants.ROTATE_SPEED;
 	private double currentX = 0;
 	private double currentY = 0;
 	private double xTarget = 0;
@@ -82,7 +83,7 @@ public class TwoWheeledRobot {
 	}
 	
 	/**
-	 * Travels to a specified position. This operation cannot be interrupted.
+	 * Travels to a specified position, accurate to a pre-calculated distance. This operation cannot be interrupted.
 	 * @param xTarget The x value of the target position
 	 * @param yTarget The y value of the target position
 	 */
@@ -91,6 +92,25 @@ public class TwoWheeledRobot {
 		double distance = calculateDistance(xTarget, yTarget);
 		moveForwardBy(distance);
 			
+	}
+	
+	/**
+	 * Travels to a specified position, accurate to the {@link Odometer}. This operation cannot be interrupted.
+	 * @param xTarget The x value of the target position
+	 * @param yTarget The y value of the target position
+	 */
+	public void travleToActual(int xTarget, int yTarget){
+		turnToFace(xTarget, yTarget);
+		moveForwardDefault();
+		while((odo.getX() % xTarget < 1) && (odo.getX() % yTarget < 1)){
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		stopMotors();
 	}
 	
 	/**
@@ -185,12 +205,35 @@ public class TwoWheeledRobot {
 	 * @param speed The speed at which the robot should move forward at
 	 */
 	 public void setForwardSpeed(int speed) {
+		 forwardSpeed = speed;
 		 isRotating = false;
 		 leftMotor.setSpeed(speed);
 		 rightMotor.setSpeed(speed);
 		 leftMotor.forward();
 		 rightMotor.forward();
 	}
+	 
+	 /**
+	  * Moves the motors forward at the current speed setting
+	  */
+	 public void moveForward(){
+		 leftMotor.setSpeed(forwardSpeed);
+		 rightMotor.setSpeed(forwardSpeed);
+		 leftMotor.forward();
+		 rightMotor.forward();
+		 
+	 }
+	 
+	 /**
+	  * Moves the motors forward at the default current speed setting
+	  */
+	 public void moveForwardDefault(){
+		 leftMotor.setSpeed(Constants.FORWARD_SPEED);
+		 rightMotor.setSpeed(Constants.FORWARD_SPEED);
+		 leftMotor.forward();
+		 rightMotor.forward();
+		 
+	 }
 
 	 /**
 	  * Sets the speed at which the robot should rotate at.
@@ -216,6 +259,17 @@ public class TwoWheeledRobot {
 	 public void motorFloat(){
 		 leftMotor.flt();
 		 rightMotor.flt();
+	 }
+	 
+	 /**
+	  * Stops the robots wheels
+	  */
+	 public void stopMotors(){
+		leftMotor.setSpeed(0);
+		rightMotor.setSpeed(0);
+		leftMotor.stop(true);
+		rightMotor.stop(false);
+		 
 	 }
 	 
 	 /**

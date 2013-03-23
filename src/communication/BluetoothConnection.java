@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import lejos.nxt.LCD;
 import lejos.nxt.comm.*;
-import main.ParseTransmission;
 /**
  * This class inits a bluetooth connection, waits for the data
  * and then allows access to the data after closing the BT channel.

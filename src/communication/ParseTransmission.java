@@ -3,16 +3,14 @@
 * @date November 3, 2011
 * @class ECSE 211 - Design Principle and Methods
 */
-package main;
+package communication;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import communication.PlayerRole;
-import communication.StartCorner;
-import communication.Transmission;
 
 import lejos.nxt.LCD;
+import main.Constants;
 
 /**
  * Static parsers for parsing data off the communication channel

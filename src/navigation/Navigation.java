@@ -2,10 +2,12 @@ package navigation;
 
 
 import robot.Odometer;
+import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.Sound;
 import main.Constants;
 
 /**
@@ -24,22 +26,40 @@ public class Navigation {
 	private double theta= 0;
 	private Odometer odometer;
 	private TwoWheeledRobot robot;
+	private Obstacle obstacle;
+	private OdometryCorrection odoCorrection;
 	
-	
-	public Navigation(TwoWheeledRobot robot) {
+	public Navigation(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
 		this.odometer = robot.getOdometer();
 		this.robot = robot;
+		this.obstacle = obstacle;
+		this.odoCorrection = odoCorrection;
 	}
 	
-	public void travelTo(double x, double y){
-		update(x,y);
-		double distance = calculateDistance(x,y);
-		double deltaX = x - odometer.getX();
-		double deltaY = y - odometer.getY();	
-		autoRotate(deltaX, deltaY);
+	public void travelTo(int xTarget, int yTarget){
+		int x = xTarget, y=yTarget;
+		robot.turnToFace(x, y);
 		
-		moveForwardBy(distance);
-		robot.setForwardSpeed(Constants.FORWARD_SPEED);
+		while(Math.abs(odometer.getX()-x)>2 || Math.abs(odometer.getY()-y)>2){
+			
+			
+			//robot.turnToFace(x, y);
+			
+			if(Obstacle.filteredLeftDist()>Constants.ObstacleDist && Obstacle.filteredRightDist()>Constants.ObstacleDist){
+				//drive straight if there is no obstacle 
+				
+				robot.setForwardSpeed(Constants.FORWARD_SPEED);
+				
+			}else{
+				//robot.setForwardSpeed(0);
+				stopCorrectionTimer();
+				obstacle.obManager(); //obManager method called in Obstacle class, exited when robot is clear of obstacle
+				//Sound.beep();
+				robot.turnToFace(x, y); //problematic, sometimes takes some time to work
+				Sound.beep();
+				startCorrectionTimer();
+			}
+		}
 		
 		
 	}
@@ -72,94 +92,6 @@ public class Navigation {
 		robot.setForwardSpeed(Constants.FORWARD_SPEED);
 	}
 	
-	public double calculateRelativeAngle(double xTarget, double yTarget){
-		double deltaX = xTarget - currentX;
-		double deltaY = yTarget - currentY;
-		
-		double angle = Math.toDegrees(Math.atan(deltaY/deltaX));
-		return angle;
-	}
-	
-	public void autoRotate(double x, double y){
-		double deltaTheta = Math.toDegrees(Math.atan(y/x));
-		double theta = deltaTheta;
-		
-		rotationCorrection(x , y , theta);
-		
-	}
-	
-	private void rotationCorrection(double x, double y, double theta){
-		if(y == 0 && x > 0){
-			turnTo(90);
-		}
-		else if(y == 0 && x < 0){
-			turnTo(270);
-		}
-		else if(x == 0 && y > 0){
-			turnTo(0);
-		}
-		else if(x == 0 && y < 0){
-			turnTo(180);
-		}
-		else{
-			turnTo(theta);
-		
-		}
-	}
-	
-	public void autoRotate(double xTarget, double yTarget, double xPos, double yPos){
-		double deltaX = xTarget - xPos;
-		double deltaY = yTarget - yPos;
-		double theta = Math.toDegrees(Math.atan(deltaY/deltaX));
-		
-		rotationCorrection(deltaX, deltaY, theta);
-	}
-	
-	public void turnToImmediate(double theta){
-		robot.turnToImmediate(theta);
-	}
-	
-	
-	public double calculateDistance(double x, double y){
-		double deltaX = x - this.odometer.getX();
-		double deltaY = y - this.odometer.getY();
-		double x2 = Math.pow(deltaX, 2);
-		double y2 = Math.pow(deltaY, 2);
-		
-		return Math.sqrt(y2 +x2);
-	}
-
-	public void stopMoving(){
-		leftMotor.setSpeed(0);
-		rightMotor.setSpeed(0);
-		rightMotor.stop();
-		leftMotor.stop();
-	}
-	
-	public void startMoving(){
-		rightMotor.forward();
-		leftMotor.forward();
-	}
-
-
-	
-	public void turnTo(double angle){
-		
-		double robotAngle = odometer.getTheta();
-		double theta = 0;
-		double deltaTheta = angle - robotAngle;
-		if(Math.abs(deltaTheta) <= 180){
-			theta = deltaTheta;
-		}
-		else if(deltaTheta < -180){
-			theta = deltaTheta + 360;
-		}
-		else if(deltaTheta > 180){
-			theta = deltaTheta -360;
-		}
-		
-		robot.turnToImmediate(theta);
-	}
 	
 	public boolean isNavigating(){
 		double deltaX = xTarget - this.odometer.getX();
@@ -197,5 +129,13 @@ public class Navigation {
 	
 	public double getCurrentY(){
 		return this.currentY;
+	}
+	
+	public void startCorrectionTimer(){
+		odoCorrection.startCorrectionTimer();
+	}
+	
+	public void stopCorrectionTimer(){
+		odoCorrection.stopCorrectionTimer();
 	}
 }
