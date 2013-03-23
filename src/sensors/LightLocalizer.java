@@ -18,6 +18,7 @@ public class LightLocalizer {
 	private Odometer odo;
 	private TwoWheeledRobot robot;
 	private LightSensor ls;
+	private LightSampler sampler;
 	
 	/**
 	 * Initializes all the variables contained within the class
@@ -28,9 +29,10 @@ public class LightLocalizer {
 		this.odo = robot.getOdometer();
 		this.robot = robot;
 		this.ls = ls;
+		sampler = new LightSampler(ls);
 		
 		// turn on the light
-		ls.setFloodlight(true);
+		//ls.setFloodlight(true);
 	}
 	
 	/**
@@ -41,19 +43,14 @@ public class LightLocalizer {
 		// start rotating and clock all 4 gridlines
 		// do trig to compute (0,0) and 0 degrees
 		// when done travel to (0,0) and turn to 0 degrees
+		sampler.startCorrectionTimer();
 		LCD.drawString("Light Value: " + ls.getLightValue(), 0, 4);
 		double[] angles = new double[4];
 		int count = 0;
-		robot.setRotationSpeed(Constants.ROTATE_SPEED);
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		robot.setRotationSpeed(Constants.ROTATE_SPEED);		
 		while(true){
-			if(ls.getLightValue() < Constants.DARK_LINE_VALUE){
+			//if(ls.getLightValue() < Constants.DARK_LINE_VALUE){
+			if(sampler.isDarkLine()){
 				Sound.beep();
 				angles[count] = this.odo.getTheta();
 				count++;
@@ -63,7 +60,7 @@ public class LightLocalizer {
 				
 				
 				try {
-					Thread.sleep(20);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -80,8 +77,8 @@ public class LightLocalizer {
 		double newTheta = deltaTheta + odo.getTheta();
 		//adjust the position to calcuated position
 		odo.setPosition(new double [] {xDist, yDist, newTheta}, new boolean [] {true, true, true});
-		robot.turnTo(0);
-		//nav.turnTo(0);
+		//robot.turnTo(0);
+		sampler.stopCorrectionTimer();
 		
 	}
 	
