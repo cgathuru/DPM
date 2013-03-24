@@ -7,6 +7,8 @@ import main.Constants;
 
 import java.io.*;
 
+import robot.TwoWheeledRobot;
+
 import navigation.Navigation;
 
 
@@ -19,15 +21,15 @@ import navigation.Navigation;
  */
 public final class NXTSend implements Runnable{
 	public static int feedback = 0;
-	private Navigation nav;
+	private TwoWheeledRobot robot;
 
 	private static NXTCommConnector connector = RS485.getConnector();
 	private static NXTConnection con = connector.connect(Constants.SLAVE_NAME, NXTConnection.PACKET);
 	private static DataInputStream dis = con.openDataInputStream();
     private static DataOutputStream dos = con.openDataOutputStream();
 	
-	public NXTSend(Navigation nav){
-		this.nav =nav;
+	public NXTSend(TwoWheeledRobot nav){
+		this.robot =nav;
 	}
 	
     
@@ -56,7 +58,7 @@ public final class NXTSend implements Runnable{
 	protected void update() {
 		switch(feedback){
 		case Instructions.COLLISION:
-			nav.stopMoving();
+			robot.stopMotors();
 			break;
 		}
 	}

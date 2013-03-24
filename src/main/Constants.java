@@ -2,16 +2,56 @@ package main;
 
 public final class Constants {
 
+	/**
+	 * Number of intersection points to the right of the bottom left corner
+	 */
+	public static final int GOALX = 5;
+	
+	/**
+	 * Number of intersection points in front of the bottom left corner
+	 */
+	public static final int GOALY = 10;
+	/** 
+	 * Distance between the tiles
+	 */
 	public static final int TILE_DISTANCE = 30;
+	/**
+	 * The radius of the robots wheels
+	 */
 	public static final double WHEEL_RADIUS = 2.775;
+	/**
+	 * The wheel to wheel radius of the robot
+	 */
 	public static final double WIDTH = 17; //wheel center
+	/**
+	 * The default {@link Odometer} timeout period
+	 */
 	public static final int ODOMETER_DEFAULT_PERIOD = 25;
+	/**
+	 * The rotation speed of the robot {@link USLocalizer}
+	 */
 	public static final int US_LOCALIZATION_ROTATE_SPEED = 100;
+	/**
+	 * The default rotation speed of the robot
+	 */
 	public static final int ROTATE_SPEED = 150;
+	/**
+	 * The default forawrd speed of the robot
+	 */
 	public static final int FORWARD_SPEED = 150;
+	/**
+	 * The default light value for detecting a dark line
+	 */
 	public static final int DARK_LINE_VALUE = 44;
+	/**
+	 * Minimum percentage difference needed between the light average and the current light value
+	 * in order for the system to detect a black line in the {@link LightSampler}
+	 */
 	public static final double LIGHT_VALUE_PERCENTAGE = 0.10;
-	public static final double LIGHT_DIST = 11; //distance between light sensor and center of robot
+	/**
+	 * The distance between the sensor and the center of the robot needed for light localization
+	 */
+	public static final double LIGHT_DIST = 12; //distance between light sensor and center of robot
 	public static final int LIGHT_SAMPLE_SIZE = 20;
 	public static final int LIGHT_SAMPLER_REFRESH = 20;
 	public static final long LIGHT_CALIBRATION_TIME = 10;

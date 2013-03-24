@@ -33,15 +33,15 @@ public class ParseTransmission {
 			ignore(dis);
 			trans.startingCorner = StartCorner.lookupCorner(dis.readInt());
 			ignore(dis);
-			trans.bx = Constants.TILE_DISTANCE*dis.readInt();
+			trans.bx = dis.readInt();
 			ignore(dis);
-			trans.by = Constants.TILE_DISTANCE*dis.readInt();
+			trans.by = dis.readInt();
 			ignore(dis);
-			trans.w1 = Constants.TILE_DISTANCE*dis.readInt();
+			trans.w1 = dis.readInt();
 			ignore(dis);
-			trans.w2 = Constants.TILE_DISTANCE*dis.readInt();
+			trans.w2 = dis.readInt();
 			ignore(dis);
-			trans.d1 = Constants.TILE_DISTANCE*dis.readInt();
+			trans.d1 = dis.readInt();
 			
 			return trans;
 		} catch (IOException e) {

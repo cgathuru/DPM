@@ -12,7 +12,7 @@ public class LauncherTest {
 	public static void main(String[] args) {
 		Button.waitForAnyPress();
 		new Launcher();
-		Launcher.drive(Motor.A, Motor.B);
+		Launcher.drive(Motor.A, Motor.B, Motor.C);
 		Button.waitForAnyPress();
 		System.exit(0);
 

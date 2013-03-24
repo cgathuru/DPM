@@ -7,6 +7,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import navigation.Navigation;
+import navigation.Obstacle;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
@@ -29,10 +30,12 @@ public class Dpm {
 		// setup the odometer, display, and ultrasonic and light sensors		
 		Odometer odo = new Odometer(true);
 		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
-		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S3);
+		UltrasonicSensor usLeft = new UltrasonicSensor(SensorPort.S3);
+		UltrasonicSensor usRight = new UltrasonicSensor(SensorPort.S4);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		USLocalizer usl = new USLocalizer(patBot, us);
+		USLocalizer usl = new USLocalizer(patBot, usLeft);
+		OdometryCorrection odoCorrection = new OdometryCorrection(patBot,lsLeft,lsRight);
 		//Bluetooth connection with Mufasa (our robot)
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
@@ -47,7 +50,8 @@ public class Dpm {
 		
 		//usl.doLocalization();
 		 */
-		Navigation nav = new Navigation(patBot);
+		Obstacle obstacle = new Obstacle(odo, usLeft, usRight);
+		Navigation nav = new Navigation(patBot, obstacle, odoCorrection);
 		OdometryCorrection odometertyCorrection = new OdometryCorrection(patBot, lsLeft, lsRight);
 		//nav.travelTo(0, 60);
 		//nav.moveForwardBy(60);

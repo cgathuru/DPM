@@ -25,7 +25,7 @@ public class TwoWheeledRobot {
 	private boolean isRotating;
 	private double currentTachoCount;
 	private double previousTachoCount;
-	private Odometer odo;
+	private Odometer odometer;
 	
 	/**
 	 * Sets all controllable attributes of the class
@@ -33,7 +33,7 @@ public class TwoWheeledRobot {
 	 * @param rightMotor Right Motor
 	 */
 	public TwoWheeledRobot(Odometer odo, NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
-		this.odo = odo;
+		this.odometer = odo;
 		this.leftMotor = leftMotor;
 		this.rightMotor = rightMotor;
 		this.leftRadius = Constants.WHEEL_RADIUS;
@@ -102,7 +102,7 @@ public class TwoWheeledRobot {
 	public void travleToActual(int xTarget, int yTarget){
 		turnToFace(xTarget, yTarget);
 		moveForwardDefault();
-		while((odo.getX() % xTarget < 1) && (odo.getX() % yTarget < 1)){
+		while((odometer.getX() % xTarget < 1) && (odometer.getX() % yTarget < 1)){
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -120,8 +120,8 @@ public class TwoWheeledRobot {
 	 * @return The distance between the robot and its target position
 	 */
 	public double calculateDistance(double x, double y){
-		double deltaX = x - odo.getX();
-		double deltaY = y - odo.getY();
+		double deltaX = x - odometer.getX();
+		double deltaY = y - odometer.getY();
 		double x2 = Math.pow(deltaX, 2);
 		double y2 = Math.pow(deltaY, 2);
 		
@@ -135,13 +135,13 @@ public class TwoWheeledRobot {
 	 * @param targetY the y value of the target position
 	 */
 	public void turnToFace(int targetX, int targetY){
-		double currentX = odo.getX();
-		double currentY = odo.getY();
+		double currentX = odometer.getX();
+		double currentY = odometer.getY();
 		double deltaX = targetX -currentX;
 		double deltaY = targetY - currentY;
 		
 		double angle = 90- Math.toDegrees(Math.atan2(deltaY, deltaX));
-		double robotAngle = odo.getTheta();
+		double robotAngle = odometer.getTheta();
 		double theta = 0;
 		double deltaTheta = angle - robotAngle;
 		if(Math.abs(deltaTheta) <= 180){
@@ -164,7 +164,7 @@ public class TwoWheeledRobot {
 	 */
 	public void turnTo(double angle){
 			
-			double robotAngle = odo.getTheta();
+			double robotAngle = odometer.getTheta();
 			double theta = 0;
 			double deltaTheta = angle - robotAngle;
 			if(Math.abs(deltaTheta) <= 180){
@@ -293,7 +293,7 @@ public class TwoWheeledRobot {
 	  * @return An {@link Odometer} 
 	  */
 	 public Odometer getOdometer(){
-		 return this.odo;
+		 return this.odometer;
 	 }
 	 
 	 /**
@@ -301,7 +301,7 @@ public class TwoWheeledRobot {
 	  * @return The robots x position
 	  */
 	 public double getX(){
-		 return this.odo.getX();
+		 return this.odometer.getX();
 	 }
 	 
 	 /**
@@ -309,7 +309,7 @@ public class TwoWheeledRobot {
 	  * @return The robots y position
 	  */
 	 public double getY(){
-		 return this.odo.getY();
+		 return this.odometer.getY();
 	 }
 	 
 	 /**
@@ -317,8 +317,22 @@ public class TwoWheeledRobot {
 	  * @return The heading of the robot
 	  */
 	 public double getTheta(){
-		 return this.odo.getTheta();
+		 return this.odometer.getTheta();
 	 }
+	 
+	 /**
+	  * Checks if the robot is navigating
+	  * @return True if the robot is still navigating to a given point
+	  */
+	 public boolean isNavigating(){
+			double deltaX = xTarget - odometer.getX();
+			double deltaY = yTarget - odometer.getY();
+			if(Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5){
+				return false;
+			}
+			
+			return true;
+	}
 }
 
 	 

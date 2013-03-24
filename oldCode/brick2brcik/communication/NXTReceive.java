@@ -35,7 +35,7 @@ public final class NXTReceive {
     private static DataOutputStream dos = con.openDataOutputStream();
     
     public static void main(String[] args) throws IOException {
-    	Launcher.drive(Motor.A, Motor.B);
+    	Launcher.drive(Motor.A, Motor.B, Motor.C);
     	while(true){
     		//latch the new instruction;
 			try {

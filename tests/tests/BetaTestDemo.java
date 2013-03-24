@@ -48,8 +48,8 @@ public class BetaTestDemo {
 		LCD.clear();
 		connection.printTransmission();
 		Transmission trans = connection.getTransmission();
-		int goalX = trans.w1/30;
-		int goalY = trans.w2/30;
+		int goalX = trans.w1;
+		int goalY = trans.w2;
 		int goalTargetX = goalX*30;;
 		int goalTargetY = determineYTarget(goalX,goalY)*30;
 		new LCDInfo(odo);
@@ -58,7 +58,7 @@ public class BetaTestDemo {
 		nav.startCorrectionTimer();
 		nav.travelTo(goalTargetX, goalTargetY);
 		patBot.turnToFace(goalTargetX, goalTargetY);
-		Launcher.drive(leftMotor, rightMotor);
+		Launcher.drive(leftMotor, rightMotor, Motor.C);
 		nav.travelTo(0, 0);
 		patBot.turnTo(0);
 		Button.waitForAnyPress();

@@ -1,5 +1,6 @@
-package navigation;
+package oldClasses;
 
+import navigation.Navigation;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.UltrasonicSensor;

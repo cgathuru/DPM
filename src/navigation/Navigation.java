@@ -16,24 +16,20 @@ import main.Constants;
  *
  */
 public class Navigation {
-	// put your navigation code here 
-	private NXTRegulatedMotor leftMotor = Motor.A, rightMotor = Motor.B;
 	//private static double width = 23.4;                                                                               ;
-	private double currentX = 0;
-	private double currentY = 0;
-	private double xTarget = 0;
-	private double yTarget = 0;
-	private double theta= 0;
 	private Odometer odometer;
 	private TwoWheeledRobot robot;
 	private Obstacle obstacle;
 	private OdometryCorrection odoCorrection;
+	
+	private boolean avoidance;
 	
 	public Navigation(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
 		this.odometer = robot.getOdometer();
 		this.robot = robot;
 		this.obstacle = obstacle;
 		this.odoCorrection = odoCorrection;
+		avoidance = true;
 	}
 	
 	public void travelTo(int xTarget, int yTarget){
@@ -50,7 +46,8 @@ public class Navigation {
 				
 				robot.setForwardSpeed(Constants.FORWARD_SPEED);
 				
-			}else{
+			}
+			else if (avoidance){
 				//robot.setForwardSpeed(0);
 				stopCorrectionTimer();
 				obstacle.obManager(); //obManager method called in Obstacle class, exited when robot is clear of obstacle
@@ -59,83 +56,71 @@ public class Navigation {
 				Sound.beep();
 				startCorrectionTimer();
 			}
+			else{
+				//do nothing because obstacle avoidance is off.
+			}
 		}
 		
 		
 	}
 	
-	public void update(double x, double y){
-		currentX = xTarget;
-		currentY = yTarget;
-		xTarget = x;
-		yTarget = y;
-	}
-	
-	public void moveForwardBy(double distance){
-		robot.moveForwardBy(distance);
-	}
-	
-	public double calculateAngle(double x, double y){
-		double deltaTheta = Math.toDegrees(Math.atan(y/x));
-		if(x!=0 && y!=0){
-			return deltaTheta;
-		}
-		else if(y == 0 && x>0){
-			return 0;
-		}
-		else{
-			return 180;
-		}
-	}
-	
-	public void moveForward(){
-		robot.setForwardSpeed(Constants.FORWARD_SPEED);
-	}
-	
-	
-	public boolean isNavigating(){
-		double deltaX = xTarget - this.odometer.getX();
-		double deltaY = yTarget - this.odometer.getY();
-		if(Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5){
-			return false;
-		}
-		
-		return true;
-	}
-	
-	private static int convertDistance(double radius, double distance) {
-		return (int) ((180.0 * distance) / (Math.PI * radius));
-	}
-
-	private static int convertAngle(double radius, double width, double angle) {
-		return (int) convertDistance(radius, Math.PI * width * angle / 360.0);
-	}
-	
+	/**
+	 * Gets the x position of the robot
+	 * @return The x-ordinate of the robot
+	 */
 	public double getX(){
 		return this.odometer.getY();
 	}
 	
+	/**
+	 * Gets the y position of the robot
+	 * @return The y-ordinate of the robot
+	 */
 	public double getY(){
 		return this.odometer.getX();
 	}
 	
+	/**
+	 * Gets the heading of the robot
+	 * @return The current heading of the robot
+	 */
 	public double getTheta(){
 		return this.odometer.getTheta();
 	}
 	
-	public double getCurrentX(){
-		return this.currentX;
-	}
-	
-	public double getCurrentY(){
-		return this.currentY;
-	}
-	
+	/**
+	 * Turns on {@link OdometryCorrection}
+	 */
 	public void startCorrectionTimer(){
 		odoCorrection.startCorrectionTimer();
 	}
 	
+	/**
+	 * Turns off {@link OdometryCorrection}
+	 */
 	public void stopCorrectionTimer(){
 		odoCorrection.stopCorrectionTimer();
+	}
+	
+	/**
+	 * Turns off obstacle avoidance
+	 */
+	public void turnOffObstacleAvoidance(){
+		this.avoidance = false;
+	}
+	
+	/**
+	 * Turns off obstacle avoidance
+	 */
+	public void turnOnObstacleAvoidance(){
+		this.avoidance = true;
+	}
+	
+	/**
+	 * Checks if obstacle avoidance is on or off
+	 * @return True if the obstacle avoidance is on
+	 */
+	public boolean getAvoidanceStatus(){
+		return this.avoidance;
 	}
 }
