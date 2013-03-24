@@ -16,6 +16,7 @@ import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import sensors.LightLocalizer;
 import sensors.USLocalizer;
+import utilities.StopControl;
 
 import communication.BluetoothConnection;
 import communication.Transmission;
@@ -48,6 +49,7 @@ public class BetaTestDemo {
 		LCD.clear();
 		connection.printTransmission();
 		Transmission trans = connection.getTransmission();
+		new StopControl().run();
 		int goalX = trans.w1;
 		int goalY = trans.w2;
 		int goalTargetX = goalX*30;;
