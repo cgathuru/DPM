@@ -1,5 +1,10 @@
 package main;
 
+/**
+ * This class contains the constants used in the code.
+ * @author charles
+ *
+ */
 public final class Constants {
 
 	/**
@@ -52,9 +57,19 @@ public final class Constants {
 	 * The distance between the sensor and the center of the robot needed for light localization
 	 */
 	public static final double LIGHT_DIST = 12; //distance between light sensor and center of robot
+	/**
+	 * The number of light samples to be averaged when by the {@link LightSampler}
+	 */
 	public static final int LIGHT_SAMPLE_SIZE = 20;
+	/**
+	 * The number of milliseconds after which the the {@link LightSampler} {@code timedOut} function called again 
+	 */
 	public static final int LIGHT_SAMPLER_REFRESH = 20;
 	public static final long LIGHT_CALIBRATION_TIME = 10;
+	/**
+	 * The number of consecutive dark lines detected before the {@link LightSampler} determines that it is traveling on a path that it thinks is a dark. Once this number is reaached the {@code isDarkLine}
+	 * method will return false.
+	 */
 	public static final int CONSECUTIVE_DARK_LINES = 5; //number of consecutive dark lines allowed
 	public static final int WALL_DIST = 60; //for ultrasonic sensor
 	public static final int US_ANGLE_OFFSET = -25;

@@ -24,6 +24,12 @@ public class Navigation {
 	
 	private boolean avoidance;
 	
+	/**
+	 * Initializes all the variables contained within the class
+	 * @param robot The {@link TwoWheeledRobot}
+	 * @param obstacle An {@link Obstacle} responsible for obstacle avoidance
+	 * @param odoCorrection The {@link OdometryCorrection}
+	 */
 	public Navigation(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
 		this.odometer = robot.getOdometer();
 		this.robot = robot;
@@ -32,6 +38,11 @@ public class Navigation {
 		avoidance = true;
 	}
 	
+	/**
+	 * Travels to a target destination. This version of travelTo includes obstacle avoidance and odometry correction
+	 * @param xTarget The x position of the target destination
+	 * @param yTarget The y position of the target destination
+	 */
 	public void travelTo(int xTarget, int yTarget){
 		int x = xTarget, y=yTarget;
 		robot.turnToFace(x, y);
