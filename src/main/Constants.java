@@ -88,5 +88,16 @@ public final class Constants {
 	public static final int ObstacleDist = 25; 
 	public static final int motorLow = 170;
 	public static final int clearPathDist=80;
+	 public static final int OBSTACLE_DIST = 30;
+	 public static final int CLEARPATH_DIST = 80;
+	 public static final int ALLOWABLE_ERROR = 2;
+	 public static final int US_ANGLE = 25;
+	 public static final int AVOIDANCE_ROUTINE_EXPIRATION=20000; //time for obstacle avoidance routine to expire in milliseconds
+	 public static final int AVOIDANCE_ROUTINE_OFFSET = 50000; //offset time to make avoidance routine expired
+	 public static final int MAX_TURN_TIME = 3300;
+	 public static final int MAX_FORWARD_TIME = 6000;
+	 public static final int OBSTACLE_DIST2 = 25;
+	 public static final int NO_PATH_DIST = 45;
+	 public static final int MIN_TURN_TIME =1500;
 
 }

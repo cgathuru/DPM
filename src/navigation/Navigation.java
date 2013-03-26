@@ -21,7 +21,7 @@ public class Navigation {
 	private TwoWheeledRobot robot;
 	private Obstacle obstacle;
 	private OdometryCorrection odoCorrection;
-	
+	 public static long endLeft, endRight;//used in obstacle avoidance 
 	private boolean avoidance;
 	
 	/**
@@ -43,37 +43,71 @@ public class Navigation {
 	 * @param xTarget The x position of the target destination
 	 * @param yTarget The y position of the target destination
 	 */
-	public void travelTo(int xTarget, int yTarget){
-		int x = xTarget, y=yTarget;
-		robot.turnToFace(x, y);
-		
-		while(Math.abs(odometer.getX()-x)>2 || Math.abs(odometer.getY()-y)>2){
-			
-			
-			//robot.turnToFace(x, y);
-			
-			if(Obstacle.filteredLeftDist()>Constants.ObstacleDist && Obstacle.filteredRightDist()>Constants.ObstacleDist){
-				//drive straight if there is no obstacle 
-				
-				robot.setForwardSpeed(Constants.FORWARD_SPEED);
-				
-			}
-			else if (avoidance){
-				//robot.setForwardSpeed(0);
-				stopCorrectionTimer();
-				obstacle.obManager(); //obManager method called in Obstacle class, exited when robot is clear of obstacle
-				//Sound.beep();
-				robot.turnToFace(x, y); //problematic, sometimes takes some time to work
-				Sound.beep();
-				startCorrectionTimer();
-			}
-			else{
-				//do nothing because obstacle avoidance is off.
-			}
-		}
-		
-		
-	}
+//	public void travelTo(int xTarget, int yTarget){
+//		int x = xTarget, y=yTarget;
+//		robot.turnToFace(x, y);
+//		endLeft=System.currentTimeMillis()-Constants.AVOIDANCE_ROUTINE_OFFSET;//
+//		endRight=System.currentTimeMillis()-Constants.AVOIDANCE_ROUTINE_OFFSET;//used in obstacle avoidance 
+//		while(Math.abs(odometer.getX()-x)>2 || Math.abs(odometer.getY()-y)>2){
+//			
+//			
+//			//robot.turnToFace(x, y);
+//			
+//			if(Obstacle.filteredLeftDist()>Constants.ObstacleDist && Obstacle.filteredRightDist()>Constants.ObstacleDist){
+//				//drive straight if there is no obstacle 
+//				
+//				robot.setForwardSpeed(Constants.FORWARD_SPEED);
+//				
+//			}
+//			else if (avoidance){
+//				//robot.setForwardSpeed(0);
+//				stopCorrectionTimer();
+//				obstacle.obManager(); //obManager method called in Obstacle class, exited when robot is clear of obstacle
+//				//Sound.beep();
+//				robot.turnToFace(x, y); //problematic, sometimes takes some time to work
+//				Sound.beep();
+//				startCorrectionTimer();
+//			}
+//			else{
+//				//do nothing because obstacle avoidance is off.
+//			}
+//		}
+//		
+//		
+//	}
+	
+	 public void travelTo(int x, int y){
+	     
+		  robot.turnToFace(x, y);
+		  endLeft=System.currentTimeMillis()-Constants.AVOIDANCE_ROUTINE_OFFSET;//
+		  endRight=System.currentTimeMillis()-Constants.AVOIDANCE_ROUTINE_OFFSET;//used in obstacle avoidance 
+		  
+		  while(Math.abs(odometer.getX()-x)>Constants.ALLOWABLE_ERROR || Math.abs(odometer.getY()-y)>Constants.ALLOWABLE_ERROR){    
+		   
+		   if((Obstacle.filteredLeftDist()>Constants.OBSTACLE_DIST && Obstacle.filteredRightDist()>Constants.OBSTACLE_DIST)||((Math.cos(Constants.US_ANGLE)*Obstacle.filteredLeftDist())>=(calculateDistance(x,y)-15)&&(Math.cos(Constants.US_ANGLE)*Obstacle.filteredRightDist())>=(calculateDistance(x,y)-15))){
+		    //drive straight if there is no obstacle, or if obstacle is farther away than target e.g driving towards ball dispenser
+		    robot.setForwardSpeed(Constants.FORWARD_SPEED);   
+		    
+		   }else{
+		    robot.turnToFace(x, y);//
+		    robot.setForwardSpeed(0);
+		    odoCorrection.stopCorrectionTimer();
+		    obstacle.obManager(x,y); //obManager method called in Obstacle class, exited when robot is clear of obstacle        
+		    robot.turnToFace(x, y); //done avoiding the obstacle, turn towards the target     
+		    odoCorrection.startCorrectionTimer();
+		   }
+		  }
+
+		 }
+
+	 public double calculateDistance(double x, double y){
+	  double deltaX = x - this.odometer.getX();
+	  double deltaY = y - this.odometer.getY();
+	  double x2 = Math.pow(deltaX, 2);
+	  double y2 = Math.pow(deltaY, 2);
+	  
+	  return Math.sqrt(y2 +x2);
+	 }
 	
 	/**
 	 * Gets the x position of the robot
