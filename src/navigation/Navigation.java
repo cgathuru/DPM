@@ -59,22 +59,7 @@ public class Navigation {
 //				robot.setForwardSpeed(Constants.FORWARD_SPEED);
 //				
 //			}
-//			else if (avoidance){
-//				//robot.setForwardSpeed(0);
-//				stopCorrectionTimer();
-//				obstacle.obManager(); //obManager method called in Obstacle class, exited when robot is clear of obstacle
-//				//Sound.beep();
-//				robot.turnToFace(x, y); //problematic, sometimes takes some time to work
-//				Sound.beep();
-//				startCorrectionTimer();
-//			}
-//			else{
-//				//do nothing because obstacle avoidance is off.
-//			}
-//		}
-//		
-//		
-//	}
+			
 	
 	 public void travelTo(int x, int y){
 	     
@@ -88,7 +73,24 @@ public class Navigation {
 		    //drive straight if there is no obstacle, or if obstacle is farther away than target e.g driving towards ball dispenser
 		    robot.setForwardSpeed(Constants.FORWARD_SPEED);   
 		    
-		   }else{
+		   }
+		   
+		   else if (avoidance){
+				//robot.setForwardSpeed(0);
+				stopCorrectionTimer();
+				obstacle.obManager(x,y); //obManager method called in Obstacle class, exited when robot is clear of obstacle
+				//Sound.beep();
+				robot.turnToFace(x, y); //problematic, sometimes takes some time to work
+				Sound.beep();
+				startCorrectionTimer();
+			}
+			else{
+				//do nothing because obstacle avoidance is off.
+			}
+		}
+		
+		
+		   if(!avoidance){
 		    robot.turnToFace(x, y);//
 		    robot.setForwardSpeed(0);
 		    odoCorrection.stopCorrectionTimer();
@@ -98,7 +100,7 @@ public class Navigation {
 		   }
 		  }
 
-		 }
+		 
 
 	 public double calculateDistance(double x, double y){
 	  double deltaX = x - this.odometer.getX();

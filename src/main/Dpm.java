@@ -50,7 +50,7 @@ public class Dpm {
 		
 		//usl.doLocalization();
 		 */
-		Obstacle obstacle = new Obstacle(odo, usLeft, usRight);
+//		Obstacle obstacle = new Obstacle(odo, usLeft, usRight);
 		Navigation nav = new Navigation(patBot, obstacle, odoCorrection);
 		OdometryCorrection odometertyCorrection = new OdometryCorrection(patBot, lsLeft, lsRight);
 		//nav.travelTo(0, 60);
