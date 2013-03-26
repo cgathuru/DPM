@@ -42,8 +42,8 @@ public class Launcher {
 				} catch (InterruptedException e) {
 			}
 			//puts the robot back at the angle it was before it shot
-			rightMotor.rotate(15,true);
-			leftMotor.rotate(30,true);
+		//	rightMotor.rotate(15,true);
+		//	leftMotor.rotate(30,true);
 			//rotation of the motor's arm from initial position to pulling position
 			centerMotor.rotate(-205,true);
 			

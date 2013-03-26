@@ -243,7 +243,7 @@ public class USLocalizer {
 	   
 	   try { Thread.sleep(500); } catch (InterruptedException e) {}
 	   
-	   robot.turnTo(0);
+	 //  robot.turnTo(0);
 	         
 	  }
 	  
