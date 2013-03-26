@@ -88,17 +88,7 @@ public class Navigation {
 				//do nothing because obstacle avoidance is off.
 			}
 		}
-		
-		
-		   if(!avoidance){
-		    robot.turnToFace(x, y);//
-		    robot.setForwardSpeed(0);
-		    odoCorrection.stopCorrectionTimer();
-		    obstacle.obManager(x,y); //obManager method called in Obstacle class, exited when robot is clear of obstacle        
-		    robot.turnToFace(x, y); //done avoiding the obstacle, turn towards the target     
-		    odoCorrection.startCorrectionTimer();
-		   }
-		  }
+	 }
 
 		 
 
