@@ -194,7 +194,15 @@ public class TwoWheeledRobot {
 		leftMotor.forward();
 		rightMotor.forward();
 		leftMotor.rotate(convertDistance(leftRadius,distance), true);
-		rightMotor.rotate(convertDistance(rightRadius, distance), false);
+		rightMotor.rotate(convertDistance(rightRadius, distance), true);
+		
+		while(Motor.B.isMoving()){ //code to stop the motors when an obstacle is detected
+			
+			 if((Obstacle.filteredLeftDist()<Constants.OBSTACLE_DIST || Obstacle.filteredRightDist()<Constants.OBSTACLE_DIST)&&!((Math.cos(Constants.US_ANGLE)*Obstacle.filteredLeftDist())>=(calculateDistance(x,y)-15)&&(Math.cos(Constants.US_ANGLE)*Obstacle.filteredRightDist())>=(calculateDistance(x,y)-15))){
+			   return;
+			 }
+		}
+		
 		
 	}
 
