@@ -58,6 +58,7 @@ public class BetaTestDemo {
 		usl.doLocalization();
 		lLocalizer.doLocalization();
 		nav.startCorrectionTimer();
+		nav.travelTo(0, goalTargetY);
 		nav.travelTo(goalTargetX, goalTargetY);
 		patBot.turnToFace(goalTargetX, goalTargetY);
 		Launcher.drive(leftMotor, rightMotor, Motor.C);
