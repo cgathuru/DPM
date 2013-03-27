@@ -41,7 +41,7 @@ public class BetaTestDemo {
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		USLocalizer usl = new USLocalizer(patBot, usRight);
 		LightLocalizer lLocalizer = new LightLocalizer(patBot, lsLeft);
-		Obstacle obstacle = new Obstacle(odo,usLeft, usRight);
+		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
 		OdometryCorrection correction = new OdometryCorrection(patBot, lsLeft, lsRight);
 		Navigation nav = new Navigation(patBot, obstacle, correction);
 		Button.waitForAnyPress();

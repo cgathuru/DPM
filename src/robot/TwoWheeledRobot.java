@@ -102,7 +102,7 @@ public class TwoWheeledRobot {
 	public void travleToActual(int xTarget, int yTarget){
 		turnToFace(xTarget, yTarget);
 		moveForwardDefault();
-		while((odometer.getX() % xTarget < 1) && (odometer.getX() % yTarget < 1)){
+		while((Math.abs(xTarget-odometer.getX())  < 1) && (Math.abs(yTarget - odometer.getY()) < 1)){
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -257,7 +257,7 @@ public class TwoWheeledRobot {
 	  * Floats the robots motors
 	  */
 	 public void motorFloat(){
-		 leftMotor.flt();
+		 leftMotor.flt(true);
 		 rightMotor.flt();
 	 }
 	 
@@ -285,7 +285,7 @@ public class TwoWheeledRobot {
 	  * @return True of the robot is moving
 	  */
 	 public boolean isMoving(){
-		 return true;
+		 return (leftMotor.isMoving() && !leftMotor.isStalled() && rightMotor.isMoving() && !rightMotor.isStalled());
 	 }
 	 
 	 /**

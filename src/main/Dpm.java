@@ -36,6 +36,7 @@ public class Dpm {
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		USLocalizer usl = new USLocalizer(patBot, usLeft);
 		OdometryCorrection odoCorrection = new OdometryCorrection(patBot,lsLeft,lsRight);
+		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
 		//Bluetooth connection with Mufasa (our robot)
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
