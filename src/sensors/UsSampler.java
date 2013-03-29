@@ -17,7 +17,7 @@ public class UsSampler {
 	public UsSampler(UltrasonicSensor us){
 		this.us = us;
 		distances = new int[5];
-		us.continuous();
+		us.setMode(UltrasonicSensor.MODE_PING);
 	}
 	
 	/**
@@ -25,7 +25,7 @@ public class UsSampler {
 	 * It applies a median filter on an array of 5 distances.
 	 * @return The median value from an array of 5 distances
 	 */
-	public int getFilteredDistance(){	
+	public int getFilteredDistance(){
 		us.getDistances(distances, 0, 5);
 		Arrays.sort(distances);
 		return distances[2];
