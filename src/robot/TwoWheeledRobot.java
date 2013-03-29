@@ -2,6 +2,7 @@ package robot;
 
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.Sound;
 import main.Constants;
 
 /**
@@ -90,8 +91,28 @@ public class TwoWheeledRobot {
 	public void travelTo(int xTarget, int yTarget){
 		turnToFace(xTarget, yTarget);
 		double distance = calculateDistance(xTarget, yTarget);
-		moveForwardBy(distance);
+		divider(distance, xTarget, yTarget);
 			
+	}
+
+	public void divider(double distance, int xTarget, int yTarget) {
+		if(distance <= 60){
+			moveForwardBy(distance);
+		}
+		else if(distance > 60 && distance < 90){
+			double multiplier = distance/Constants.TILE_DISTANCE;
+			for(int i = 1; i < multiplier-1; i++){
+				Sound.beepSequenceUp();
+				turnToFace(xTarget, yTarget);
+				moveForwardBy(Constants.TILE_DISTANCE);
+			}
+			turnToFace(xTarget,yTarget);
+			moveForwardBy(calculateDistance(xTarget,yTarget));
+		}
+		
+		//moveForwardBy(distance);
+		//turnToFace(xTarget,yTarget);
+		//moveForwardBy(calculateDistance(xTarget,yTarget));
 	}
 	
 	/**
@@ -102,7 +123,7 @@ public class TwoWheeledRobot {
 	public void travleToActual(int xTarget, int yTarget){
 		turnToFace(xTarget, yTarget);
 		moveForwardDefault();
-		while((Math.abs(xTarget-odometer.getX())  < 1) && (Math.abs(yTarget - odometer.getY()) < 1)){
+		while((Math.abs(xTarget-odometer.getX())  > 1) && (Math.abs(yTarget - odometer.getY()) > 1)){
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {

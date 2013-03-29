@@ -593,7 +593,6 @@ public class OdometryCorrection implements TimerListener{
 	 * Starts the odometry correction timer and the internal light samplers
 	 */
 	public void startCorrectionTimer(){
-		endTimeLight = System.currentTimeMillis() + Constants.LIGHT_CALIBRATION_TIME; //set the amount of calibration time
 		this.leftLs.startCorrectionTimer(); //start the left light sampler
 		this.rightLs.startCorrectionTimer(); //start the right light sampler
 		correctionTimer.start();
@@ -654,16 +653,21 @@ public class OdometryCorrection implements TimerListener{
 			xCor++;
 			if(sensorSideX.peek().equals(SensorSide.LEFT)){
 				x= x - (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta()));
+				if(isValidX())
 				odometer.setX(x);
 			}
 			else{
 				x= x + (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta()));
+				if(isValidX())
 				odometer.setX(x);;
 			}
 		}
 		
 	}//setX
 	
+	public boolean isValidX(){
+		return Math.abs(x - odometer.getX()) < 3;
+	}
 	/**
 	 * Sets the y value of the {@link Odometer}
 	 */
@@ -679,19 +683,23 @@ public class OdometryCorrection implements TimerListener{
 //			//lineCheck(x);
 //		}
 		//if no sensor was detected a y line do nothing
-		if(!sensorSideY.empty() && (odometer.getY() % 30 < 5) && (odometer.getTheta() % 45 < 3)){
+		if(!sensorSideY.empty() && (odometer.getY() % 30 < 3) && (odometer.getTheta() % 45 < 3)){
 			yCor++;
 			if(sensorSideY.peek().equals(SensorSide.LEFT)){
 				y= y- (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.sin(Math.toRadians(odometer.getTheta()));
+				if(isValidY())
 				odometer.setY(y);
 			}
 			else{
 				y= y+ (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.sin(Math.toRadians(odometer.getTheta()));
+				if(isValidY())
 				odometer.setY(y);
 			}
 		}
 		
 	}//setY
-	
+	public boolean isValidY(){
+		return Math.abs(y - odometer.getY()) < 3;
+	}
 }//end OdometryCorrection
 	

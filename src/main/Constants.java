@@ -56,7 +56,7 @@ public final class Constants {
 	/**
 	 * The distance between the sensor and the center of the robot needed for light localization
 	 */
-	public static final double LIGHT_DIST = 12; //distance between light sensor and center of robot
+	public static final double LIGHT_DISTANCE = 12; //distance between light sensor and center of robot
 	/**
 	 * The number of light samples to be averaged when by the {@link LightSampler}
 	 */
@@ -65,7 +65,7 @@ public final class Constants {
 	 * The number of milliseconds after which the the {@link LightSampler} {@code timedOut} function called again 
 	 */
 	public static final int LIGHT_SAMPLER_REFRESH = 20;
-	public static final long LIGHT_CALIBRATION_TIME = 10;
+
 	/**
 	 * The number of consecutive dark lines detected before the {@link LightSampler} determines that it is traveling on a path that it thinks is a dark. Once this number is reaached the {@code isDarkLine}
 	 * method will return false.
@@ -77,7 +77,6 @@ public final class Constants {
 	public static final double ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE = WIDTH/2;
 	public static final double MAX_LINE_CORRECTION_BANDWIDTH = 1; //difference between the two 'same' values by each light sensor
 	public static final long TIME_REFRESH_CONSTANT = 1500; //amount of time passed before line latched is removed from stack
-	public static final String SLAVE_NAME = "Group34";
 	public static final int WALL_FOLLWER_REFRESH = 50; //the amount of times passed before the us sensor is re-pinged
 	public static final int WALL_FOLLOWER_BANDWIDTH = 3;
 	public static final int WALL_FOLLOWER_BANDCENTER = 28; 

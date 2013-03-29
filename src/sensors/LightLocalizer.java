@@ -71,8 +71,8 @@ public class LightLocalizer {
 		}
 		robot.setRotationSpeed(0);
 		//Calculate the x and y position  and the corresponding using the formuale
-		double yDist = -(Constants.LIGHT_DIST*Math.cos(Math.toRadians((angles[2] - angles[0])/2)));
-		double xDist = -(Constants.LIGHT_DIST*Math.cos(Math.toRadians((angles[3] - angles[1])/2)));
+		double yDist = -(Constants.LIGHT_DISTANCE*Math.cos(Math.toRadians((angles[2] - angles[0])/2)));
+		double xDist = -(Constants.LIGHT_DISTANCE*Math.cos(Math.toRadians((angles[3] - angles[1])/2)));
 		double deltaTheta = 180 + (angles[3] -angles[1])/2 - angles[3];//angle change
 		double newTheta = deltaTheta + odo.getTheta();
 		//adjust the position to calcuated position
