@@ -24,7 +24,6 @@ public class Navigation {
 	 public static long endLeft, endRight;//used in obstacle avoidance 
 	private boolean avoidance;
 	
-	private Avoid avoid;
 	
 	/**
 	 * Initializes all the variables contained within the class
@@ -32,12 +31,11 @@ public class Navigation {
 	 * @param obstacle An {@link Obstacle} responsible for obstacle avoidance
 	 * @param odoCorrection The {@link OdometryCorrection}
 	 */
-	public Navigation(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection, Avoid avoid) {
+	public Navigation(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
 		this.odometer = robot.getOdometer();
 		this.robot = robot;
 		this.obstacle = obstacle;
 		this.odoCorrection = odoCorrection;
-		this.avoid = avoid;
 		avoidance = true;
 	}
 				
@@ -58,22 +56,21 @@ public class Navigation {
 				Sound.beep();		
 				robot.turnToFace(xTarget, yTarget);
 				double distance = calculateDistance(xTarget, yTarget);
-				moveForwardBy(distance, xTarget, yTarget);
-				//divider(xTarget, yTarget, distance); //takes in target coords, used to turn off obstacle avoidance when the robot is traveling towards the ball dispenser
+				//moveForwardBy(distance, xTarget, yTarget);
+				divider(xTarget, yTarget, distance); //takes in target coords, used to turn off obstacle avoidance when the robot is traveling towards the ball dispenser
 				
-			}else{ //if(avoidance){
+			}else if(avoidance){
 				Sound.beepSequenceUp();
 				robot.turnToFace(xTarget, yTarget);//
 				robot.setForwardSpeed(0);
-				//odoCorrection.stopCorrectionTimer();
-				avoid.avoidObstacle();
-				//obstacle.obManager(xTarget,yTarget); //obManager method called in Obstacle class, exited when robot is clear of obstacle					
+				odoCorrection.stopCorrectionTimer();
+				obstacle.obManager(xTarget,yTarget); //obManager method called in Obstacle class, exited when robot is clear of obstacle					
 				robot.turnToFace(xTarget, yTarget); //done avoiding the obstacle, turn towards the target				
-				//odoCorrection.startCorrectionTimer();
+				odoCorrection.startCorrectionTimer();
 			}
-			//else{
+			else{
 				//do nothing because obstacle avoidance is off
-			//}
+			}
 		}
 
 	

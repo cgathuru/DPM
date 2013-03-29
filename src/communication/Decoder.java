@@ -55,6 +55,11 @@ public class Decoder {
 	public static StartCorner startCorner;
 	
 	/**
+	 * The role of the player...either attacking or defending.
+	 */
+	public static PlayerRole playerRole;
+	
+	/**
 	 * Initializes the {@code Decoder} for parsing the  {@code Transmission}
 	 * @param transmission The {@link Transmission} object for decoding
 	 */
@@ -73,6 +78,8 @@ public class Decoder {
 		dispenserX = transmission.bx * Constants.TILE_DISTANCE;
 		dispenserY = transmission.by * Constants.TILE_DISTANCE;
 		startCorner = transmission.startingCorner;
+		playerRole = transmission.role;
+				
 		
 	}
 

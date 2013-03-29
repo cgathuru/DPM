@@ -4,16 +4,22 @@ import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
+import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import navigation.Navigation;
 import navigation.Obstacle;
+import navigation.Offence;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
+import sensors.LightSampler;
+import sensors.Localizer;
 import sensors.USLocalizer;
+import utilities.OdoLCD;
 
 import communication.BluetoothConnection;
+import communication.Decoder;
 
 import display.LCDInfo;
 
@@ -26,74 +32,8 @@ import display.LCDInfo;
 public class Dpm {
 
 	public static void main(String[] args) {
-		int buttonChoice;
-		// setup the odometer, display, and ultrasonic and light sensors		
-		Odometer odo = new Odometer(true);
-		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
-		UltrasonicSensor usLeft = new UltrasonicSensor(SensorPort.S3);
-		UltrasonicSensor usRight = new UltrasonicSensor(SensorPort.S4);
-		LightSensor lsLeft = new LightSensor(SensorPort.S1);
-		LightSensor lsRight = new LightSensor(SensorPort.S2);
-		USLocalizer usl = new USLocalizer(patBot, usLeft);
-		OdometryCorrection odoCorrection = new OdometryCorrection(patBot,lsLeft,lsRight);
-		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
-		//Bluetooth connection with Mufasa (our robot)
-		BluetoothConnection connection = new BluetoothConnection();
-		LCD.clear();
-		connection.printTransmission();
-		LCDInfo lcd = new LCDInfo(odo);
-		/*
-		do {
-			buttonChoice = Button.waitForAnyPress();
-		} while (buttonChoice != Button.ID_LEFT
-				&& buttonChoice != Button.ID_RIGHT);
-		// perform the ultrasonic localization
-		
-		//usl.doLocalization();
-		 */
-//		Obstacle obstacle = new Obstacle(odo, usLeft, usRight);
-		Navigation nav = new Navigation(patBot, obstacle, odoCorrection);
-		OdometryCorrection odometertyCorrection = new OdometryCorrection(patBot, lsLeft, lsRight);
-		//nav.travelTo(0, 60);
-		//nav.moveForwardBy(60);
-		odometertyCorrection.startCorrectionTimer();
-		//nav.travelTo(60, 0);
-		//nav.travelTo(0, 0);
-		//nav.turnTo(0);
-		/*nav.turnToImmediate(90);
-		nav.moveForwardBy(60);
-		nav.turnToImmediate(90);
-		nav.moveForwardBy(60);
-		nav.turnToImmediate(90);
-		nav.moveForwardBy(60);
-		nav.turnToImmediate(90);
-	*/
-		/*nav.turnTo(0);
-		nav.turnTo(90);
-		nav.turnTo(180);
-		nav.turnTo(270);
-		nav.turnTo(360);
-		*/
-		// perform the light sensor localization
-		//LightLocalizer lsl = new LightLocalizer(odo, ls1);
-		//lsl.doLocalization();
-		/*try {
-			NXTSend.send(Instructions.SHOOT);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
+		new Initializer().run();
 		Button.waitForAnyPress();
-		System.exit(0);
-		/*try {
-			NXTSend.send(Instructions.CLOSE_CONNECTION);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		NXTSend.closeConnection();
-		*/
 	}
 
 }

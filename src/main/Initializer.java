@@ -1,11 +1,13 @@
-package tests;
+package main;
 
 import lejos.nxt.Button;
+import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
+import navigation.Defence;
 import navigation.Obstacle;
 import navigation.Offence;
 import robot.Odometer;
@@ -15,19 +17,23 @@ import sensors.LightSampler;
 import sensors.Localizer;
 import utilities.OdoLCD;
 
+import communication.BluetoothConnection;
 import communication.Decoder;
+import communication.Transmission;
+import display.LCDInfo;
 
-public class NavTest {
+public class Initializer extends Thread{
+	
+	public Initializer(){
+		
+	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	@Override
+	public void run(){
 		NXTRegulatedMotor leftMotor = Motor.A;
 		NXTRegulatedMotor rightMotor = Motor.B;
 		Odometer odo = new Odometer(false);
-		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
+		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, leftMotor, rightMotor);
 		UltrasonicSensor usLeft = new UltrasonicSensor(SensorPort.S3);
 		UltrasonicSensor usRight = new UltrasonicSensor(SensorPort.S4);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
@@ -36,25 +42,33 @@ public class NavTest {
 		LightSampler rightLight = new LightSampler(lsRight);
 		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		//Navigation nav = new Navigation(patBot, obstacle, correction);
 		Offence attack = new Offence(patBot, obstacle, correction);
-
+		Defence defence =new Defence(patBot, obstacle, correction);
 		Localizer localizer= new Localizer(patBot,usLeft, leftLight, rightLight);
-		new OdoLCD(odo);
 		Button.waitForAnyPress();
+		BluetoothConnection connection = new BluetoothConnection();
+		LCD.clear();
+		connection.printTransmission();
+		Transmission trans = connection.getTransmission();
+		Decoder decoder = new Decoder(trans);
+		decoder.decodeTranmission();
+		new LCDInfo(odo);
 		
-		//leftLight.startCorrectionTimer();
-		//rightLight.startCorrectionTimer();
+		leftLight.startCorrectionTimer();
+		rightLight.startCorrectionTimer();
 		odo.startTimer();
+		if(Decoder.playerRole.toString().equals("D")){
+			defence.start();
+		}
+		else{
+			attack.start();
+		}
 		Decoder.dispenserX = 90;
 		Decoder.dispenserY = 30;
-		//localizer.delocalize();
-		attack.travelTo(0, 120);
-		attack.travelTo(60, 120);
-		attack.travelTo(60, 0);
-		attack.travelTo(0, 0);
+		localizer.delocalize();
+		attack.startCorrectionTimer();
+
 		
 		Button.waitForAnyPress();
 	}
-
 }
