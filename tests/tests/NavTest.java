@@ -6,6 +6,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
+import navigation.Avoid;
 import navigation.Navigation;
 import navigation.Obstacle;
 import navigation.Offence;
@@ -35,10 +36,11 @@ public class NavTest {
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
+		Avoid avoidance = new Avoid(patBot, usLeft, usRight);
 		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		//Navigation nav = new Navigation(patBot, obstacle, correction);
-		Offence attack = new Offence(patBot, obstacle, correction);
+		Offence attack = new Offence(patBot, obstacle, correction, avoidance);
 
 		//Localizer localizer= new Localizer(patBot,usLeft, leftLight, rightLight);
 		new OdoLCD(odo);

@@ -19,8 +19,8 @@ public class Offence extends Navigation implements Strategy{
 	 * @param obstacle An {@link Obstacle} responsible for obstacle avoidance
 	 * @param odoCorrection The {@link OdometryCorrection}
 	 */
-	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
-		super(robot, obstacle, odoCorrection);
+	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection, Avoid avoid) {
+		super(robot, obstacle, odoCorrection, avoid);
 	}
 	
 	/**

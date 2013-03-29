@@ -24,17 +24,20 @@ public class Navigation {
 	 public static long endLeft, endRight;//used in obstacle avoidance 
 	private boolean avoidance;
 	
+	private Avoid avoid;
+	
 	/**
 	 * Initializes all the variables contained within the class
 	 * @param robot The {@link TwoWheeledRobot}
 	 * @param obstacle An {@link Obstacle} responsible for obstacle avoidance
 	 * @param odoCorrection The {@link OdometryCorrection}
 	 */
-	public Navigation(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
+	public Navigation(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection, Avoid avoid) {
 		this.odometer = robot.getOdometer();
 		this.robot = robot;
 		this.obstacle = obstacle;
 		this.odoCorrection = odoCorrection;
+		this.avoid = avoid;
 		avoidance = true;
 	}
 				
@@ -63,7 +66,8 @@ public class Navigation {
 				robot.turnToFace(xTarget, yTarget);//
 				robot.setForwardSpeed(0);
 				//odoCorrection.stopCorrectionTimer();
-				obstacle.obManager(xTarget,yTarget); //obManager method called in Obstacle class, exited when robot is clear of obstacle					
+				avoid.avoidObstacle();
+				//obstacle.obManager(xTarget,yTarget); //obManager method called in Obstacle class, exited when robot is clear of obstacle					
 				robot.turnToFace(xTarget, yTarget); //done avoiding the obstacle, turn towards the target				
 				//odoCorrection.startCorrectionTimer();
 			}
