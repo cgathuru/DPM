@@ -59,7 +59,7 @@ public class Navigation {
 //				robot.setForwardSpeed(Constants.FORWARD_SPEED);
 //				
 //			}
-			
+
 	
 	 public void travelTo(int x, int y){
 	     
@@ -73,7 +73,7 @@ public class Navigation {
 						
 				robot.turnToFace(x, y);
 				double distance = calculateDistance(x, y);
-				robot.moveForwardBy(distance,x,y); //takes in target coords, used to turn off obstacle avoidance when the robot is traveling towards the ball dispenser
+				divider(x, y, distance); //takes in target coords, used to turn off obstacle avoidance when the robot is traveling towards the ball dispenser
 				
 			}else{
 				robot.turnToFace(x, y);//
@@ -86,6 +86,15 @@ public class Navigation {
 		}
 
 	 }
+
+	public void divider(int x, int y, double distance) {
+		int multiple = (int)distance/ 30;
+		for( int i =0; i < multiple; i++){
+			robot.turnToFace(x, y);
+			robot.moveForwardBy(30, x, y);
+		}
+		//robot.moveForwardBy(distance,x,y);
+	}
 
 		 
 

@@ -71,7 +71,7 @@ public final class Constants {
 	 * method will return false.
 	 */
 	public static final int CONSECUTIVE_DARK_LINES = 5; //number of consecutive dark lines allowed
-	public static final int WALL_DIST = 60; //for ultrasonic sensor
+	public static final int WALL_DIST = 100;//60; //for ultrasonic sensor
 	public static final int US_ANGLE_OFFSET = -26;
 	public static final int ODOMETER_CORRECTION_TIMEOUT = 20; //number of miliseconds after which correction is called again
 	public static final double ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE = WIDTH/2;

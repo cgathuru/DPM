@@ -31,7 +31,7 @@ public class Launcher {
 				
 				//puts the robot back at the angle it was before it shot
 				rightMotor.rotate(12,true);
-				leftMotor.rotate(25, true);
+				leftMotor.rotate(45, true);
 				//rotation of the motor's arm from initial position to pulling position
 				centerMotor.rotate(-208,true);
 				
@@ -66,8 +66,8 @@ public class Launcher {
 			}
 			
 			//puts the robot back at the angle it was before it shot
-			rightMotor.rotate(12,true);
-			leftMotor.rotate(25, true);
+			rightMotor.rotate(15,true);
+			leftMotor.rotate(45, true);
 			//rotation of the motor's arm from initial position to pulling position
 			centerMotor.rotate(-210,true);
 			

@@ -1,5 +1,6 @@
 package robot;
 
+import navigation.Obstacle;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import main.Constants;
@@ -90,8 +91,17 @@ public class TwoWheeledRobot {
 	public void travelTo(int xTarget, int yTarget){
 		turnToFace(xTarget, yTarget);
 		double distance = calculateDistance(xTarget, yTarget);
-		moveForwardBy(distance);
+		divider(distance,xTarget, yTarget);
 			
+	}
+
+	public void divider(double distance, int xTarget, int yTarget) {
+		//moveForwardByDist(distance);
+		int multiple = (int)distance/ 30;
+		for( int i =0; i < multiple; i++){
+			turnToFace(xTarget, yTarget);
+			moveForwardByDist(30);
+		}
 	}
 	
 	/**
@@ -187,7 +197,7 @@ public class TwoWheeledRobot {
 	 * Moves the robot forward  in a straight line by a given distance
 	 * @param distance The distance to moved in centimeters
 	 */
-	public void moveForwardBy(double distance){
+	public void moveForwardBy(double distance, int x, int y){
 		isRotating = false;
 		rightMotor.setSpeed(Constants.FORWARD_SPEED);
 		leftMotor.setSpeed(Constants.FORWARD_SPEED);
@@ -204,6 +214,16 @@ public class TwoWheeledRobot {
 		}
 		
 		
+	}
+	
+	public void moveForwardByDist(double distance){
+		isRotating = false;
+		rightMotor.setSpeed(Constants.FORWARD_SPEED);
+		leftMotor.setSpeed(Constants.FORWARD_SPEED);
+		leftMotor.forward();
+		rightMotor.forward();
+		leftMotor.rotate(convertDistance(leftRadius,distance), true);
+		rightMotor.rotate(convertDistance(rightRadius, distance), false);
 	}
 
 	
