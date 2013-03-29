@@ -6,6 +6,8 @@ package main;
  *
  */
 public final class Constants {
+	
+	public static final boolean[][] PLAYING_FEILD = new boolean[12][12]; 
 
 	/**
 	 * Number of intersection points to the right of the bottom left corner
@@ -84,6 +86,7 @@ public final class Constants {
 	public static final int WALL_FOLLOWER_FILTER_OUT = 20; //number of readings before considered no wall present
 	public static final int WALL_FOLLOWER_MAX_SPEED = 200; //max speed to move wheel at
 	public static final int WALL_FOLLOWER_MIN_SPEED = 60;  //min speed to move wheel at
+	public static final String SLAVE_NAME = "Android16";
 	public static final int ObstacleDist = 25; 
 	public static final int motorLow = 170;
 	public static final int clearPathDist=80;

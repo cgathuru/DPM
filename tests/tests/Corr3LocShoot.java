@@ -10,6 +10,7 @@ import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import sensors.LightLocalizer;
+import sensors.LightSampler;
 import sensors.USLocalizer;
 import utilities.OdoLCD;
 
@@ -33,8 +34,10 @@ public class Corr3LocShoot {
 		us1.doLocalization();
 		patBot.turnTo(0);
 		ls1.doLocalization();
+		LightSampler leftLight = new LightSampler(lsLeft);
+		LightSampler rightLight = new LightSampler(lsRight);
 		new OdoLCD(odo);
-		OdometryCorrection odoCorrect = new OdometryCorrection(patBot, lsLeft, lsRight);
+		OdometryCorrection odoCorrect = new OdometryCorrection(patBot, leftLight, rightLight);
 		odoCorrect.startCorrectionTimer();
 		patBot.travelTo(0, 60);
 		patBot.travelTo(30, 30);

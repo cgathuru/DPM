@@ -51,10 +51,11 @@ public class BetaTestDemo {
 		
 		//LightLocalizer lLocalizer = new LightLocalizer(patBot, lsLeft);
 		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
-		OdometryCorrection correction = new OdometryCorrection(patBot, lsLeft, lsRight);
 		//Navigation nav = new Navigation(patBot, obstacle, correction);
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
+		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
+
 		Localizer localizer= new Localizer(patBot,usLeft, leftLight, rightLight);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();

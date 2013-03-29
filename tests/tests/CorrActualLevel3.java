@@ -7,6 +7,7 @@ import lejos.nxt.SensorPort;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
+import sensors.LightSampler;
 import utilities.OdoLCD;
 
 public class CorrActualLevel3 {
@@ -20,8 +21,10 @@ public class CorrActualLevel3 {
 		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
+		LightSampler leftLight = new LightSampler(lsLeft);
+		LightSampler rightLight = new LightSampler(lsRight);
 		new OdoLCD(odo);
-		OdometryCorrection odoCorrect = new OdometryCorrection(patBot, lsLeft, lsRight);
+		OdometryCorrection odoCorrect = new OdometryCorrection(patBot, leftLight, rightLight);
 		Button.waitForAnyPress();
 		odoCorrect.startCorrectionTimer();
 		patBot.travleToActual(0, 60);

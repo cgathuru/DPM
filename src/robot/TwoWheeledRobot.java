@@ -205,8 +205,8 @@ public class TwoWheeledRobot {
 	
 	
 	/**
-	 * Moves the robot forward  in a straight line by a given distance
-	 * @param distance The distance to moved in centimeters
+	 * Moves the robot forward  in a straight line by a given distance. This method cannot be interrupted.
+	 * @param distance The distance to moved in centimetres
 	 */
 	public void moveForwardBy(double distance){
 		isRotating = false;
@@ -216,9 +216,23 @@ public class TwoWheeledRobot {
 		rightMotor.forward();
 		leftMotor.rotate(convertDistance(leftRadius,distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance), false);
-		
+			
 	}
 
+	/**
+	 * Moves the robot forward  in a straight line by a given distance. This method can be interrupted.
+	 * @param distance The distance to moved in centimetres
+	 * @param immediateReturn whether the method should return immediately
+	 */
+	public void moveForwardBy(double distance, boolean immediateReturn){
+		isRotating = false;
+		rightMotor.setSpeed(Constants.FORWARD_SPEED);
+		leftMotor.setSpeed(Constants.FORWARD_SPEED);
+		leftMotor.forward();
+		rightMotor.forward();
+		leftMotor.rotate(convertDistance(leftRadius,distance), true);
+		rightMotor.rotate(convertDistance(rightRadius, distance), immediateReturn);
+	}
 	
 	
 	/**
@@ -353,6 +367,22 @@ public class TwoWheeledRobot {
 			}
 			
 			return true;
+	}
+	 
+	 /**
+	  * Gets the left motor of the robot
+	  * @return The left motor of the robot
+	  */
+	public NXTRegulatedMotor getLeftMotor(){
+		return this.leftMotor;
+	}
+	
+	/**
+	  * Gets the right motor of the robot
+	  * @return The right motor of the robot
+	  */
+	public NXTRegulatedMotor getRightMotor(){
+		return this.rightMotor;
 	}
 }
 
