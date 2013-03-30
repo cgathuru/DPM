@@ -336,11 +336,11 @@ public class OdometryCorrection implements TimerListener{
 	public LineType determineLineType(SensorSide sensorSide){
 		x = odometer.getX();
 		y = odometer.getY();
-		int xValue = (int)x;
-		int yValue = (int)y;
+		double xValue = (int)x;
+		double yValue = (int)y;
 		if((x + (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta()))) % 30 < 1){
 			xValue = (int) Math.abs(((x +  (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta())))/30));
-			xValue = xValue*30;
+			xValue = xValue*Constants.TILE_DISTANCE;
 			x = xValue;
 			switch(sensorSide){
 			case LEFT:
@@ -354,7 +354,7 @@ public class OdometryCorrection implements TimerListener{
 		}
 
 		yValue = (int) ((y +  (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.sin(Math.toRadians(odometer.getTheta())))/30);
-		yValue = yValue*30;
+		yValue = yValue*Constants.TILE_DISTANCE;
 		y = yValue;
 		switch(sensorSide){
 		case LEFT:

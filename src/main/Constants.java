@@ -21,7 +21,7 @@ public final class Constants {
 	/** 
 	 * Distance between the tiles
 	 */
-	public static final int TILE_DISTANCE = 30;
+	public static final double TILE_DISTANCE = 30.48;
 	/**
 	 * The radius of the robots wheels
 	 */
