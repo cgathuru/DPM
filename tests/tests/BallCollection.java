@@ -47,7 +47,7 @@ public class BallCollection {
 		odo.startTimer();
 		Decoder.dispenserX = 90;
 		Decoder.dispenserY = 30;
-		localizer.delocalize();
+		localizer.dolocalize();
 		attack.collectBalls();
 		attack.stopCorrectionTimer();
 		Button.waitForAnyPress();

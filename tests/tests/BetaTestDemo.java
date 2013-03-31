@@ -75,7 +75,7 @@ public class BetaTestDemo {
 		int goalY = 10;// oldTransmission.goalY;
 		int goalTargetX = goalX*30;;
 		int goalTargetY = determineYTarget(goalX,goalY)*30;
-		localizer.delocalize();
+		localizer.dolocalize();
 		//usl.doLocalization();
 		//patBot.turnTo(0);
 		//lLocalizer.doLocalization();

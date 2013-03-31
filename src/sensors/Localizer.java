@@ -1,5 +1,8 @@
 package sensors;
 
+import communication.Decoder;
+import communication.StartCorner;
+
 import robot.Odometer;
 import robot.TwoWheeledRobot;
 import lejos.nxt.Motor;
@@ -11,6 +14,8 @@ public class Localizer {
 	private UltrasonicSensor usLeft;
 	private TwoWheeledRobot robot;
 	private Odometer odometer;
+	private StartCorner startCorner;
+	private int fieldSize;
 	
 	public Localizer(TwoWheeledRobot robot, UltrasonicSensor usLeft, LightSampler leftLight, LightSampler rightLight){
 		this.robot = robot;
@@ -18,12 +23,15 @@ public class Localizer {
 		this.usLeft = usLeft;
 		this.leftLight = leftLight;
 		this.rightLight = rightLight;
+		startCorner = Decoder.startCorner;
+		fieldSize = Constants.PLAYING_FEILD.length * Constants.TILE_DISTANCE;
+		
 	}
 	
-	public void delocalize(){
+	public void dolocalize(){
 		//new LCDInfo(odo);
 				boolean loacalized = false;
-				//if facing towards the wall
+				//if facing towards the wall initially rotate until facing no wall
 				if(usLeft.getDistance() < Constants.WALL_DIST){
 					boolean wrongDirection = true;
 					robot.setRotationSpeed(Constants.ROTATE_SPEED);
@@ -56,8 +64,27 @@ public class Localizer {
 											Motor.A.stop();
 											odometer.setTheta(0);
 											double odoX = odometer.getX();
+											double odoY = odometer.getY();
 											int xValue = (int)(odoX/30) *30;
-											odometer.setX(xValue);
+											int yValue = (int)(odoY/30) *30;
+											switch(startCorner){	
+											case BOTTOM_LEFT:			
+												odometer.setX(xValue);
+												break;
+											case BOTTOM_RIGHT:
+												odometer.setY(yValue);
+												break;
+											case NULL: //for the null case assume bottom left
+												odometer.setX(xValue);
+												break;
+											case TOP_LEFT:
+												odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
+												break;
+											case TOP_RIGHT:
+												odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
+												break;
+											}
+											
 											light2 = true;
 											light = true;
 											break;
@@ -83,13 +110,51 @@ public class Localizer {
 										}
 									}
 									double odoY = odometer.getY();
-									int yValue = (int)(odoY/30) *30;
-									odometer.setY(yValue);
+									double odoX = odometer.getX();
+									double yValue = (int)(odoY/30) *Constants.TILE_DISTANCE;
+									double xValue = (int)(odoX/30) *Constants.TILE_DISTANCE;
+									switch(startCorner){
+									case BOTTOM_LEFT:
+										odometer.setY(yValue);
+										odometer.setTheta(0);
+										robot.turnTo(0);
+										robot.travelTo(60, 0);
+										robot.travelTo(60, 30);
+										break;
+									case BOTTOM_RIGHT:
+										odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
+										odometer.setTheta(270);
+										robot.travelTo(270, 0);
+										robot.travelTo(270, 30);
+										break;
+									case NULL: //for null case assume bottom right
+										odometer.setY(yValue);
+										odometer.setTheta(0);
+										robot.turnTo(0);
+										robot.travelTo(60, 0);
+										robot.travelTo(60, 30);
+										break;
+									case TOP_LEFT:
+										odometer.setX(xValue);
+										odometer.setTheta(90);
+										robot.travelTo(60, 330);
+										robot.travelTo(60, 300);
+										break;
+									case TOP_RIGHT:
+										odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
+										odometer.setTheta(180);
+										robot.travelTo(270, 330);
+										robot.travelTo(270, 300);
+										break;
+									default:
+										break;
+									
+									}
+									
 									//odo.setY(0);
 									there = true;
-									odometer.setTheta(0);
-									robot.turnTo(0);
-									odometer.setX(0);
+									
+									//dometer.setX(0);
 									loacalized = true;
 									break;
 								}

@@ -65,7 +65,7 @@ public class Initializer extends Thread{
 		}
 		Decoder.dispenserX = 90;
 		Decoder.dispenserY = 30;
-		localizer.delocalize();
+		localizer.dolocalize();
 		attack.startCorrectionTimer();
 
 		
