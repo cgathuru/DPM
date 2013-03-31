@@ -1,5 +1,9 @@
 package tests;
 
+import communication.Decoder;
+import communication.StartCorner;
+import communication.Transmission;
+
 import display.LCDInfo;
 import navigation.Launcher;
 import navigation.Navigation;
@@ -12,6 +16,9 @@ import lejos.nxt.UltrasonicSensor;
 import robot.Odometer;
 import robot.TwoWheeledRobot;
 import sensors.LightLocalizer;
+import sensors.LightSampler;
+import sensors.Localiser;
+import sensors.LocaliserNoBT;
 import sensors.USLocalizer;
 import utilities.OdoLCD;
 
@@ -23,24 +30,25 @@ public class TestLocalization {
 	public static void main(String[] args) {
 		Odometer odo = new Odometer(true);
 		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
-		UltrasonicSensor us = new UltrasonicSensor(SensorPort.S3);
-		LightSensor ls = new LightSensor(SensorPort.S1);
-		USLocalizer usl = new USLocalizer(patBot, us);
-		LightLocalizer lightLoc = new LightLocalizer(patBot, ls);
+		UltrasonicSensor usRight = new UltrasonicSensor(SensorPort.S3);
+		LightSensor rightLight = new LightSensor(SensorPort.S1);
+		LightSensor leftLight = new LightSensor(SensorPort.S2);
+		LightSampler rightSampler = new LightSampler(rightLight);
+		LightSampler leftSampler = new LightSampler(leftLight);
+		Transmission trans = new Transmission();
+		trans.startingCorner = StartCorner.BOTTOM_LEFT;
+		Decoder decoder = new Decoder(trans);
+		decoder.startCorner = StartCorner.BOTTOM_RIGHT;
+		//USLocalizer usLeft = new USLocalizer(patBot, us);
+//		LocaliserNoBT localizer  = new LocaliserNoBT(patBot,usLeft, rightSampler, leftSampler);
+		Localiser localizer  = new Localiser(patBot,usRight, rightSampler, leftSampler, decoder);
+
+		new OdoLCD(odo);	
 		Button.waitForAnyPress();
-		new OdoLCD(odo);
-		usl.doLocalization();
-		//patBot.travelTo(30, 30);
-		//patBot.turnTo(90);
-		
-		lightLoc.doLocalization();
-		patBot.turnTo(0);
-	//	new Launcher();
-	//	Launcher.drive(Motor.A, Motor.B);
-		patBot.motorFloat();
-		patBot.travelTo(30, 30);
-		//patBot.travelTo(0, 0);
-		patBot.turnTo(0);
+		rightSampler.startCorrectionTimer();
+		leftSampler.startCorrectionTimer();
+
+		localizer.dolocalise();
 		Button.waitForAnyPress();
 	}
 

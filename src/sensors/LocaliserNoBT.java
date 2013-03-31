@@ -9,14 +9,14 @@ import lejos.nxt.Motor;
 import lejos.nxt.UltrasonicSensor;
 import main.Constants;
 
-public class Localiser {
+public class LocaliserNoBT {
 	private LightSampler leftLight, rightLight;
 	private UltrasonicSensor usLeft;
 	private TwoWheeledRobot robot;
 	private Odometer odometer;
-	private static Decoder decoder;
 	private StartCorner startCorner;
 	private double fieldSize;
+	
 	
 	/**
 	 * Initialises all the variables used by the localisation routine
@@ -25,14 +25,13 @@ public class Localiser {
 	 * @param leftLight The right Ultrasonic sensor
 	 * @param rightLight
 	 */
-	public Localiser(TwoWheeledRobot robot, UltrasonicSensor usLeft, LightSampler leftLight, LightSampler rightLight, Decoder decoder){
+	public LocaliserNoBT(TwoWheeledRobot robot, UltrasonicSensor usLeft, LightSampler leftLight, LightSampler rightLight){
 		this.robot = robot;
 		this.odometer = robot.getOdometer();
 		this.usLeft = usLeft;
 		this.leftLight = leftLight;
 		this.rightLight = rightLight;
-		this.decoder = decoder;
-		this.startCorner = decoder.startCorner;
+		startCorner = bR;
 		fieldSize = Constants.PLAYING_FEILD.length * Constants.TILE_DISTANCE;
 		
 	}

@@ -104,7 +104,7 @@ public class TwoWheeledRobot {
 	 */
 	public double calculatedCorrectedDistance(int xTarget, int yTarget) {
 		double distance =  calculateDistance(xTarget, yTarget);
-		return distance/Constants.TILE_DISTANCE_TRUNCATED*Constants.TILE_DISTANCE;
+		return (distance/Constants.TILE_DISTANCE_TRUNCATED)*Constants.TILE_DISTANCE;
 	}
 
 	public void divider(double distance, int xTarget, int yTarget) {

@@ -19,8 +19,6 @@ public class TestTravelTo {
 		Button.waitForAnyPress();
 		robot.travelTo(0, 30);
 		robot.travelTo(30, 30);
-		robot.travelTo(30, 0);
-		robot.travelTo(0, 0);
 		Button.waitForAnyPress();
 		
 	}

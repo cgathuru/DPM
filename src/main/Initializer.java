@@ -49,7 +49,7 @@ public class Initializer extends Thread{
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		Offence attack = new Offence(patBot, obstacle, correction);
 		Defence defence =new Defence(patBot, obstacle, correction);
-		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
+		LightLocalizer localizer= new LightLocalizer(patBot,usLeft, leftLight, rightLight);
 		Button.waitForAnyPress();
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();

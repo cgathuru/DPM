@@ -35,7 +35,7 @@ public final class Constants {
 	/**
 	 * The wheel to wheel radius of the robot
 	 */
-	public static final double WIDTH = 17; //wheel center
+	public static final double WIDTH = 16.8; //wheel center
 	/**
 	 * The default {@link Odometer} timeout period
 	 */
