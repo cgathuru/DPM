@@ -18,10 +18,16 @@ public final class Constants {
 	 * Number of intersection points in front of the bottom left corner
 	 */
 	public static final int GOALY = 10;
+	
 	/** 
 	 * Distance between the tiles
 	 */
 	public static final double TILE_DISTANCE = 30.48;
+	
+	/**
+	 * The integer version of the tile distance used for the {@link Decoder}
+	 */
+	public static final int TILE_DISTANCE_TRUNCATED = (int) TILE_DISTANCE;
 	/**
 	 * The radius of the robots wheels
 	 */

@@ -14,7 +14,7 @@ import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import sensors.LightSampler;
-import sensors.Localizer;
+import sensors.Localiser;
 import sensors.USLocalizer;
 import utilities.OdoLCD;
 

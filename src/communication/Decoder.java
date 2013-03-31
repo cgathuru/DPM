@@ -71,12 +71,12 @@ public class Decoder {
 	 * Translates the data in the {@link Transmission} into usable information
 	 */
 	public void decodeTranmission(){
-		goalX = Constants.GOALX * Constants.TILE_DISTANCE;
-		goalY = Constants.GOALY * Constants.TILE_DISTANCE;
+		goalX = Constants.GOALX * Constants.TILE_DISTANCE_TRUNCATED;
+		goalY = Constants.GOALY * Constants.TILE_DISTANCE_TRUNCATED;
 		processAttack();
 		processDefence();
-		dispenserX = transmission.bx * Constants.TILE_DISTANCE;
-		dispenserY = transmission.by * Constants.TILE_DISTANCE;
+		dispenserX = transmission.bx * Constants.TILE_DISTANCE_TRUNCATED;
+		dispenserY = transmission.by * Constants.TILE_DISTANCE_TRUNCATED;
 		startCorner = transmission.startingCorner;
 		playerRole = transmission.role;
 				
@@ -89,7 +89,7 @@ public class Decoder {
 	 */
 	public void processAttack() {
 		shootX = goalX;
-		shootY = Constants.TILE_DISTANCE*determineYTarget(goalX/Constants.TILE_DISTANCE, goalY/Constants.TILE_DISTANCE);
+		shootY = Constants.TILE_DISTANCE_TRUNCATED*determineYTarget(goalX/Constants.TILE_DISTANCE_TRUNCATED, goalY/Constants.TILE_DISTANCE_TRUNCATED);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class Decoder {
 	 */
 	public void processDefence(){
 		defenceX = goalX;
-		defenceY = goalY - 2*Constants.TILE_DISTANCE;
+		defenceY = goalY - 2*Constants.TILE_DISTANCE_TRUNCATED;
 	}
 	
 	/**

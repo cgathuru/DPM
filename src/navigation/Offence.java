@@ -51,11 +51,20 @@ public class Offence extends Navigation implements Strategy{
 		super.startCorrectionTimer();
 	}
 	
+	/**
+	 * Collects another ball from the ball dispenser
+	 */
 	public void collectAnotherBall(){
 		super.moveForwardBy(-5);
 		super.moveForwardBy(5);
 	}
 	
+	/**
+	 * Moves the robot to a target destination in line with the ball dispenser so that the robot can approach
+	 * the dispenser head on, instead of at an angle.
+	 * @param xTarget The x ordinate of the ball dispensers location
+	 * @param yTarget The y ordinate of the ball dispenser location
+	 */
 	public void travelNearCollectionSite(int xTarget, int yTarget){
 		//if x ordinate is negative and y is positive
 		if(xTarget < 0){
@@ -70,7 +79,11 @@ public class Offence extends Navigation implements Strategy{
 			super.travelTo(xTarget - 30, yTarget);
 		}
 	}
-	
+
+	/**
+	 * Turns off the robots obstacle avoidance so that the robot can
+	 * hit the ball dispenser touch sensors
+	 */
 	public void turnOffObstalceAvoidance(){
 		super.turnOffObstacleAvoidance();
 	}

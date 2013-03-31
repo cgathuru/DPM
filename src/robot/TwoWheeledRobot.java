@@ -90,9 +90,21 @@ public class TwoWheeledRobot {
 	 */
 	public void travelTo(int xTarget, int yTarget){
 		turnToFace(xTarget, yTarget);
-		double distance = calculateDistance(xTarget, yTarget);
+		double distance = calculatedCorrectedDistance(xTarget, yTarget);
 		divider(distance, xTarget, yTarget);
 			
+	}
+
+	/**
+	 * Corrects the distance to move the robot forward by to get form one square to another
+	 * as the distance between tiles is not 30cm exact.
+	 * @param xTarget The x ordinate of the targets location
+	 * @param yTarget The y ordinate of the targets location
+	 * @return The corrected distance that the robot must travel in oder to reach its intended destination
+	 */
+	public double calculatedCorrectedDistance(int xTarget, int yTarget) {
+		double distance =  calculateDistance(xTarget, yTarget);
+		return distance/Constants.TILE_DISTANCE_TRUNCATED*Constants.TILE_DISTANCE;
 	}
 
 	public void divider(double distance, int xTarget, int yTarget) {
@@ -107,7 +119,7 @@ public class TwoWheeledRobot {
 				moveForwardBy(Constants.TILE_DISTANCE);
 			}
 			turnToFace(xTarget,yTarget);
-			moveForwardBy(calculateDistance(xTarget,yTarget));
+			moveForwardBy(calculatedCorrectedDistance(xTarget, yTarget));
 		}
 		
 		//moveForwardBy(distance);

@@ -9,15 +9,22 @@ import lejos.nxt.Motor;
 import lejos.nxt.UltrasonicSensor;
 import main.Constants;
 
-public class Localizer {
+public class Localiser {
 	private LightSampler leftLight, rightLight;
 	private UltrasonicSensor usLeft;
 	private TwoWheeledRobot robot;
 	private Odometer odometer;
 	private StartCorner startCorner;
-	private int fieldSize;
+	private double fieldSize;
 	
-	public Localizer(TwoWheeledRobot robot, UltrasonicSensor usLeft, LightSampler leftLight, LightSampler rightLight){
+	/**
+	 * Initialises all the variables used by the localisation routine
+	 * @param robot The {@link TwoWheeledRobot} that controls the robots movements
+	 * @param usLeft The left Ultrasonic sensor
+	 * @param leftLight The right Ultrasonic sensor
+	 * @param rightLight
+	 */
+	public Localiser(TwoWheeledRobot robot, UltrasonicSensor usLeft, LightSampler leftLight, LightSampler rightLight){
 		this.robot = robot;
 		this.odometer = robot.getOdometer();
 		this.usLeft = usLeft;
@@ -28,7 +35,10 @@ public class Localizer {
 		
 	}
 	
-	public void dolocalize(){
+	/**
+	 * Starts the localisation of the robot from its target square
+	 */
+	public void dolocalise(){
 		//new LCDInfo(odo);
 				boolean loacalized = false;
 				//if facing towards the wall initially rotate until facing no wall
@@ -37,17 +47,24 @@ public class Localizer {
 					robot.setRotationSpeed(Constants.ROTATE_SPEED);
 					while(wrongDirection){
 						if(usLeft.getDistance() > Constants.WALL_DIST){
-							robot.stopMotors();
+							//robot.stopMotors();
 							wrongDirection = false;
+							try {
+								Thread.sleep(1500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					}
 				}
+				
 				//if facing away from the wall
 				if(usLeft.getDistance()  > Constants.WALL_DIST){
 					while(!loacalized){
 						robot.setRotationSpeed(Constants.ROTATE_SPEED);
 						//rotate clockwise till you see a wall
-						if(usLeft.getDistance()  < 60){
+						if(usLeft.getDistance()  < Constants.WALL_DIST){
 							//patBot.turnToImmediate(-55);
 							robot.stopMotors();
 							robot.moveForward(); //move forawrd until you hit a line
@@ -157,13 +174,14 @@ public class Localizer {
 									//dometer.setX(0);
 									loacalized = true;
 									break;
-								}
-							}
+									
+								}//end leftLight isDark line
+							}//end while there
 							
 							
-						}
+						}//end if distance < 60
 						
-					}
-				}
-	}
-}
+					}//end while localised
+				}//end if facing away from wall
+	}//end do localise
+}//end localiser

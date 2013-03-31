@@ -12,7 +12,7 @@ import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import sensors.LightSampler;
-import sensors.Localizer;
+import sensors.Localiser;
 import utilities.OdoLCD;
 
 import communication.Decoder;
@@ -39,7 +39,7 @@ public class NavTest {
 		//Navigation nav = new Navigation(patBot, obstacle, correction);
 		Offence attack = new Offence(patBot, obstacle, correction);
 
-		Localizer localizer= new Localizer(patBot,usLeft, leftLight, rightLight);
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		

@@ -14,7 +14,7 @@ import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import sensors.LightSampler;
-import sensors.Localizer;
+import sensors.Localiser;
 import utilities.OdoLCD;
 
 import communication.BluetoothConnection;
@@ -44,7 +44,7 @@ public class Initializer extends Thread{
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		Offence attack = new Offence(patBot, obstacle, correction);
 		Defence defence =new Defence(patBot, obstacle, correction);
-		Localizer localizer= new Localizer(patBot,usLeft, leftLight, rightLight);
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 		Button.waitForAnyPress();
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
@@ -65,7 +65,7 @@ public class Initializer extends Thread{
 		}
 		Decoder.dispenserX = 90;
 		Decoder.dispenserY = 30;
-		localizer.dolocalize();
+		localizer.dolocalise();
 		attack.startCorrectionTimer();
 
 		

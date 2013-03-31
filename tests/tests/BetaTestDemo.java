@@ -19,7 +19,7 @@ import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import sensors.LightLocalizer;
 import sensors.LightSampler;
-import sensors.Localizer;
+import sensors.Localiser;
 import sensors.USLocalizer;
 import sensors.UsSampler;
 import utilities.OdoLCD;
@@ -56,7 +56,7 @@ public class BetaTestDemo {
 		LightSampler rightLight = new LightSampler(lsRight);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 
-		Localizer localizer= new Localizer(patBot,usLeft, leftLight, rightLight);
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		
@@ -75,7 +75,7 @@ public class BetaTestDemo {
 		int goalY = 10;// oldTransmission.goalY;
 		int goalTargetX = goalX*30;;
 		int goalTargetY = determineYTarget(goalX,goalY)*30;
-		localizer.dolocalize();
+		localizer.dolocalise();
 		//usl.doLocalization();
 		//patBot.turnTo(0);
 		//lLocalizer.doLocalization();

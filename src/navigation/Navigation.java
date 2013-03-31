@@ -113,14 +113,14 @@ public class Navigation {
 		
 	}
 	 
-
-	 public double calculateDistance(double x, double y){
-	  double deltaX = x - this.odometer.getX();
-	  double deltaY = y - this.odometer.getY();
-	  double x2 = Math.pow(deltaX, 2);
-	  double y2 = Math.pow(deltaY, 2);
-	  
-	  return Math.sqrt(y2 +x2);
+	/**
+	 * Calculates the distance between the robot and is intended target destination
+	 * @param xTarget The x ordinate of the targets location
+	 * @param yTarget The y ordinate of the targets location
+	 * @return
+	 */
+	 public double calculateDistance(int xTarget, int yTarget){
+	  return robot.calculatedCorrectedDistance(xTarget, yTarget);
 	 }
 	
 	/**
@@ -183,6 +183,10 @@ public class Navigation {
 		return this.avoidance;
 	}
 	
+	/**
+	 * Moves the robot by a given distance
+	 * @param distance The distance the robot should move forward by
+	 */
 	public void moveForwardBy(double distance){
 		robot.moveForwardBy(distance);
 	}
