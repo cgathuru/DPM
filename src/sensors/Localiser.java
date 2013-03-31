@@ -42,22 +42,7 @@ public class Localiser {
 		//new LCDInfo(odo);
 				boolean loacalized = false;
 				//if facing towards the wall initially rotate until facing no wall
-				if(usLeft.getDistance() < Constants.WALL_DIST){
-					boolean wrongDirection = true;
-					robot.setRotationSpeed(Constants.ROTATE_SPEED);
-					while(wrongDirection){
-						if(usLeft.getDistance() > Constants.WALL_DIST){
-							//robot.stopMotors();
-							wrongDirection = false;
-							try {
-								Thread.sleep(1500);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-				}
+				correctStartingDirection();
 				
 				//if facing away from the wall
 				if(usLeft.getDistance()  > Constants.WALL_DIST){
@@ -75,113 +60,162 @@ public class Localiser {
 									Motor.A.stop();
 									Motor.A.setSpeed(-Constants.ROTATE_SPEED);
 									Motor.A.backward();
-									boolean light2 = false;
-									while(!light2){
-										if(leftLight.isDarkLine()){
-											Motor.A.stop();
-											odometer.setTheta(0);
-											double odoX = odometer.getX();
-											double odoY = odometer.getY();
-											int xValue = (int)(odoX/30) *30;
-											int yValue = (int)(odoY/30) *30;
-											switch(startCorner){	
-											case BOTTOM_LEFT:			
-												odometer.setX(xValue);
-												break;
-											case BOTTOM_RIGHT:
-												odometer.setY(yValue);
-												break;
-											case NULL: //for the null case assume bottom left
-												odometer.setX(xValue);
-												break;
-											case TOP_LEFT:
-												odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
-												break;
-											case TOP_RIGHT:
-												odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
-												break;
-											}
-											
-											light2 = true;
-											light = true;
-											break;
-										}
-									}
+									doFirstAlignment();
+									light = true;
 								}
 								
 							}
 							robot.turnTo(-90);
 							robot.moveForward();
-							boolean there = false;
-							while(!there){
-								if(leftLight.isDarkLine()){
-									robot.stopMotors();
-									boolean last = false;
-									Motor.B.setSpeed(-Constants.ROTATE_SPEED);
-									Motor.B.backward();
-									while(!last){
-										if(rightLight.isDarkLine()){
-											Motor.B.stop();
-											last = true;
-											break;
-										}
-									}
-									double odoY = odometer.getY();
-									double odoX = odometer.getX();
-									double yValue = (int)(odoY/30) *Constants.TILE_DISTANCE;
-									double xValue = (int)(odoX/30) *Constants.TILE_DISTANCE;
-									switch(startCorner){
-									case BOTTOM_LEFT:
-										odometer.setY(yValue);
-										odometer.setTheta(0);
-										robot.turnTo(0);
-										robot.travelTo(60, 0);
-										robot.travelTo(60, 30);
-										break;
-									case BOTTOM_RIGHT:
-										odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
-										odometer.setTheta(270);
-										robot.travelTo(270, 0);
-										robot.travelTo(270, 30);
-										break;
-									case NULL: //for null case assume bottom right
-										odometer.setY(yValue);
-										odometer.setTheta(0);
-										robot.turnTo(0);
-										robot.travelTo(60, 0);
-										robot.travelTo(60, 30);
-										break;
-									case TOP_LEFT:
-										odometer.setX(xValue);
-										odometer.setTheta(90);
-										robot.travelTo(60, 330);
-										robot.travelTo(60, 300);
-										break;
-									case TOP_RIGHT:
-										odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
-										odometer.setTheta(180);
-										robot.travelTo(270, 330);
-										robot.travelTo(270, 300);
-										break;
-									default:
-										break;
-									
-									}
-									
-									//odo.setY(0);
-									there = true;
-									
-									//dometer.setX(0);
-									loacalized = true;
-									break;
-									
-								}//end leftLight isDark line
-							}//end while there
-							
+							doSecondAlignment();
+							loacalized = true;
 							
 						}//end if distance < 60
 						
 					}//end while localised
 				}//end if facing away from wall
 	}//end do localise
+
+	/**
+	 * Does the second alignment for the robots localisation which sets x or y,
+	 * depending on the localisation {@link StartCorner}
+	 */
+	public void doSecondAlignment() {
+		boolean there = false;
+		while(!there){
+			if(leftLight.isDarkLine()){
+				robot.stopMotors();
+				boolean last = false;
+				Motor.B.setSpeed(-Constants.ROTATE_SPEED);
+				Motor.B.backward();
+				while(!last){
+					if(rightLight.isDarkLine()){
+						Motor.B.stop();
+						last = true;
+						break;
+					}
+				}
+				correctAndBypassObstacle();
+				
+				//odo.setY(0);
+				there = true;
+				
+				//dometer.setX(0);
+				
+				break;
+				
+			}//end leftLight isDark line
+		}//end while there
+	}
+
+	/**
+	 * Sets x or y, depending on the localisation {@link StartCorner}
+	 * and travels out of range of the obstacle to avoid calling
+	 * obstacle avoidance which would slow the robot down.
+	 */
+	public void correctAndBypassObstacle() {
+		double odoY = odometer.getY();
+		double odoX = odometer.getX();
+		double yValue = (int)(odoY/30) *Constants.TILE_DISTANCE;
+		double xValue = (int)(odoX/30) *Constants.TILE_DISTANCE;
+		switch(startCorner){
+		case BOTTOM_LEFT:
+			odometer.setY(yValue);
+			odometer.setTheta(0);
+			robot.turnTo(0);
+			robot.travelTo(60, 0);
+			robot.travelTo(60, 30);
+			break;
+		case BOTTOM_RIGHT:
+			odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
+			odometer.setTheta(270);
+			robot.travelTo(270, 0);
+			robot.travelTo(270, 30);
+			break;
+		case NULL: //for null case assume bottom right
+			odometer.setY(yValue);
+			odometer.setTheta(0);
+			robot.turnTo(0);
+			robot.travelTo(60, 0);
+			robot.travelTo(60, 30);
+			break;
+		case TOP_LEFT:
+			odometer.setX(xValue);
+			odometer.setTheta(90);
+			robot.travelTo(60, 330);
+			robot.travelTo(60, 300);
+			break;
+		case TOP_RIGHT:
+			odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
+			odometer.setTheta(180);
+			robot.travelTo(270, 330);
+			robot.travelTo(270, 300);
+			break;
+		default:
+			break;
+		
+		}
+	}
+
+	/**
+	 * Does the first alignment for the robots localisation which sets x or y,
+	 * depending on the localisation {@link StartCorner}
+	 */
+	public void doFirstAlignment() {
+		boolean light2 = false;
+		while(!light2){
+			if(leftLight.isDarkLine()){
+				Motor.A.stop();
+				odometer.setTheta(0);
+				double odoX = odometer.getX();
+				double odoY = odometer.getY();
+				int xValue = (int)(odoX/30) *30;
+				int yValue = (int)(odoY/30) *30;
+				switch(startCorner){	
+				case BOTTOM_LEFT:			
+					odometer.setX(xValue);
+					break;
+				case BOTTOM_RIGHT:
+					odometer.setY(yValue);
+					break;
+				case NULL: //for the null case assume bottom left
+					odometer.setX(xValue);
+					break;
+				case TOP_LEFT:
+					odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
+					break;
+				case TOP_RIGHT:
+					odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
+					break;
+				}
+				
+				light2 = true;
+				break;
+			}
+		}
+	}
+
+	/**
+	 * If facing towards the wall initially, the robot will rotate until facing
+	 * no wall so that the Ultrasonic sensor can detect the right edge
+	 * required for successful localisation
+	 */
+	public void correctStartingDirection() {
+		if(usLeft.getDistance() < Constants.WALL_DIST){
+			boolean wrongDirection = true;
+			robot.setRotationSpeed(Constants.ROTATE_SPEED);
+			while(wrongDirection){
+				if(usLeft.getDistance() > Constants.WALL_DIST){
+					//robot.stopMotors();
+					wrongDirection = false;
+					try {
+						Thread.sleep(1500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
 }//end localiser

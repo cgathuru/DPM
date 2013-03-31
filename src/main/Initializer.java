@@ -22,12 +22,17 @@ import communication.Decoder;
 import communication.Transmission;
 import display.LCDInfo;
 
+/**
+ * Initialises all the components that dictate the robots behaviour and functionality.
+ * @author charles
+ *
+ */
 public class Initializer extends Thread{
 	
-	public Initializer(){
-		
-	}
 
+	/**
+	 * Starts 1 round of the competition.
+	 */
 	@Override
 	public void run(){
 		NXTRegulatedMotor leftMotor = Motor.A;
@@ -66,7 +71,7 @@ public class Initializer extends Thread{
 		Decoder.dispenserX = 90;
 		Decoder.dispenserY = 30;
 		localizer.dolocalise();
-		attack.startCorrectionTimer();
+		correction.startCorrectionTimer();
 
 		
 		Button.waitForAnyPress();

@@ -24,13 +24,17 @@ import communication.Decoder;
 import display.LCDInfo;
 
 /**
- * Contains the main method of the master brick. Initializes all the sensor 
- * components and motors attached to the master brick.
+ * Contains the main method.
  * @author charles
  *
  */
 public class Dpm {
 
+	/**
+	 * Main method of the robot. It calls the {@link Initializer} 
+	 * which initialises all of the necessary components and starts a round of the game
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new Initializer().run();
 		Button.waitForAnyPress();
