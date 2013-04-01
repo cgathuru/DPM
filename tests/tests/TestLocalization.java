@@ -1,26 +1,19 @@
 package tests;
 
-import communication.Decoder;
-import communication.StartCorner;
-import communication.Transmission;
-
-import display.LCDInfo;
-import navigation.Launcher;
-import navigation.Navigation;
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
-import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import robot.Odometer;
 import robot.TwoWheeledRobot;
-import sensors.LightLocalizer;
 import sensors.LightSampler;
 import sensors.Localiser;
-import sensors.LocaliserNoBT;
-import sensors.USLocalizer;
 import utilities.OdoLCD;
+
+import communication.Decoder;
+import communication.StartCorner;
+import communication.Transmission;
 
 public class TestLocalization {
 
@@ -38,7 +31,8 @@ public class TestLocalization {
 		Transmission trans = new Transmission();
 		trans.startingCorner = StartCorner.BOTTOM_LEFT;
 		Decoder decoder = new Decoder(trans);
-		decoder.startCorner = StartCorner.BOTTOM_RIGHT;
+		decoder.decodeTranmission();
+		Decoder.startCorner = StartCorner.BOTTOM_RIGHT;
 		//USLocalizer usLeft = new USLocalizer(patBot, us);
 //		LocaliserNoBT localizer  = new LocaliserNoBT(patBot,usLeft, rightSampler, leftSampler);
 		Localiser localizer  = new Localiser(patBot,usRight, rightSampler, leftSampler, decoder);
