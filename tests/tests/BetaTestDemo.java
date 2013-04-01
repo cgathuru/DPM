@@ -21,7 +21,6 @@ import sensors.LightLocalizer;
 import sensors.LightSampler;
 import sensors.Localiser;
 import sensors.USLocalizer;
-import sensors.UsSampler;
 import utilities.OdoLCD;
 import utilities.StopControl;
 
@@ -31,6 +30,7 @@ import communication.StartCorner;
 import communication.Transmission;
 
 import display.LCDInfo;
+import expermental.UsSampler;
 
 public class BetaTestDemo {
 
