@@ -1,6 +1,8 @@
 package tests;
 
 import communication.Decoder;
+import communication.StartCorner;
+import communication.Transmission;
 
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
@@ -37,8 +39,9 @@ public class BallCollection {
 		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		Offence attack = new Offence(patBot, obstacle, correction);
-
-		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
+		Decoder decoder = new Decoder(new Transmission());
+		decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		

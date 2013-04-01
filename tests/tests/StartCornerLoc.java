@@ -2,6 +2,7 @@ package tests;
 
 import communication.Decoder;
 import communication.StartCorner;
+import communication.Transmission;
 
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
@@ -29,8 +30,10 @@ public class StartCornerLoc {
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
-		Decoder.startCorner = StartCorner.BOTTOM_LEFT; //this should be changed accordingly
-		Localiser localiser = new Localiser(patBot, usLeft, leftLight, rightLight);
+		
+		Decoder decoder = new Decoder(new Transmission());
+		decoder.startCorner = StartCorner.BOTTOM_LEFT; //this should be changed accordingly
+		Localiser localiser = new Localiser(patBot, usLeft, leftLight, rightLight, decoder);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		localiser.dolocalise();

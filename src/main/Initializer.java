@@ -19,6 +19,7 @@ import utilities.OdoLCD;
 
 import communication.BluetoothConnection;
 import communication.Decoder;
+import communication.StartCorner;
 import communication.Transmission;
 import display.LCDInfo;
 
@@ -49,7 +50,7 @@ public class Initializer extends Thread{
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		Offence attack = new Offence(patBot, obstacle, correction);
 		Defence defence =new Defence(patBot, obstacle, correction);
-		LightLocalizer localizer= new LightLocalizer(patBot,usLeft, leftLight, rightLight);
+		
 		Button.waitForAnyPress();
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
@@ -57,6 +58,7 @@ public class Initializer extends Thread{
 		Transmission trans = connection.getTransmission();
 		Decoder decoder = new Decoder(trans);
 		decoder.decodeTranmission();
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
 		new LCDInfo(odo);
 		
 		leftLight.startCorrectionTimer();

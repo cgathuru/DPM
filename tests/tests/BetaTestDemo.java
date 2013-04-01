@@ -26,6 +26,8 @@ import utilities.OdoLCD;
 import utilities.StopControl;
 
 import communication.BluetoothConnection;
+import communication.Decoder;
+import communication.StartCorner;
 import communication.Transmission;
 
 import display.LCDInfo;
@@ -55,8 +57,9 @@ public class BetaTestDemo {
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-
-		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
+		Decoder decoder = new Decoder(new Transmission());
+		decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		
