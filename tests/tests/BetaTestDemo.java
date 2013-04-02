@@ -1,36 +1,22 @@
 package tests;
 
-import oldCommunication.oldBluetoothConnection;
-import oldCommunication.oldTransmission;
-import main.Constants;
-import navigation.Launcher;
-import navigation.Navigation;
-import navigation.Obstacle;
 import lejos.nxt.Button;
-import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
-import lejos.nxt.comm.Bluetooth;
+import navigation.Obstacle;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
-import sensors.LightLocalizer;
 import sensors.LightSampler;
 import sensors.Localiser;
-import sensors.USLocalizer;
 import utilities.OdoLCD;
-import utilities.StopControl;
 
-import communication.BluetoothConnection;
 import communication.Decoder;
 import communication.StartCorner;
 import communication.Transmission;
-
-import display.LCDInfo;
-import expermental.UsSampler;
 
 public class BetaTestDemo {
 
