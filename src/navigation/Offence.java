@@ -1,10 +1,14 @@
 package navigation;
 
 import lejos.nxt.Motor;
+import main.Constants;
 import communication.Decoder;
 
 import robot.OdometryCorrection;
+import robot.OdometryCorrection.SensorSide;
 import robot.TwoWheeledRobot;
+import sensors.LightLocalizer;
+import sensors.LightSampler;
 
 /**
  * Implements the offensive strategy of the robot
@@ -12,6 +16,8 @@ import robot.TwoWheeledRobot;
  *
  */
 public class Offence extends Navigation implements Strategy{
+	private OdometryCorrection odoCorrection;
+	private TwoWheeledRobot robot;
 
 	/**
 	 * Initializes all the parameters needed {@link Navigation}
@@ -21,6 +27,8 @@ public class Offence extends Navigation implements Strategy{
 	 */
 	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
 		super(robot, obstacle, odoCorrection);
+		this.robot = robot;
+		this.odoCorrection = odoCorrection;
 	}
 	
 	/**
@@ -42,13 +50,22 @@ public class Offence extends Navigation implements Strategy{
 		int yTarget = Decoder.dispenserY;
 		travelNearCollectionSite(xTarget, yTarget);
 		turnOffObstacleAvoidance();
-		super.stopCorrectionTimer();
+		//super.stopCorrectionTimer();
+		localizeHere();
 		super.travelTo(xTarget, yTarget);
+		
+		
 		//collect 4 more balls
 		for( int i =1; i< 5; i++){
 			collectAnotherBall();
 		}
 		super.startCorrectionTimer();
+	}
+
+	private void localizeHere() {
+		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
+		LightSampler left = odoCorrection.getLeftLightSampler();
+		new LightLocalizer(robot, left).doLocalization();
 	}
 	
 	/**
@@ -94,15 +111,25 @@ public class Offence extends Navigation implements Strategy{
 	public void travelToShootingLocation(){
 		int xTarget = Decoder.shootX;
 		int yTarget = Decoder.shootY;
+		travelNearShootingLocation();
+		localizeHere();
 		super.travelTo(xTarget, yTarget);
 	}
 	
+	public void travelNearShootingLocation(){
+		int xTarget = Decoder.shootX;
+		int yTarget = Decoder.shootY;
+		int tilesX = (xTarget+Constants.TILE_DISTANCE_TRUNCATED/2);
+		super.travelTo(tilesX, yTarget);
+
+	}
 	
 	
 	/**
 	 * Shoots the balls at the goal with the {@link Launcher}
 	 */
 	public void shoot(){
+		robot.turnTo(0);
 		Launcher.drive(Motor.A, Motor.B, Motor.C);
 	}
 }

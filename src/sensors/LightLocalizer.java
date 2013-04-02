@@ -25,14 +25,14 @@ public class LightLocalizer {
 	 * @param robot The {@link Robot} that controls the robots movements
 	 * @param ls Light sensor
 	 */
-	public LightLocalizer(TwoWheeledRobot robot, LightSensor ls) {
+	public LightLocalizer(TwoWheeledRobot robot, LightSampler ls) {
 		this.odo = robot.getOdometer();
 		this.robot = robot;
-		this.ls = ls;
-		sampler = new LightSampler(ls);
+		this.sampler = ls;
+		//sampler = new LightSampler(ls);
 		
 		// turn on the light
-		ls.setFloodlight(true);
+		//ls.setFloodlight(true);
 	}
 	
 	/**
@@ -83,6 +83,10 @@ public class LightLocalizer {
 		
 	}
 	
+	/**
+	 * Finds nearest x intercept of tiles to {@code travelTo} to relocalize
+	 * @return Nearest x intercept
+	 */
 	public double getNearestXInt(){
 		double currentX = odo.getX();
 		int tilesTravelled = (int)(currentX/30); 
@@ -95,6 +99,10 @@ public class LightLocalizer {
 		}
 	}
 	
+	/**
+	 * Finds nearest x intercept of tiles to {@code travelTo} to relocalize
+	 * @return Nearest Y intercept
+	 */	
 	public double getNearestYInt(){
 		double currentY = odo.getX();
 		int tilesTravelled = (int)(currentY/30); 
