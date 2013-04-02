@@ -4,7 +4,10 @@ import lejos.nxt.Motor;
 import communication.Decoder;
 
 import robot.OdometryCorrection;
+import robot.OdometryCorrection.SensorSide;
 import robot.TwoWheeledRobot;
+import sensors.LightLocalizer;
+import sensors.LightSampler;
 
 /**
  * Implements the offensive strategy of the robot
@@ -12,6 +15,8 @@ import robot.TwoWheeledRobot;
  *
  */
 public class Offence extends Navigation implements Strategy{
+	private OdometryCorrection odoCorrection;
+	private TwoWheeledRobot robot;
 
 	/**
 	 * Initializes all the parameters needed {@link Navigation}
@@ -21,6 +26,8 @@ public class Offence extends Navigation implements Strategy{
 	 */
 	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
 		super(robot, obstacle, odoCorrection);
+		this.robot = robot;
+		this.odoCorrection = odoCorrection;
 	}
 	
 	/**
@@ -42,8 +49,13 @@ public class Offence extends Navigation implements Strategy{
 		int yTarget = Decoder.dispenserY;
 		travelNearCollectionSite(xTarget, yTarget);
 		turnOffObstacleAvoidance();
-		super.stopCorrectionTimer();
+		//super.stopCorrectionTimer();
+		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
+		LightSampler left = odoCorrection.getLeftLightSampler();
+		new LightLocalizer(robot, left).doLocalization();
 		super.travelTo(xTarget, yTarget);
+		
+		
 		//collect 4 more balls
 		for( int i =1; i< 5; i++){
 			collectAnotherBall();

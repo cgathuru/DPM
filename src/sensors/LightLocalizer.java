@@ -25,14 +25,14 @@ public class LightLocalizer {
 	 * @param robot The {@link Robot} that controls the robots movements
 	 * @param ls Light sensor
 	 */
-	public LightLocalizer(TwoWheeledRobot robot, LightSensor ls) {
+	public LightLocalizer(TwoWheeledRobot robot, LightSampler ls) {
 		this.odo = robot.getOdometer();
 		this.robot = robot;
-		this.ls = ls;
-		sampler = new LightSampler(ls);
+		this.sampler = ls;
+		//sampler = new LightSampler(ls);
 		
 		// turn on the light
-		ls.setFloodlight(true);
+		//ls.setFloodlight(true);
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package sensors;
+package oldClasses;
 
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
@@ -7,6 +7,7 @@ import main.Constants;
 import navigation.Navigation;
 import robot.Odometer;
 import robot.TwoWheeledRobot;
+import sensors.LightSampler;
 
 /**
  * This class  contains the light localizer class that helps the robot determine it current position accurately.

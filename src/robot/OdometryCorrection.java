@@ -595,7 +595,7 @@ public class OdometryCorrection implements TimerListener{
 	public void startCorrectionTimer(){
 		this.leftLs.startCorrectionTimer(); //start the left light sampler
 		this.rightLs.startCorrectionTimer(); //start the right light sampler
-		correctionTimer.start();
+		this.correctionTimer.start();
 	}
 	
 	/**
@@ -604,7 +604,7 @@ public class OdometryCorrection implements TimerListener{
 	public void stopCorrectionTimer(){
 		this.leftLs.stopCorrectionTimer(); //stop the left light sampler
 		this.rightLs.stopCorrectionTimer(); //stop the right light sampler
-		correctionTimer.stop();		
+		this.correctionTimer.stop();		
 	}
 	
 	/**
@@ -700,6 +700,37 @@ public class OdometryCorrection implements TimerListener{
 	}//setY
 	public boolean isValidY(){
 		return Math.abs(y - odometer.getY()) < 3;
+	}
+	
+	public LightSampler getLeftLightSampler(){
+		return this.leftLs;
+	}
+	
+	public LightSampler getRightLightsmapler(){
+		return this.rightLs;
+	}
+	
+	public void stopCorrectionTimer(boolean lightSamplers){
+		this.correctionTimer.stop();
+		if(lightSamplers){
+			leftLs.stopCorrectionTimer();
+			rightLs.stopCorrectionTimer();
+		}
+		else{
+			stopCorrectionTimer();
+		}
+	}
+	
+	public void stopCorrectionTimer(SensorSide sensorSide){
+		this.correctionTimer.stop();
+		switch(sensorSide){
+		case LEFT:
+			rightLs.stopCorrectionTimer();
+			break;
+		case RIGHT:
+			leftLs.stopCorrectionTimer();
+			break;
+		}
 	}
 }//end OdometryCorrection
 	
