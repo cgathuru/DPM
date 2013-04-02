@@ -47,6 +47,7 @@ public class LightLocalizer {
 		LCD.drawString("Light Value: " + ls.getLightValue(), 0, 4);
 		double[] angles = new double[4];
 		int count = 0;
+		robot.turnTo(345);
 		robot.setRotationSpeed(Constants.ROTATE_SPEED);		
 		while(true){
 			//if(ls.getLightValue() < Constants.DARK_LINE_VALUE){
@@ -76,11 +77,35 @@ public class LightLocalizer {
 		double deltaTheta = 180 + (angles[3] -angles[1])/2 - angles[3];//angle change
 		double newTheta = deltaTheta + odo.getTheta();
 		//adjust the position to calcuated position
-		odo.setPosition(new double [] {xDist, yDist, newTheta}, new boolean [] {true, true, true});
+		odo.setPosition(new double [] {xDist + getNearestXInt(), yDist+getNearestYInt(), newTheta}, new boolean [] {true, true, true});
 		//robot.turnTo(0);
 		sampler.stopCorrectionTimer();
 		
 	}
 	
+	public double getNearestXInt(){
+		double currentX = odo.getX();
+		int tilesTravelled = (int)(currentX/30); 
+		double overflow = currentX%30;
+		if(overflow > 7){
+			return (tilesTravelled+1)*Constants.TILE_DISTANCE;
+		}
+		else {
+			return tilesTravelled*Constants.TILE_DISTANCE;
+		}
+	}
 	
+	public double getNearestYInt(){
+		double currentY = odo.getX();
+		int tilesTravelled = (int)(currentY/30); 
+		double overflow = currentY%30;
+		if(overflow > 7){
+			return (tilesTravelled+1)*Constants.TILE_DISTANCE;
+		}
+		else {
+			return tilesTravelled*Constants.TILE_DISTANCE;
+		}
+	}
+		
 }
+
