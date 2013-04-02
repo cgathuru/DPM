@@ -47,11 +47,11 @@ public final class Constants {
 	/**
 	 * The default rotation speed of the robot
 	 */
-	public static final int ROTATE_SPEED = 150;
+	public static final int ROTATE_SPEED = 200;
 	/**
 	 * The default forawrd speed of the robot
 	 */
-	public static final int FORWARD_SPEED = 150;
+	public static final int FORWARD_SPEED = 250;
 	/**
 	 * The default light value for detecting a dark line
 	 */

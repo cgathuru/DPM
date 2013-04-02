@@ -32,7 +32,7 @@ public class TestLocalization {
 		trans.startingCorner = StartCorner.BOTTOM_LEFT;
 		Decoder decoder = new Decoder(trans);
 		decoder.decodeTranmission();
-		Decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Decoder.startCorner = StartCorner.BOTTOM_RIGHT;
 		//USLocalizer usLeft = new USLocalizer(patBot, us);
 //		LocaliserNoBT localizer  = new LocaliserNoBT(patBot,usLeft, rightSampler, leftSampler);
 		Localiser localizer  = new Localiser(patBot,usRight, rightSampler, leftSampler, decoder);
