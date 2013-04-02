@@ -83,6 +83,10 @@ public class LightLocalizer {
 		
 	}
 	
+	/**
+	 * Finds nearest x intercept of tiles to {@code travelTo} to relocalize
+	 * @return Nearest x intercept
+	 */
 	public double getNearestXInt(){
 		double currentX = odo.getX();
 		int tilesTravelled = (int)(currentX/30); 
@@ -95,6 +99,10 @@ public class LightLocalizer {
 		}
 	}
 	
+	/**
+	 * Finds nearest x intercept of tiles to {@code travelTo} to relocalize
+	 * @return Nearest Y intercept
+	 */	
 	public double getNearestYInt(){
 		double currentY = odo.getX();
 		int tilesTravelled = (int)(currentY/30); 

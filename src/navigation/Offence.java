@@ -1,6 +1,7 @@
 package navigation;
 
 import lejos.nxt.Motor;
+import main.Constants;
 import communication.Decoder;
 
 import robot.OdometryCorrection;
@@ -50,9 +51,7 @@ public class Offence extends Navigation implements Strategy{
 		travelNearCollectionSite(xTarget, yTarget);
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
-		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
-		LightSampler left = odoCorrection.getLeftLightSampler();
-		new LightLocalizer(robot, left).doLocalization();
+		localizeHere();
 		super.travelTo(xTarget, yTarget);
 		
 		
@@ -61,6 +60,12 @@ public class Offence extends Navigation implements Strategy{
 			collectAnotherBall();
 		}
 		super.startCorrectionTimer();
+	}
+
+	private void localizeHere() {
+		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
+		LightSampler left = odoCorrection.getLeftLightSampler();
+		new LightLocalizer(robot, left).doLocalization();
 	}
 	
 	/**
@@ -106,15 +111,25 @@ public class Offence extends Navigation implements Strategy{
 	public void travelToShootingLocation(){
 		int xTarget = Decoder.shootX;
 		int yTarget = Decoder.shootY;
+		travelNearShootingLocation();
+		localizeHere();
 		super.travelTo(xTarget, yTarget);
 	}
 	
+	public void travelNearShootingLocation(){
+		int xTarget = Decoder.shootX;
+		int yTarget = Decoder.shootY;
+		int tilesX = (xTarget+Constants.TILE_DISTANCE_TRUNCATED/2);
+		super.travelTo(tilesX, yTarget);
+
+	}
 	
 	
 	/**
 	 * Shoots the balls at the goal with the {@link Launcher}
 	 */
 	public void shoot(){
+		robot.turnTo(0);
 		Launcher.drive(Motor.A, Motor.B, Motor.C);
 	}
 }
