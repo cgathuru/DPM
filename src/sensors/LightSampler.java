@@ -3,6 +3,7 @@ package sensors;
 import java.util.LinkedList;
 
 import lejos.nxt.LightSensor;
+import lejos.nxt.Sound;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import main.Constants;
@@ -111,6 +112,7 @@ public class LightSampler implements TimerListener{
 	 * @return If the percentage difference is greater percentage specified in the {@link Constants} class.
 	 */
 	public boolean darkLineCheck(){
+		double decimal = (lightValue-lightAverage)/lightAverage;
 		if(lightSamples.size() < 10){
 			if(lightValue < Constants.DARK_LINE_VALUE){
 				consecutiveDark++;
@@ -121,8 +123,8 @@ public class LightSampler implements TimerListener{
 				return false;
 			}
 		}
-		double decimal = (lightValue-lightAverage)/lightAverage;
-		if(Math.abs(decimal) > Constants.LIGHT_VALUE_PERCENTAGE){
+		else if(Math.abs(decimal) > Constants.LIGHT_VALUE_PERCENTAGE){
+			//Sound.buzz();
 			consecutiveDark++;
 			return true;
 		}

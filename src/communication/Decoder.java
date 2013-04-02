@@ -88,7 +88,7 @@ public class Decoder {
 	 * method has been called
 	 */
 	public void processAttack() {
-		shootX = goalX;
+		shootX = goalX -(Constants.TILE_DISTANCE_TRUNCATED/2);
 		shootY = Constants.TILE_DISTANCE_TRUNCATED*determineYTarget(goalX/Constants.TILE_DISTANCE_TRUNCATED, goalY/Constants.TILE_DISTANCE_TRUNCATED);
 	}
 	
