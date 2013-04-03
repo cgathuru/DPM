@@ -26,7 +26,9 @@ public class Corr3LocShoot {
 		LightSensor lsLeft = new LightSensor(SensorPort.S1);
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		UltrasonicSensor usRight = new UltrasonicSensor(SensorPort.S4);
-		LightLocalizer ls1 = new LightLocalizer(patBot, lsLeft);
+		LightSampler leftLight = new LightSampler(lsLeft);
+		LightSampler rightLight = new LightSampler(lsRight);
+		LightLocalizer ls1 = new LightLocalizer(patBot, leftLight);
 		new Launcher();
 		//UltrasonicSensor usLeft = new UltrasonicSensor(SensorPort.S3);		
 		USLocalizer us1 = new USLocalizer(patBot, usRight);
@@ -34,8 +36,7 @@ public class Corr3LocShoot {
 		us1.doLocalization();
 		patBot.turnTo(0);
 		ls1.doLocalization();
-		LightSampler leftLight = new LightSampler(lsLeft);
-		LightSampler rightLight = new LightSampler(lsRight);
+		
 		new OdoLCD(odo);
 		OdometryCorrection odoCorrect = new OdometryCorrection(patBot, leftLight, rightLight);
 		odoCorrect.startCorrectionTimer();
