@@ -24,7 +24,7 @@ public class ReLocBeforeShoot {
 	LightSensor lsRight = new LightSensor(SensorPort.S2);
 	LightSampler leftLight = new LightSampler(lsLeft);
 	LightSampler rightLight = new LightSampler(lsRight);
-	LightLocalizer reLoc = new LightLocalizer(patBot, lsLeft);
+	LightLocalizer reLoc = new LightLocalizer(patBot, leftLight);
 	new OdoLCD(odo);
 	OdometryCorrection odoCorrect = new OdometryCorrection(patBot, leftLight, rightLight);
 	Button.waitForAnyPress();
