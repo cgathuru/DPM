@@ -47,7 +47,7 @@ public class LightLocalizer {
 		LCD.drawString("Light Value: " + ls.getLightValue(), 0, 4);
 		double[] angles = new double[4];
 		int count = 0;
-		robot.turnTo(345);
+		robot.turnTo(330);
 		robot.setRotationSpeed(Constants.ROTATE_SPEED);		
 		while(true){
 			//if(ls.getLightValue() < Constants.DARK_LINE_VALUE){
