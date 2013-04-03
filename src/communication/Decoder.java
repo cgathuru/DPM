@@ -74,7 +74,7 @@ public class Decoder {
 		goalX = Constants.GOALX * Constants.TILE_DISTANCE_TRUNCATED;
 		goalY = Constants.GOALY * Constants.TILE_DISTANCE_TRUNCATED;
 		processAttack();
-		processDefence();
+		processDefence(transmission.w2);
 		dispenserX = transmission.bx * Constants.TILE_DISTANCE_TRUNCATED;
 		dispenserY = transmission.by * Constants.TILE_DISTANCE_TRUNCATED;
 		startCorner = transmission.startingCorner;
@@ -96,9 +96,9 @@ public class Decoder {
 	 * Sets the x and y coordinates for the defensive position. This method should only be called after the {@code decodeTransmission}
 	 * method has been called
 	 */
-	public void processDefence(){
+	public void processDefence(int w2){
 		defenceX = goalX;
-		defenceY = goalY - 2*Constants.TILE_DISTANCE_TRUNCATED;
+		defenceY = w2*Constants.TILE_DISTANCE_TRUNCATED;
 	}
 	
 	/**

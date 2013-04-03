@@ -48,8 +48,6 @@ public class Initializer extends Thread{
 		LightSampler rightLight = new LightSampler(lsRight);
 		Obstacle obstacle = new Obstacle(usRight, usLeft, odo,patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		Offence attack = new Offence(patBot, obstacle, correction);
-		Defence defence =new Defence(patBot, obstacle, correction);
 		
 		Button.waitForAnyPress();
 		BluetoothConnection connection = new BluetoothConnection();
@@ -58,6 +56,8 @@ public class Initializer extends Thread{
 		Transmission trans = connection.getTransmission();
 		Decoder decoder = new Decoder(trans);
 		decoder.decodeTranmission();
+		Offence attack = new Offence(patBot, obstacle, correction, decoder);
+		Defence defence =new Defence(patBot, obstacle, correction, decoder);
 		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
 		new LCDInfo(odo);
 		

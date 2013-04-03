@@ -38,9 +38,11 @@ public class BallCollection {
 		LightSampler rightLight = new LightSampler(lsRight);
 		Obstacle obstacle = new Obstacle(usLeft, usRight, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		Offence attack = new Offence(patBot, obstacle, correction);
 		Decoder decoder = new Decoder(new Transmission());
+		Offence attack = new Offence(patBot, obstacle, correction, decoder);
 		decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		decoder.dispenserX = 90;
+		decoder.dispenserY = 90;
 		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
@@ -48,8 +50,6 @@ public class BallCollection {
 		leftLight.startCorrectionTimer();
 		rightLight.startCorrectionTimer();
 		odo.startTimer();
-		Decoder.dispenserX = 90;
-		Decoder.dispenserY = 30;
 		localizer.dolocalise();
 		attack.collectBalls();
 		attack.stopCorrectionTimer();

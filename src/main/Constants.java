@@ -51,7 +51,7 @@ public final class Constants {
 	/**
 	 * The default forawrd speed of the robot
 	 */
-	public static final int FORWARD_SPEED = 250;
+	public static final int FORWARD_SPEED = 200;
 	/**
 	 * The default light value for detecting a dark line
 	 */

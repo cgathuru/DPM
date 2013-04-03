@@ -1,5 +1,7 @@
 package navigation;
 
+import communication.Decoder;
+
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 
@@ -10,24 +12,34 @@ import robot.TwoWheeledRobot;
  */
 public class Defence extends Navigation implements Strategy {
 
+	private TwoWheeledRobot robot;
+	private Decoder decoder;
+	
 	public Defence(TwoWheeledRobot robot, Obstacle obstacle,
-			OdometryCorrection odoCorrection) {
+			OdometryCorrection odoCorrection, Decoder decoder) {
 		super(robot, obstacle, odoCorrection);
+		this.robot = robot;
+		this.decoder = decoder;
 	}
 
 	/**
-	 * The default mthod called to start the defensive strategy.
+	 * The default method called to start the defensive strategy.
 	 */
 	@Override
 	public void start() {
 		travelToDefenceLocation();
 		super.stopCorrectionTimer();
+		robot.turnTo(270);
 	}
 	
 	/**
 	 * Moves the robot to a specified location for defence.
 	 */
 	public void travelToDefenceLocation(){
+		int xTarget = decoder.defenceX;
+		int yTarget = decoder.defenceY;
+		super.travelTo(xTarget, yTarget);
+		
 		
 	}
 
