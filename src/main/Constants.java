@@ -100,6 +100,7 @@ public final class Constants {
 	 * Amount of time before a detected line is removed from the stack in {@link OdometryCorrection}
 	 */
 	public static final long TIME_REFRESH_CONSTANT = 1500; //amount of time passed before line latched is removed from stack
+	
 	public static final int ObstacleDist = 25; 
 	public static final int motorLow = 170;
 	public static final int clearPathDist=80;
@@ -114,5 +115,6 @@ public final class Constants {
 	 public static final int OBSTACLE_DIST2 = 25;
 	 public static final int NO_PATH_DIST = 45;
 	 public static final int MIN_TURN_TIME =1500;
+	 
 
 }
