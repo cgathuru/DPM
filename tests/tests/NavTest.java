@@ -36,7 +36,7 @@ public class NavTest {
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
-		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
+		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		//Navigation nav = new Navigation(patBot, obstacle, correction);
 		Offence attack = new Offence(patBot, obstacle, correction);

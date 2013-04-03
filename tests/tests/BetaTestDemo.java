@@ -38,7 +38,7 @@ public class BetaTestDemo {
 		//UsSampler leftUs = new UsSampler(usLeft);
 		
 		//LightLocalizer lLocalizer = new LightLocalizer(patBot, lsLeft);
-		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
+		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		//Navigation nav = new Navigation(patBot, obstacle, correction);
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);

@@ -46,7 +46,7 @@ public class Initializer extends Thread{
 		LightSensor lsRight = new LightSensor(SensorPort.S2);
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
-		Obstacle obstacle = new Obstacle(usLeft, usRight, odo);
+		Obstacle obstacle = new Obstacle(usRight, usLeft, odo,patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		Offence attack = new Offence(patBot, obstacle, correction);
 		Defence defence =new Defence(patBot, obstacle, correction);
