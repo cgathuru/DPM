@@ -17,7 +17,7 @@ import main.Constants;
  *
  */
 
-public class Obstacle {
+public class Obstacle2 {
  private static int leftUsDist;
  private static int rightUsDist;  
  private static UltrasonicSensor usLeft, usRight; 
@@ -28,7 +28,7 @@ public class Obstacle {
  private int rightSideDist, leftSideDist;
  private boolean loop;
  
- public Obstacle(UltrasonicSensor usRight, UltrasonicSensor usLeft, Odometer odometer, TwoWheeledRobot robot){  
+ public Obstacle2(UltrasonicSensor usRight, UltrasonicSensor usLeft, Odometer odometer, TwoWheeledRobot robot){  
   this.usLeft = usLeft;
   this.usRight = usRight; 
   this.odometer = odometer;

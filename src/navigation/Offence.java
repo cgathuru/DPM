@@ -25,8 +25,8 @@ public class Offence extends Navigation implements Strategy{
 	 * @param obstacle An {@link Obstacle} responsible for obstacle avoidance
 	 * @param odoCorrection The {@link OdometryCorrection}
 	 */
-	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
-		super(robot, obstacle, odoCorrection);
+	public Offence(TwoWheeledRobot robot, Obstacle2 obstacle2, OdometryCorrection odoCorrection) {
+		super(robot, obstacle2, odoCorrection);
 		this.robot = robot;
 		this.odoCorrection = odoCorrection;
 	}
@@ -52,7 +52,7 @@ public class Offence extends Navigation implements Strategy{
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
 		localizeHere();
-		super.travelTo(xTarget, yTarget);
+		super.travelTo2(xTarget, yTarget);
 		
 		
 		//collect 4 more balls
