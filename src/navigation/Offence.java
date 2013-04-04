@@ -140,7 +140,15 @@ public class Offence extends Navigation implements Strategy{
 	public void travelNearShootingLocation(){
 		int xTarget = decoder.shootX;
 		int yTarget = decoder.shootY;
+<<<<<<< HEAD
 		int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
+=======
+<<<<<<< HEAD
+		int tilesX = (xTarget+Constants.TILE_DISTANCE_TRUNCATED/2 + 2);
+=======
+		int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
+>>>>>>> fuckthis
+>>>>>>> extra
 		super.travelTo(tilesX, yTarget);
 
 	}
