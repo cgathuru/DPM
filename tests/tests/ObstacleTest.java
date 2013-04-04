@@ -1,5 +1,6 @@
 package tests;
 
+import navigation.Obstacle;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
@@ -8,7 +9,6 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import navigation.Navigation;
 import navigation.Obstacle;
-import navigation.Obstacle2;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
