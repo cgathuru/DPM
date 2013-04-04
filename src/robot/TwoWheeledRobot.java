@@ -164,14 +164,14 @@ public class TwoWheeledRobot {
 	
 	/**
 	 * Rotates the robot to face in the direction of a given target position
-	 * @param targetX The x value of the target position 
-	 * @param targetY the y value of the target position
+	 * @param xTarget The x value of the target position 
+	 * @param yTarget the y value of the target position
 	 */
-	public void turnToFace(int targetX, int targetY){
+	public void turnToFace(int xTarget, int yTarget){
 		double currentX = odometer.getX();
 		double currentY = odometer.getY();
-		double deltaX = targetX -currentX;
-		double deltaY = targetY - currentY;
+		double deltaX = xTarget -currentX;
+		double deltaY = yTarget - currentY;
 		
 		double angle = 90- Math.toDegrees(Math.atan2(deltaY, deltaX));
 		double robotAngle = odometer.getTheta();
