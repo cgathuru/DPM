@@ -40,6 +40,7 @@ public class Offence extends Navigation implements Strategy{
 	@Override
 	public void start() {
 		collectBalls();
+		super.startCorrectionTimer();
 		travelToShootingLocation();
 		shoot();
 		
@@ -58,35 +59,46 @@ public class Offence extends Navigation implements Strategy{
 		robot.turnToFace(xTarget, yTarget);
 		robot.turnToImmediate(-15);
 		robot.moveForwardBy(26);
-		robot.turnToImmediate(15);
-		
-		
-		//collect 4 more balls
-		for( int i =1; i< 5; i++){
-			collectAnotherBall();
-		}
-		robot.moveForwardBy(-Constants.TILE_DISTANCE);
-		//odoCorrection.startCorrectionTimer();
-	}
 
-	private void localizeHere() {
-		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
-		LightSampler left = odoCorrection.getLeftLightSampler();
-		//new LightLocalizer(robot, left).doLocalization();
-	}
-	
-	/**
-	 * Collects another ball from the ball dispenser
-	 */
-	public void collectAnotherBall(){
-		super.moveForwardBy(-5);
 		try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		super.moveForwardBy(5);
+
+		
+		
+		//collect 4 more balls
+		for( int i =1; i< 5; i++){
+			collectAnotherBall(i);
+		}
+
+		robot.moveForwardBy(-25);
+		robot.turnToImmediate(15);
+		super.stopCorrectionTimer();
+	}
+
+	private void localizeHere() {
+		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
+		LightSampler left = odoCorrection.getLeftLightSampler();
+//		new LightLocalizer(robot, left).doLocalization();
+		//left.getLightValue();
+
+	}
+	
+	/**
+	 * Collects another ball from the ball dispenser
+	 */
+	public void collectAnotherBall(int i){
+		super.moveForwardBy(-3);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.moveForwardBy(3);
 	}
 	
 	/**
@@ -133,7 +145,8 @@ public class Offence extends Navigation implements Strategy{
 	public void travelNearShootingLocation(){
 		int xTarget = decoder.shootX;
 		int yTarget = decoder.shootY;
-		int tilesX = (xTarget+Constants.TILE_DISTANCE_TRUNCATED/2 + 2);
+		int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
+
 		super.travelTo(tilesX, yTarget);
 
 	}
