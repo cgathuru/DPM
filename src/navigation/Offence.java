@@ -55,20 +55,24 @@ public class Offence extends Navigation implements Strategy{
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
 		localizeHere();
-		super.travelTo(xTarget, yTarget);
+		robot.turnToFace(xTarget, yTarget);
+		robot.turnToImmediate(-15);
+		robot.moveForwardBy(26);
+		robot.turnToImmediate(15);
 		
 		
 		//collect 4 more balls
 		for( int i =1; i< 5; i++){
 			collectAnotherBall();
 		}
-		super.startCorrectionTimer();
+		robot.moveForwardBy(-Constants.TILE_DISTANCE);
+		//odoCorrection.startCorrectionTimer();
 	}
 
 	private void localizeHere() {
 		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
 		LightSampler left = odoCorrection.getLeftLightSampler();
-		new LightLocalizer(robot, left).doLocalization();
+		//new LightLocalizer(robot, left).doLocalization();
 	}
 	
 	/**
@@ -118,6 +122,7 @@ public class Offence extends Navigation implements Strategy{
 	 * Moves the robot to its optimal shooting location
 	 */
 	public void travelToShootingLocation(){
+		odoCorrection.startCorrectionTimer();
 		int xTarget = decoder.shootX;
 		int yTarget = decoder.shootY;
 		travelNearShootingLocation();

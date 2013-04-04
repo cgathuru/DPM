@@ -57,6 +57,8 @@ public class NavTest {
 		leftLight.startCorrectionTimer();
 		localizer.dolocalise();
 		//localizer.delocalize();		
-		attack.start();	}
+		attack.start();	
+		Button.waitForAnyPress();
+	}
 
 }
