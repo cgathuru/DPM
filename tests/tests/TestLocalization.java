@@ -44,7 +44,8 @@ public class TestLocalization {
 		leftSampler.startCorrectionTimer();
 
 		localizer.dolocalise();
-		Button.waitForAnyPress();
+	
+	
 	}
 
 }
