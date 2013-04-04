@@ -11,6 +11,7 @@ import navigation.Offence;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
+import sensors.LightLocalizer;
 import sensors.LightSampler;
 import sensors.Localiser;
 import utilities.OdoLCD;
@@ -46,16 +47,18 @@ public class LocHereTest {
 		Decoder.goalX = 90;
 		Decoder.goalY = 150;
 		Offence attack = new Offence(patBot, obstacle, correction, decoder);
-		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
+		//Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
+		LightLocalizer localizer = new LightLocalizer(patBot, rightLight);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		
 		//leftLight.startCorrectionTimer();
 		//rightLight.startCorrectionTimer();
 		odo.startTimer();
-		rightLight.startCorrectionTimer();
-		leftLight.startCorrectionTimer();
-		attack.start();	
+		//rightLight.startCorrectionTimer();
+		//leftLight.startCorrectionTimer();
+		localizer.doLocalization();
+		//attack.start();	
 		Button.waitForAnyPress();
 	}
 

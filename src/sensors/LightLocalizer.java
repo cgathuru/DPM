@@ -17,7 +17,6 @@ import robot.TwoWheeledRobot;
 public class LightLocalizer {
 	private Odometer odo;
 	private TwoWheeledRobot robot;
-	private LightSensor ls;
 	private LightSampler sampler;
 	
 	/**
@@ -44,7 +43,6 @@ public class LightLocalizer {
 		// do trig to compute (0,0) and 0 degrees
 		// when done travel to (0,0) and turn to 0 degrees
 		sampler.startCorrectionTimer();
-		LCD.drawString("Light Value: " + ls.getLightValue(), 0, 4);
 		double[] angles = new double[4];
 		int count = 0;
 		robot.turnTo(330);

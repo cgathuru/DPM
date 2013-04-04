@@ -58,7 +58,7 @@ public class Offence extends Navigation implements Strategy{
 		localizeHere();
 		robot.turnToFace(xTarget, yTarget);
 		robot.turnToImmediate(-15);
-		robot.moveForwardBy(26);
+		robot.moveForwardBy(23);
 
 		try {
 			Thread.sleep(1500);
@@ -97,7 +97,7 @@ public class Offence extends Navigation implements Strategy{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		super.moveForwardBy(3);
+		super.moveForwardBy(4.5);
 	}
 	
 	/**
