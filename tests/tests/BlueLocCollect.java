@@ -40,9 +40,9 @@ public class BlueLocCollect {
 		LightSampler rightLight = new LightSampler(lsRight);
 		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		Offence attack = new Offence(patBot, obstacle, correction);
 		Decoder decoder = new Decoder(new Transmission());
 		decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Offence attack = new Offence(patBot, obstacle, correction, decoder);
 		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
