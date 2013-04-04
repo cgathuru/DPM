@@ -40,11 +40,11 @@ public class NavTest {
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		//Navigation nav = new Navigation(patBot, obstacle, correction);
 		Decoder decoder = new Decoder(new Transmission());
-		decoder.startCorner = StartCorner.BOTTOM_LEFT;
-		decoder.dispenserX = -30;
-		decoder.dispenserY = 60;
-		decoder.goalX = 90;
-		decoder.goalY = 150;
+		Decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Decoder.dispenserX = -30;
+		Decoder.dispenserY = 60;
+		Decoder.goalX = 90;
+		Decoder.goalY = 150;
 		Offence attack = new Offence(patBot, obstacle, correction, decoder);
 		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
 		new OdoLCD(odo);
@@ -57,6 +57,8 @@ public class NavTest {
 		leftLight.startCorrectionTimer();
 		localizer.dolocalise();
 		//localizer.delocalize();		
-		attack.start();	}
+		attack.start();	
+		Button.waitForAnyPress();
+	}
 
 }
