@@ -125,8 +125,8 @@ public class Localiser {
 		case BOTTOM_RIGHT:
 			odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
 			odometer.setTheta(270);
-			robot.travelTo(270, 0);
-			robot.travelTo(270, 30);
+			robot.travelTo(240, 0);
+			robot.travelTo(240, 30);
 			break;
 		case NULL: //for null case assume bottom right
 			odometer.setY(yValue);
@@ -138,14 +138,14 @@ public class Localiser {
 		case TOP_LEFT:
 			odometer.setX(xValue);
 			odometer.setTheta(90);
-			robot.travelTo(60, 330);
 			robot.travelTo(60, 300);
+			robot.travelTo(60, 270);
 			break;
 		case TOP_RIGHT:
 			odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
 			odometer.setTheta(180);
-			robot.travelTo(270, 330);
-			robot.travelTo(270, 300);
+			robot.travelTo(240, 300);
+			robot.travelTo(240, 270);
 			break;
 		default:
 			break;

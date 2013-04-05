@@ -5,6 +5,7 @@ import communication.Decoder;
 import communication.PlayerRole;
 import communication.StartCorner;
 import communication.Transmission;
+import display.LCDInfo;
 
 import main.Constants;
 import navigation.Defence;
@@ -47,13 +48,13 @@ public class DefenseTest {
 				Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 				OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 				Decoder decoder = new Decoder(new Transmission());
-				decoder.startCorner = StartCorner.BOTTOM_LEFT;
-				decoder.defenceX = Constants.TILE_DISTANCE_TRUNCATED * Constants.GOALX;
-				decoder.defenceY = Constants.TILE_DISTANCE_TRUNCATED * (Constants.GOALY - 2);
+				Decoder.startCorner = StartCorner.BOTTOM_LEFT;
+				Decoder.defenceX = Constants.TILE_DISTANCE_TRUNCATED * Constants.GOALX;
+				Decoder.defenceY = Constants.TILE_DISTANCE_TRUNCATED * (Constants.GOALY - 2);
 				Defence defence = new Defence(patBot, obstacle, correction, decoder);
 
 				Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
-				new OdoLCD(odo);
+				new LCDInfo(odo);
 				Button.waitForAnyPress();
 				
 				leftLight.startCorrectionTimer();
