@@ -1,19 +1,13 @@
 package navigation;
 
 import lejos.nxt.Motor;
-import lejos.nxt.NXTRegulatedMotor;
-import lejos.nxt.UltrasonicSensor;
 import main.Constants;
-import communication.Decoder;
-
 import robot.Odometer;
 import robot.OdometryCorrection;
-import robot.OdometryCorrection.SensorSide;
 import robot.TwoWheeledRobot;
-import sensors.LightLocalizer;
 import sensors.LightSampler;
-import sensors.Localiser;
-import sensors.ReLocaliser;
+
+import communication.Decoder;
 
 /**
  * Implements the offensive strategy of the robot
@@ -81,10 +75,10 @@ public class Offence extends Navigation implements Strategy{
 		//}
 
 		//robot.moveForwardBy(-25);
-		boolean localized = false;
 		robot.moveForwardBy(-20, true);
 		
 		localizeAtCollection(xTarget, yTarget);
+		turnOnObstacleAvoidance();
 		//robot.turnToImmediate(15);
 		//super.stopCorrectionTimer();
 	}
@@ -118,6 +112,7 @@ public class Offence extends Navigation implements Strategy{
 					odometer.setX(xTarget);
 					odometer.setY(yTarget- Constants.TILE_DISTANCE);
 				}
+				localized =true;
 			}
 		}
 		
@@ -130,7 +125,6 @@ public class Offence extends Navigation implements Strategy{
 		//new LightLocalizer(robot, left).doLocalization();
 		//new ReLocaliser(robot, left, right).reLocalize();
 		//robot.turnToImmediate(90);
-		turnOnObstacleAvoidance();
 		//super.moveForwardBy(35);
 	}
 	
@@ -155,10 +149,10 @@ public class Offence extends Navigation implements Strategy{
 	 * @param yTarget The y ordinate of the ball dispenser location
 	 */
 	public void travelNearCollectionSite(int xTarget, int yTarget){
-		robot.getLeftMotor().setSpeed(Constants.FORWARD_SPEED);
-		robot.getRightMotor().setSpeed(Constants.FORWARD_SPEED);
-		robot.getLeftMotor().forward();
-		robot.getRightMotor().forward();
+		//robot.getLeftMotor().setSpeed(Constants.FORWARD_SPEED);
+		//robot.getRightMotor().setSpeed(Constants.FORWARD_SPEED);
+		//robot.getLeftMotor().forward();
+		//robot.getRightMotor().forward();
 		robot.turnToFace(xTarget, yTarget);
 		
 		//if x ordinate is negative and y is positive

@@ -22,7 +22,7 @@ public final class Constants {
 	/** 
 	 * Distance between the tiles
 	 */
-	public static final double TILE_DISTANCE = 30;
+	public static final double TILE_DISTANCE = 30.38;
 	
 	/**
 	 * The integer version of the tile distance used for the {@link Decoder}
