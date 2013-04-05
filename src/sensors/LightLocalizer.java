@@ -46,25 +46,23 @@ public class LightLocalizer {
 		double[] angles = new double[4];
 		int count = 0;
 		robot.turnTo(330);
-		robot.setRotationSpeed(Constants.ROTATE_SPEED);		
-		while(true){
+		robot.setRotationSpeed(Constants.ROTATE_SPEED);	
+		boolean rotating = true;
+		while(rotating){
 			//if(ls.getLightValue() < Constants.DARK_LINE_VALUE){
 			if(sampler.isDarkLine()){
 				Sound.beep();
 				angles[count] = this.odo.getTheta();
 				count++;
 				if(count == 4){
-					break;
+					rotating = false;
 				}
-				
-				
 				try {
-					Thread.sleep(500);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 			
 		}

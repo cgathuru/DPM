@@ -55,7 +55,7 @@ public class LocHereTest {
 		//leftLight.startCorrectionTimer();
 		//rightLight.startCorrectionTimer();
 		odo.startTimer();
-		//rightLight.startCorrectionTimer();
+		rightLight.startCorrectionTimer();
 		//leftLight.startCorrectionTimer();
 		localizer.doLocalization();
 		//attack.start();	

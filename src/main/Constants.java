@@ -60,7 +60,7 @@ public final class Constants {
 	 * Minimum percentage difference needed between the light average and the current light value
 	 * in order for the system to detect a black line in the {@link LightSampler}
 	 */
-	public static final double LIGHT_VALUE_PERCENTAGE = 0.145;
+	public static final double LIGHT_VALUE_PERCENTAGE = 0.135;
 	/**
 	 * The distance between the sensor and the center of the robot needed for light localization
 	 */
