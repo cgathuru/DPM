@@ -8,7 +8,6 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import navigation.Navigation;
-import navigation.Obstacle;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
@@ -47,7 +46,7 @@ public class ObstacleTest {
 //   patBot.travelTo(0,180);
 //   patBot.travelTo(0,0);
 //  while(true){
- nav.travelTo(0,150);   
+  	nav.travelTo(0,150);   
  nav.travelTo(150, 0);
  nav.travelTo(150, 150);
  nav.travelTo(0,0);
