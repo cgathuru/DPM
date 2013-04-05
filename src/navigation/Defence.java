@@ -1,5 +1,6 @@
 package navigation;
 
+import main.Constants;
 import communication.Decoder;
 
 import robot.OdometryCorrection;
@@ -38,6 +39,7 @@ public class Defence extends Navigation implements Strategy {
 	public void travelToDefenceLocation(){
 		int xTarget = decoder.defenceX;
 		int yTarget = decoder.defenceY;
+		super.travelTo(5*Constants.TILE_DISTANCE_TRUNCATED, 5*Constants.TILE_DISTANCE_TRUNCATED);
 		super.travelTo(xTarget, yTarget);
 		
 		

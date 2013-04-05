@@ -40,9 +40,9 @@ public class BallCollection {
 		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		Decoder decoder = new Decoder(new Transmission());
-		decoder.startCorner = StartCorner.BOTTOM_RIGHT;
+		decoder.startCorner = StartCorner.TOP_LEFT;
 		Decoder.dispenserX = 150;
-		Decoder.dispenserY = -30;
+		Decoder.dispenserY = 330;
 		Decoder.shootX = 120;
 		Decoder.shootY = 60;
 		Offence attack = new Offence(patBot, obstacle, correction, decoder);

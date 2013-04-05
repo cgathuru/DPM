@@ -47,16 +47,22 @@ public class DefenseTest {
 				LightSampler rightLight = new LightSampler(lsRight);
 				Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 				OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-				Decoder decoder = new Decoder(new Transmission());
+				/*Decoder decoder = new Decoder(new Transmission());
 				Decoder.startCorner = StartCorner.BOTTOM_LEFT;
 				Decoder.defenceX = Constants.TILE_DISTANCE_TRUNCATED * Constants.GOALX;
-				Decoder.defenceY = Constants.TILE_DISTANCE_TRUNCATED * (Constants.GOALY - 2);
+				Decoder.defenceY = Constants.TILE_DISTANCE_TRUNCATED * (Constants.GOALY - 2);*/
+				
+				Button.waitForAnyPress();
+				BluetoothConnection connection = new BluetoothConnection();
+				LCD.clear();
+				connection.printTransmission();
+				new LCDInfo(odo);
+				Transmission trans = connection.getTransmission();
+				trans.decodeTranmission();
+				Decoder decoder = new Decoder(trans);
 				Defence defence = new Defence(patBot, obstacle, correction, decoder);
 
 				Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
-				new LCDInfo(odo);
-				Button.waitForAnyPress();
-				
 				leftLight.startCorrectionTimer();
 				rightLight.startCorrectionTimer();
 				odo.startTimer();
