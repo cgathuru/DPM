@@ -1,14 +1,19 @@
 package navigation;
 
 import lejos.nxt.Motor;
+import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.UltrasonicSensor;
 import main.Constants;
 import communication.Decoder;
 
+import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.OdometryCorrection.SensorSide;
 import robot.TwoWheeledRobot;
 import sensors.LightLocalizer;
 import sensors.LightSampler;
+import sensors.Localiser;
+import sensors.ReLocaliser;
 
 /**
  * Implements the offensive strategy of the robot
@@ -39,8 +44,9 @@ public class Offence extends Navigation implements Strategy{
 	 */
 	@Override
 	public void start() {
+		odoCorrection.startCorrectionTimer();
 		collectBalls();
-		super.startCorrectionTimer();
+		//super.startCorrectionTimer();
 		travelToShootingLocation();
 		shoot();
 		
@@ -55,13 +61,13 @@ public class Offence extends Navigation implements Strategy{
 		travelNearCollectionSite(xTarget, yTarget);
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
-		localizeHere();
 		robot.turnToFace(xTarget, yTarget);
-		robot.turnToImmediate(-15);
-		robot.moveForwardBy(23);
+		//localizeHere();
+		//robot.turnToImmediate(-15);
+		robot.moveForwardBy(22);
 
 		try {
-			Thread.sleep(1500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,20 +76,62 @@ public class Offence extends Navigation implements Strategy{
 		
 		
 		//collect 4 more balls
-		for( int i =1; i< 5; i++){
-			collectAnotherBall(i);
-		}
+		//for( int i =1; i< 5; i++){
+			//collectAnotherBall(i);
+		//}
 
-		robot.moveForwardBy(-25);
-		robot.turnToImmediate(15);
-		super.stopCorrectionTimer();
+		//robot.moveForwardBy(-25);
+		boolean localized = false;
+		robot.moveForwardBy(-20, true);
+		
+		localizeAtCollection(xTarget, yTarget);
+		//robot.turnToImmediate(15);
+		//super.stopCorrectionTimer();
 	}
 
-	private void localizeHere() {
-		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
+	private void localizeAtCollection(int xTarget, int yTarget) {
+		//odoCorrection.stopCorrectionTimer(false);
 		LightSampler left = odoCorrection.getLeftLightSampler();
+		LightSampler right = odoCorrection.getRightLightsmapler();
+		Odometer odometer = robot.getOdometer();
+		boolean localized = false;
+		while(!localized){
+			if(left.isDarkLine()){
+				robot.stopMotors();
+				//if x ordinate is negative and y is positive
+				if(xTarget < 0){
+					odometer.setX(0);
+					odometer.setY(yTarget);
+				}
+				//if x ordinate is positive and y is negative
+				else if (xTarget > 0 && yTarget < 0){
+					odometer.setX(xTarget);
+					odometer.setY(0);
+				}
+				//if x ordinate is positive between 0 and 300 and y ordinate is positive
+				else if (yTarget >0 && yTarget < 300 && xTarget > 0){
+					odometer.setX(xTarget - Constants.TILE_DISTANCE);
+					odometer.setY(yTarget);
+				}
+				//if y ordinate is yTarget > 300
+				else{
+					odometer.setX(xTarget);
+					odometer.setY(yTarget- Constants.TILE_DISTANCE);
+				}
+			}
+		}
+		
+		
+		
+		//robot.turnToImmediate(10);
+		//UltrasonicSensor leftUs = Obstacle.getLeftUs();
+		//new Localiser(robot, leftUs, left, right, decoder).doAlignmentRoutine();
 		//left.getLightValue();
 		//new LightLocalizer(robot, left).doLocalization();
+		//new ReLocaliser(robot, left, right).reLocalize();
+		//robot.turnToImmediate(90);
+		turnOnObstacleAvoidance();
+		//super.moveForwardBy(35);
 	}
 	
 	/**
@@ -91,13 +139,13 @@ public class Offence extends Navigation implements Strategy{
 	 */
 	public void collectAnotherBall(int i){
 		super.moveForwardBy(-3);
+		super.moveForwardBy(4.5);
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		super.moveForwardBy(4.5);
 	}
 	
 	/**
@@ -107,17 +155,31 @@ public class Offence extends Navigation implements Strategy{
 	 * @param yTarget The y ordinate of the ball dispenser location
 	 */
 	public void travelNearCollectionSite(int xTarget, int yTarget){
+		robot.getLeftMotor().setSpeed(Constants.FORWARD_SPEED);
+		robot.getRightMotor().setSpeed(Constants.FORWARD_SPEED);
+		robot.getLeftMotor().forward();
+		robot.getRightMotor().forward();
+		robot.turnToFace(xTarget, yTarget);
+		
 		//if x ordinate is negative and y is positive
 		if(xTarget < 0){
+			super.travelTo(0, yTarget);
 			super.travelTo(0, yTarget);
 		}
 		//if x ordinate is positive and y is negative
 		else if (xTarget > 0 && yTarget < 0){
 			super.travelTo(xTarget, 0);
+			super.travelTo(xTarget, 0);
 		}
-		//if x ordinate is positive and y ordinate is positive
+		//if x ordinate is positive between 0 and 300 and y ordinate is positive
+		else if (yTarget >0 && yTarget < 300 && xTarget > 0){
+			super.travelTo(xTarget - Constants.TILE_DISTANCE_TRUNCATED, yTarget);
+			super.travelTo(xTarget - Constants.TILE_DISTANCE_TRUNCATED, yTarget);
+		}
+		//if y ordinate is yTarget > 300
 		else{
-			super.travelTo(xTarget - 30, yTarget);
+			super.travelTo(xTarget, yTarget- Constants.TILE_DISTANCE_TRUNCATED);
+			super.travelTo(xTarget, yTarget- Constants.TILE_DISTANCE_TRUNCATED);
 		}
 	}
 
@@ -129,6 +191,9 @@ public class Offence extends Navigation implements Strategy{
 		super.turnOffObstacleAvoidance();
 	}
 
+	public void turnOnObstacleAvoidacne(){
+		super.turnOnObstacleAvoidance();
+	}
 	/**
 	 * Moves the robot to its optimal shooting location
 	 */
@@ -137,7 +202,7 @@ public class Offence extends Navigation implements Strategy{
 		int xTarget = decoder.shootX;
 		int yTarget = decoder.shootY;
 		travelNearShootingLocation();
-		localizeHere();
+		//localizeHere();
 		super.travelTo(xTarget, yTarget);
 	}
 	

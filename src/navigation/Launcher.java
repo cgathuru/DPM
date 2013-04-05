@@ -1,6 +1,11 @@
 package navigation;
 import lejos.nxt.*;
 
+/**
+ * 
+ * @author anthony
+ *
+ */
 public class Launcher {
 	
 	public static void drive(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor, NXTRegulatedMotor centerMotor) {

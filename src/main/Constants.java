@@ -22,7 +22,7 @@ public final class Constants {
 	/** 
 	 * Distance between the tiles
 	 */
-	public static final double TILE_DISTANCE = 30.48;
+	public static final double TILE_DISTANCE = 30;
 	
 	/**
 	 * The integer version of the tile distance used for the {@link Decoder}
@@ -60,7 +60,7 @@ public final class Constants {
 	 * Minimum percentage difference needed between the light average and the current light value
 	 * in order for the system to detect a black line in the {@link LightSampler}
 	 */
-	public static final double LIGHT_VALUE_PERCENTAGE = 0.135;
+	public static final double LIGHT_VALUE_PERCENTAGE = 0.11;
 	/**
 	 * The distance between the sensor and the center of the robot needed for light localization
 	 */

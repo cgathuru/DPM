@@ -42,34 +42,20 @@ public class Localiser {
 	 */
 	public void dolocalise(){
 		//new LCDInfo(odo);
-				boolean loacalized = false;
+				
 				//if facing towards the wall initially rotate until facing no wall
 				correctStartingDirection();
 				
 				//if facing away from the wall
 				if(usLeft.getDistance()  > Constants.WALL_DIST){
+					boolean loacalized = false;
 					while(!loacalized){
 						robot.setRotationSpeed(Constants.ROTATE_SPEED);
 						//rotate clockwise till you see a wall
 						if(usLeft.getDistance()  < Constants.WALL_DIST){
 							//patBot.turnToImmediate(-55);
 							robot.stopMotors();
-							robot.moveForward(); //move forawrd until you hit a line
-							boolean light = false;
-							while(!light){
-								if(rightLight.isDarkLine()){
-									Motor.B.stop(true);
-									Motor.A.stop();
-									Motor.A.setSpeed(-Constants.ROTATE_SPEED);
-									Motor.A.backward();
-									doFirstAlignment();
-									light = true;
-								}
-								
-							}
-							robot.turnTo(-90);
-							robot.moveForward();
-							doSecondAlignment();
+							doAlignmentRoutine();
 							loacalized = true;
 							
 						}//end if distance < 60
@@ -77,6 +63,14 @@ public class Localiser {
 					}//end while localised
 				}//end if facing away from wall
 	}//end do localise
+
+	public void doAlignmentRoutine() {
+		robot.moveForward(); //move forawrd until you hit a line
+		doFirstAlignment();
+		robot.turnTo(-90);
+		robot.moveForward();
+		doSecondAlignment();
+	}
 
 	/**
 	 * Does the second alignment for the robots localisation which sets x or y,
@@ -164,6 +158,17 @@ public class Localiser {
 	 * depending on the localisation {@link StartCorner}
 	 */
 	public void doFirstAlignment() {
+		boolean light = false;
+		while(!light){
+			if(rightLight.isDarkLine()){
+				Motor.B.stop(true);
+				Motor.A.stop();
+				Motor.A.setSpeed(-Constants.ROTATE_SPEED);
+				Motor.A.backward();
+				light = true;
+			}
+			
+		}
 		boolean light2 = false;
 		while(!light2){
 			if(leftLight.isDarkLine()){

@@ -87,7 +87,7 @@ public class Decoder {
 	 * Sets the x and y coordinates for the offensive position. This method should only be called after the {@code decodeTransmission}
 	 * method has been called
 	 */
-	public void processAttack() {
+	public static void processAttack() {
 		shootX = goalX -(Constants.TILE_DISTANCE_TRUNCATED/2 -2);
 		shootY = Constants.TILE_DISTANCE_TRUNCATED*determineYTarget(goalX/Constants.TILE_DISTANCE_TRUNCATED, goalY/Constants.TILE_DISTANCE_TRUNCATED);
 	}
@@ -96,7 +96,7 @@ public class Decoder {
 	 * Sets the x and y coordinates for the defensive position. This method should only be called after the {@code decodeTransmission}
 	 * method has been called
 	 */
-	public void processDefence(int w2){
+	public static void processDefence(int w2){
 		defenceX = goalX;
 		defenceY = w2*Constants.TILE_DISTANCE_TRUNCATED;
 	}

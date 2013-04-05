@@ -268,4 +268,12 @@ public class Obstacle {
  return rightUsDist;
  }
  
+ public static UltrasonicSensor getLeftUs(){
+	 return usLeft;
+ }
+ 
+ public static UltrasonicSensor getRightUs(){
+	 return usRight;
+ }
+ 
 }

@@ -5,6 +5,8 @@
 */
 package communication;
 
+import main.Constants;
+
 /**
  * Skeleton class to hold datatypes needed for final project
  * 
@@ -48,4 +50,20 @@ public class Transmission {
 	 */
 	public StartCorner startingCorner;
 	
+	
+	/**
+	 * Translates the data in the {@link Transmission} into usable information
+	 */
+	public void decodeTranmission(){
+		Decoder.goalX = Constants.GOALX * Constants.TILE_DISTANCE_TRUNCATED;
+		Decoder.goalY = Constants.GOALY * Constants.TILE_DISTANCE_TRUNCATED;
+		Decoder.processAttack();
+		Decoder.processDefence(w2);
+		Decoder.dispenserX = bx * Constants.TILE_DISTANCE_TRUNCATED;
+		Decoder.dispenserY = by * Constants.TILE_DISTANCE_TRUNCATED;
+		Decoder.startCorner = startingCorner;
+		Decoder.playerRole = role;
+				
+		
+	}
 }

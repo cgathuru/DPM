@@ -84,6 +84,21 @@ public class TwoWheeledRobot {
 	}
 	
 	/**
+	 * Turns robot by the given number of degrees anti-clockwise
+	 * @param theta The angle in degrees which the robot should rotate by
+	 * @param immediateReturn True if the method should return immediately
+	 */
+	public void turnToImmediate(double theta, boolean immediateReturn){
+		isRotating = true;
+		leftMotor.setSpeed(Constants.ROTATE_SPEED);
+		rightMotor.setSpeed(Constants.ROTATE_SPEED);
+		leftMotor.forward();
+		rightMotor.forward();
+		leftMotor.rotate(convertAngle(leftRadius,width,theta),true);
+		rightMotor.rotate(-convertAngle(rightRadius,width,theta),immediateReturn);
+	}
+	
+	/**
 	 * Travels to a specified position, accurate to a pre-calculated distance. This operation cannot be interrupted.
 	 * @param xTarget The x value of the target position
 	 * @param yTarget The y value of the target position
