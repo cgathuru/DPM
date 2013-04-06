@@ -59,10 +59,9 @@ public class DefenseTest {
 				new LCDInfo(odo);
 				Transmission trans = connection.getTransmission();
 				trans.decodeTranmission();
-				Decoder decoder = new Decoder(trans);
-				Defence defence = new Defence(patBot, obstacle, correction, decoder);
+				Defence defence = new Defence(patBot, obstacle, correction);
 
-				Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
+				Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 				leftLight.startCorrectionTimer();
 				rightLight.startCorrectionTimer();
 				odo.startTimer();

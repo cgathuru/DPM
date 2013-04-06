@@ -53,12 +53,9 @@ public class Initializer extends Thread{
 		BluetoothConnection connection = new BluetoothConnection();
 		LCD.clear();
 		connection.printTransmission();
-		Transmission trans = connection.getTransmission();
-		Decoder decoder = new Decoder(trans);
-		decoder.decodeTranmission();
-		Offence attack = new Offence(patBot, obstacle, correction, decoder);
-		Defence defence =new Defence(patBot, obstacle, correction, decoder);
-		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
+		Offence attack = new Offence(patBot, obstacle, correction);
+		Defence defence =new Defence(patBot, obstacle, correction);
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 		new LCDInfo(odo);
 		
 		leftLight.startCorrectionTimer();

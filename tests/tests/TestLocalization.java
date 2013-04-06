@@ -30,13 +30,12 @@ public class TestLocalization {
 		LightSampler rightSampler = new LightSampler(rightLight);
 		LightSampler leftSampler = new LightSampler(leftLight);
 		Transmission trans = new Transmission();
+		trans.decodeTranmission();
 		trans.startingCorner = StartCorner.BOTTOM_LEFT;
-		Decoder decoder = new Decoder(trans);
-		decoder.decodeTranmission();
 		Decoder.startCorner = StartCorner.BOTTOM_LEFT;
 		//USLocalizer usLeft = new USLocalizer(patBot, us);
 //		LocaliserNoBT localizer  = new LocaliserNoBT(patBot,usLeft, rightSampler, leftSampler);
-		Localiser localizer  = new Localiser(patBot,usLeft, rightSampler, leftSampler, decoder);
+		Localiser localizer  = new Localiser(patBot,usLeft, rightSampler, leftSampler);
 
 		new OdoLCD(odo);	
 		Button.waitForAnyPress();

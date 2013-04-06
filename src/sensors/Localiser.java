@@ -14,7 +14,6 @@ public class Localiser {
 	private UltrasonicSensor usLeft;
 	private TwoWheeledRobot robot;
 	private Odometer odometer;
-	private static Decoder decoder;
 	private StartCorner startCorner;
 	private double fieldSize;
 	
@@ -22,17 +21,16 @@ public class Localiser {
 	 * Initialises all the variables used by the localisation routine
 	 * @param robot The {@link TwoWheeledRobot} that controls the robots movements
 	 * @param usLeft The left Ultrasonic sensor
-	 * @param leftLight The right Ultrasonic sensor
-	 * @param rightLight
+	 * @param leftLight The left {@code LightSampler}
+	 * @param rightLight The right {@code LightSampler}
 	 */
-	public Localiser(TwoWheeledRobot robot, UltrasonicSensor usLeft, LightSampler leftLight, LightSampler rightLight, Decoder decoder){
+	public Localiser(TwoWheeledRobot robot, UltrasonicSensor usLeft, LightSampler leftLight, LightSampler rightLight){
 		this.robot = robot;
 		this.odometer = robot.getOdometer();
 		this.usLeft = usLeft;
 		this.leftLight = leftLight;
 		this.rightLight = rightLight;
-		this.decoder = decoder;
-		this.startCorner = decoder.startCorner;
+		this.startCorner = Decoder.startCorner;
 		fieldSize = Constants.PLAYING_FEILD.length * Constants.TILE_DISTANCE;
 		
 	}

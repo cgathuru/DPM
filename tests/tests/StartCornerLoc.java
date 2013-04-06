@@ -31,9 +31,8 @@ public class StartCornerLoc {
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
 		
-		Decoder decoder = new Decoder(new Transmission());
-		decoder.startCorner = StartCorner.BOTTOM_LEFT; //this should be changed accordingly
-		Localiser localiser = new Localiser(patBot, usLeft, leftLight, rightLight, decoder);
+		Decoder.startCorner = StartCorner.BOTTOM_LEFT; //this should be changed accordingly
+		Localiser localiser = new Localiser(patBot, usLeft, leftLight, rightLight);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		localiser.dolocalise();

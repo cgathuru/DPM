@@ -17,7 +17,6 @@ import communication.Decoder;
 public class Offence extends Navigation implements Strategy{
 	private OdometryCorrection odoCorrection;
 	private TwoWheeledRobot robot;
-	private Decoder decoder;
 
 	/**
 	 * Initializes all the parameters needed {@link Navigation}
@@ -26,11 +25,10 @@ public class Offence extends Navigation implements Strategy{
 	 * @param odoCorrection The {@link OdometryCorrection}
 	 * @param decoder 
 	 */
-	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection, Decoder decoder) {
+	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection) {
 		super(robot, obstacle, odoCorrection);
 		this.robot = robot;
 		this.odoCorrection = odoCorrection;
-		this.decoder = decoder;
 	}
 	
 	/**
@@ -50,8 +48,8 @@ public class Offence extends Navigation implements Strategy{
 	 * Navigates to the ball dispensers location and collects the balls
 	 */
 	public void collectBalls(){
-		int xTarget = decoder.dispenserX;
-		int yTarget = decoder.dispenserY;
+		int xTarget = Decoder.dispenserX;
+		int yTarget = Decoder.dispenserY;
 		travelNearCollectionSite(xTarget, yTarget);
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
@@ -193,16 +191,16 @@ public class Offence extends Navigation implements Strategy{
 	 */
 	public void travelToShootingLocation(){
 		odoCorrection.startCorrectionTimer();
-		int xTarget = decoder.shootX;
-		int yTarget = decoder.shootY;
+		int xTarget = Decoder.shootX;
+		int yTarget = Decoder.shootY;
 		travelNearShootingLocation();
 		//localizeHere();
 		super.travelTo(xTarget, yTarget);
 	}
 	
 	public void travelNearShootingLocation(){
-		int xTarget = decoder.shootX;
-		int yTarget = decoder.shootY;
+		int xTarget = Decoder.shootX;
+		int yTarget = Decoder.shootY;
 		int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
 		super.travelTo(tilesX, yTarget);
 

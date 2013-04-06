@@ -42,7 +42,7 @@ public class ParseTransmission {
 			trans.w2 = dis.readInt();
 			ignore(dis);
 			trans.d1 = dis.readInt();
-			
+			trans.decodeTranmission();
 			return trans;
 		} catch (IOException e) {
 			// failed to read transmitted data

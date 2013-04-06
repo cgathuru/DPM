@@ -60,30 +60,6 @@ public class Decoder {
 	public static PlayerRole playerRole;
 	
 	/**
-	 * Initializes the {@code Decoder} for parsing the  {@code Transmission}
-	 * @param transmission The {@link Transmission} object for decoding
-	 */
-	public Decoder(Transmission transmission){
-		this.transmission = transmission;
-	}
-
-	/**
-	 * Translates the data in the {@link Transmission} into usable information
-	 */
-	public void decodeTranmission(){
-		goalX = Constants.GOALX * Constants.TILE_DISTANCE_TRUNCATED;
-		goalY = Constants.GOALY * Constants.TILE_DISTANCE_TRUNCATED;
-		processAttack();
-		processDefence(transmission.w2);
-		dispenserX = transmission.bx * Constants.TILE_DISTANCE_TRUNCATED;
-		dispenserY = transmission.by * Constants.TILE_DISTANCE_TRUNCATED;
-		startCorner = transmission.startingCorner;
-		playerRole = transmission.role;
-				
-		
-	}
-
-	/**
 	 * Sets the x and y coordinates for the offensive position. This method should only be called after the {@code decodeTransmission}
 	 * method has been called
 	 */

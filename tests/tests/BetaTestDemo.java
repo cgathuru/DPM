@@ -43,9 +43,8 @@ public class BetaTestDemo {
 		LightSampler leftLight = new LightSampler(lsLeft);
 		LightSampler rightLight = new LightSampler(lsRight);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		Decoder decoder = new Decoder(new Transmission());
-		decoder.startCorner = StartCorner.BOTTOM_LEFT;
-		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
+		Decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 		new OdoLCD(odo);
 		Button.waitForAnyPress();
 		

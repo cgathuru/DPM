@@ -14,13 +14,11 @@ import robot.TwoWheeledRobot;
 public class Defence extends Navigation implements Strategy {
 
 	private TwoWheeledRobot robot;
-	private Decoder decoder;
 	
 	public Defence(TwoWheeledRobot robot, Obstacle obstacle,
-			OdometryCorrection odoCorrection, Decoder decoder) {
+			OdometryCorrection odoCorrection) {
 		super(robot, obstacle, odoCorrection);
 		this.robot = robot;
-		this.decoder = decoder;
 	}
 
 	/**
@@ -37,8 +35,8 @@ public class Defence extends Navigation implements Strategy {
 	 * Moves the robot to a specified location for defence.
 	 */
 	public void travelToDefenceLocation(){
-		int xTarget = decoder.defenceX;
-		int yTarget = decoder.defenceY;
+		int xTarget = Decoder.defenceX;
+		int yTarget = Decoder.defenceY;
 		super.travelTo(5*Constants.TILE_DISTANCE_TRUNCATED, 5*Constants.TILE_DISTANCE_TRUNCATED);
 		super.travelTo(xTarget, yTarget);
 		

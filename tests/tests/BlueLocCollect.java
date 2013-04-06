@@ -46,9 +46,8 @@ public class BlueLocCollect {
 		connection.printTransmission();
 		Transmission trans = connection.getTransmission();
 		trans.decodeTranmission();
-		Decoder decoder = new Decoder(trans);
-		Offence attack = new Offence(patBot, obstacle, correction, decoder);
-		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight, decoder);
+		Offence attack = new Offence(patBot, obstacle, correction);
+		Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 		leftLight.startCorrectionTimer();
 		rightLight.startCorrectionTimer();
 		odo.startTimer();
