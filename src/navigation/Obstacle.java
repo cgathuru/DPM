@@ -255,25 +255,23 @@ public class Obstacle {
  public static int leftUsDist(){ //filter code left out because it slows down detection
   
   // do a ping
- usLeft.ping();   
- leftUsDist = usLeft.getDistance();  
- return leftUsDist;
+ //usLeft.ping();   
+ return usLeft.getDistance();  
  }
 
  public static int rightUsDist(){ 
  
   // do a ping
- usRight.ping();   
- rightUsDist = usRight.getDistance();  
- return rightUsDist;
+ //usRight.ping();   
+ return usRight.getDistance();  
  }
  
- public static UltrasonicSensor getLeftUs(){
-	 return usLeft;
- }
- 
- public static UltrasonicSensor getRightUs(){
-	 return usRight;
- }
+// public static UltrasonicSensor getLeftUs(){
+//	 return usLeft;
+// }
+// 
+// public static UltrasonicSensor getRightUs(){
+//	 return usRight;
+// }
  
 }

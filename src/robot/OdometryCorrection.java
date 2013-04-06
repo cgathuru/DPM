@@ -710,10 +710,6 @@ public class OdometryCorrection implements TimerListener{
 		return this.rightLs;
 	}
 	
-	/**
-	 * Stops the correction timer and the {@code lightSamplers} if true
-	 * @param lightSamplers True if the LightSamplers should be stopped in addition to odometrycorrection.
-	 */
 	public void stopCorrectionTimer(boolean lightSamplers){
 		this.correctionTimer.stop();
 		if(lightSamplers){
@@ -725,10 +721,6 @@ public class OdometryCorrection implements TimerListener{
 		}
 	}
 	
-	/**
-	 * Stops {@link OdometryCorrection} and the LightSamplers, except the specified {@link LightSampler} corresponding to the light sensor
-	 * @param sensorSide The {@link SensorSide} corresponding to the {@link LightSampler} that should not be stopped
-	 */
 	public void stopCorrectionTimer(SensorSide sensorSide){
 		this.correctionTimer.stop();
 		switch(sensorSide){

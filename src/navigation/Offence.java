@@ -26,7 +26,7 @@ public class Offence extends Navigation implements Strategy{
 	 * @param odoCorrection The {@link OdometryCorrection}
 	 * @param decoder 
 	 */
-	public Offence(TwoWheeledRobot robot, Obstacle obstacle, OdometryCorrection odoCorrection, Decoder decoder) {
+	public Offence(TwoWheeledRobot robot, ZachObstacle obstacle, OdometryCorrection odoCorrection, Decoder decoder) {
 		super(robot, obstacle, odoCorrection);
 		this.robot = robot;
 		this.odoCorrection = odoCorrection;
