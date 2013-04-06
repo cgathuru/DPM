@@ -43,8 +43,7 @@ public class Navigation {
   * Travels to a target destination. This version of travelTo includes obstacle avoidance and odometry correction
   * @param xTarget The x position of the target destination
   * @param yTarget The y position of the target destination
-  */
-  
+  */ 
   public void travelTo(int xTarget, int yTarget){
       
    while(Math.abs(odometer.getX()-xTarget)>Constants.ALLOWABLE_ERROR || Math.abs(odometer.getY()-yTarget)>Constants.ALLOWABLE_ERROR){  
@@ -70,6 +69,12 @@ public class Navigation {
    }  
    }
 
+  /**
+   * Corrects the robots heading if it is off the intended target
+   * @param xTarget The x ordinate of the target destination
+   * @param yTarget The y ordinate of the target destination
+   * @param distance The distance the robot needs to move in order to get to its target
+   */
   public void divider(int xTarget, int yTarget, double distance) {
    if(distance <= 60){
     moveForwardBy(distance, xTarget, yTarget);

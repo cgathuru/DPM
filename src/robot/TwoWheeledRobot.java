@@ -122,6 +122,12 @@ public class TwoWheeledRobot {
 		return (distance/Constants.TILE_DISTANCE_TRUNCATED)*Constants.TILE_DISTANCE;
 	}
 
+	/**
+	 * Corrects the robots heading if it is off the intended target
+	 * @param xTarget The x ordinate of the target destination
+	 * @param yTarget The y ordinate of the target destination
+	 * @param distance The distance the robot needs to move in order to get to its target
+	 */
 	public void divider(double distance, int xTarget, int yTarget) {
 		if(distance <= 60){
 			moveForwardBy(distance);

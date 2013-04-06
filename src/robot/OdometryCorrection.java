@@ -10,6 +10,7 @@ import lejos.util.Timer;
 import lejos.util.TimerListener;
 import main.Constants;
 import sensors.LightSampler;
+
 /**
  * Corrects the {@link Odometer} periodically to make sure it stays accurate.
  *  Implements a {@code TimeListener} to periodically correct the {@link Odometer}
@@ -367,6 +368,11 @@ public class OdometryCorrection implements TimerListener{
 		return LineType.Y;
 	}
 
+	/**
+	 * Checks if the current line detected is an x line
+	 * @param sensorSide The {@code SesnorSide} of the light sensor that detected the dark line
+	 * @return
+	 */
 	public boolean isLineX(SensorSide sensorSide) {
 		//return (x + (Constants.ODOMETRY_CORRECTION_MAX_ERROR_ALLOWANCE)* Math.cos(Math.toRadians(odometer.getTheta()))) % 30 < 2;
 		double odoTheta = odometer.getTheta();
@@ -562,6 +568,11 @@ public class OdometryCorrection implements TimerListener{
 		
 	}
 	
+	/**
+	 * Checks if the calculated value of theta makes sense. If so, theta is corrected.
+	 * @param theta The calculated value of theta that the robots heading should be corrected to
+	 * @return
+	 */
 	public boolean isThetaValid(double theta){
 		double odoTheta = odometer.getTheta();
 		if(Math.abs(odoTheta - theta) <15){
@@ -665,9 +676,14 @@ public class OdometryCorrection implements TimerListener{
 		
 	}//setX
 	
+	/**
+	 * Checks if the corrected value of x makes sense.
+	 * @return I the corrected x value makes sense
+	 */
 	public boolean isValidX(){
 		return Math.abs(x - odometer.getX()) < 3;
 	}
+	
 	/**
 	 * Sets the y value of the {@link Odometer}
 	 */
@@ -698,18 +714,35 @@ public class OdometryCorrection implements TimerListener{
 		}
 		
 	}//setY
+	
+	/**
+	 * Checks if the corrected value of y makes sense
+	 * @return If the corrected value of y makes sense
+	 */
 	public boolean isValidY(){
 		return Math.abs(y - odometer.getY()) < 3;
 	}
 	
+	/**
+	 * Gets the left {@code LightSampler} used by {@code OdometerCorrection}
+	 * @return The left {@code LightSampler} used by the robot for {@code OdometeryCorrection}
+	 */
 	public LightSampler getLeftLightSampler(){
 		return this.leftLs;
 	}
 	
+	/**
+	 * Gets the right {@code LightSampler} used by {@code OdometerCorrection}
+	 * @return The right {@code LightSampler} used by the robot for {@code OdometeryCorrection}
+	 */
 	public LightSampler getRightLightsmapler(){
 		return this.rightLs;
 	}
 	
+	/**
+	 * Stops {@code OdometryCorrection} and the {@code LightSampler} for each light sensor used for {@code OdometryCorrection}
+	 * @param lightSamplers True if the the {@code LightSampler} for each sensor should be stopped
+	 */
 	public void stopCorrectionTimer(boolean lightSamplers){
 		this.correctionTimer.stop();
 		if(lightSamplers){
@@ -721,6 +754,10 @@ public class OdometryCorrection implements TimerListener{
 		}
 	}
 	
+	/**
+	 * Stops the correction timer and a {@code LightSampler} that is not on the specified sensor side
+	 * @param sensorSide The {@link SensorSide} of the {@link LightSampler} that should not be stopped
+	 */
 	public void stopCorrectionTimer(SensorSide sensorSide){
 		this.correctionTimer.stop();
 		switch(sensorSide){

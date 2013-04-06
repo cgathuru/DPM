@@ -2,12 +2,18 @@ package navigation;
 import lejos.nxt.*;
 
 /**
- * 
+ * Controls the robots catapult arm, responsible for shooting of the balls at the target destination
  * @author anthony
  *
  */
 public class Launcher {
 	
+	/**
+	 * Starts the ball launching sequence.
+	 * @param leftMotor The robots left wheel
+	 * @param rightMotor The robots right wheel
+	 * @param centerMotor The robots catapult arm
+	 */
 	public static void drive(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor, NXTRegulatedMotor centerMotor) {
 		
 		
@@ -26,6 +32,12 @@ public class Launcher {
 					
 		}
 	//slow launch
+	/**
+	 * Launches a ball at the target and corrects the robots wheels to counter the effects felt by recoil of the the catapults arm
+	 * @param leftMotor The robots left wheel
+	 * @param rightMotor The robots right wheel
+	 * @param centerMotor The robots catapult arm
+	 */
 	private static void launchSlow(NXTRegulatedMotor leftMotor,
 			NXTRegulatedMotor rightMotor, NXTRegulatedMotor centerMotor) {
 			// wait time at initial position

@@ -80,6 +80,12 @@ public class Offence extends Navigation implements Strategy{
 		//super.stopCorrectionTimer();
 	}
 
+	/**
+	 * Corrects the x or y position of the robot after a ball has been collect to compensate
+	 * for the wheels kidding
+	 * @param xTarget The x ordinate of the target near near the ball collection location
+	 * @param yTarget The y ordinate of the target near near the ball collection location
+	 */
 	private void localizeAtCollection(int xTarget, int yTarget) {
 		//odoCorrection.stopCorrectionTimer(false);
 		LightSampler left = odoCorrection.getLeftLightSampler();
@@ -182,9 +188,13 @@ public class Offence extends Navigation implements Strategy{
 		super.turnOffObstacleAvoidance();
 	}
 
+	/**
+	 * Turns on obstacle avoidance
+	 */
 	public void turnOnObstacleAvoidacne(){
 		super.turnOnObstacleAvoidance();
 	}
+	
 	/**
 	 * Moves the robot to its optimal shooting location
 	 */
@@ -197,6 +207,9 @@ public class Offence extends Navigation implements Strategy{
 		super.travelTo(xTarget, yTarget);
 	}
 	
+	/**
+	 * Travels to an intersection location near the shooting location
+	 */
 	public void travelNearShootingLocation(){
 		int xTarget = Decoder.shootX;
 		int yTarget = Decoder.shootY;

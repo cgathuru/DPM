@@ -9,7 +9,6 @@ import main.Constants;
  */
 public class Decoder {
 	
-	private Transmission transmission;
 	/**
 	 * The x-ordinate of the goals location
 	 */

@@ -15,6 +15,12 @@ public class Defence extends Navigation implements Strategy {
 
 	private TwoWheeledRobot robot;
 	
+	/**
+	 * Implements the constructor of the the superclass {@link Navigation}
+	 * @param robot
+	 * @param obstacle
+	 * @param odoCorrection
+	 */
 	public Defence(TwoWheeledRobot robot, Obstacle obstacle,
 			OdometryCorrection odoCorrection) {
 		super(robot, obstacle, odoCorrection);

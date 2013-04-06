@@ -123,12 +123,13 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * @param a Current angle
-	 * @param b Target Angle
+	 * Calculates the minimum angle the robot needs to turn to get from from one angle to another
+	 * @param currentAngle Current angle
+	 * @param targetAngle Target Angle
 	 * @return The angle to turn to which will minimize the amount of rotation the robot has to do
 	 */
-	public static double minimumAngleFromTo(double a, double b) {
-		double d = fixDegAngle(b - a);
+	public static double minimumAngleFromTo(double currentAngle, double targetAngle) {
+		double d = fixDegAngle(targetAngle - currentAngle);
 		
 		if (d < 180.0)
 			return d;
@@ -139,13 +140,12 @@ public class Odometer implements TimerListener {
 	 * Gets the current heading of the robot
 	 * @return The current heading of the robot
 	 */
-	
 	public double getTheta(){
 		return this.theta;
 	}
 	
 	/**
-	 * 
+	 * Gets the roots current y position
 	 * @return The current y value of the robot
 	 */
 	public double getY(){
@@ -153,7 +153,7 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * 
+	 * Get the robots current x position
 	 * @return The current x value of the robot
 	 */
 	public double getX(){
