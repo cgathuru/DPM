@@ -18,6 +18,7 @@ public class LightLocalizer {
 	private Odometer odo;
 	private TwoWheeledRobot robot;
 	private LightSampler sampler;
+	private LightSensor ls;
 	
 	/**
 	 * Initializes all the variables contained within the class
@@ -72,8 +73,10 @@ public class LightLocalizer {
 		double xDist = -(Constants.LIGHT_DISTANCE*Math.cos(Math.toRadians((angles[3] - angles[1])/2)));
 		double deltaTheta = 180 + (angles[3] -angles[1])/2 - angles[3];//angle change
 		double newTheta = deltaTheta + odo.getTheta();
-		//adjust the position to calcuated position
+		if(angles[0]-angles[1] <60){
 		odo.setPosition(new double [] {xDist + getNearestXInt(), yDist+getNearestYInt(), newTheta}, new boolean [] {true, true, true});
+			}
+		//adjust the position to calcuated position
 		//robot.turnTo(0);
 		sampler.stopCorrectionTimer();
 		

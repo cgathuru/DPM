@@ -96,7 +96,7 @@ public class Obstacle {
     moveToTheRight(Constants.SIDE_DISTANCE);
     
     while(!newObstacleDetected && isObstacleStillThereR()){
-     moveToTheRight(15);     
+     moveToTheRight(10);     
     }
     
     moveForwardBy(Constants.FORWARD_DISTANCE);
@@ -114,7 +114,7 @@ public class Obstacle {
     moveToTheLeft(Constants.SIDE_DISTANCE); 
     
     while(!newObstacleDetected && isObstacleStillThereL()){
-     moveToTheLeft(15);     
+     moveToTheLeft(10);     
     }
     
     moveForwardBy(Constants.FORWARD_DISTANCE);
@@ -392,6 +392,11 @@ public class Obstacle {
  usRight.ping();   
  rightUsDist = usRight.getDistance();  
  return rightUsDist;
+ }
+ 
+ 
+ public static UltrasonicSensor getLeftUs(){
+	 return usLeft;
  }
  
 }

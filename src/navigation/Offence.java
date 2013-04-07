@@ -4,7 +4,9 @@ import lejos.nxt.Motor;
 import main.Constants;
 import robot.Odometer;
 import robot.OdometryCorrection;
+import robot.OdometryCorrection.SensorSide;
 import robot.TwoWheeledRobot;
+import sensors.LightLocalizer;
 import sensors.LightSampler;
 
 import communication.Decoder;
@@ -55,10 +57,10 @@ public class Offence extends Navigation implements Strategy{
 		robot.turnToFace(xTarget, yTarget);
 		//localizeHere();
 		//robot.turnToImmediate(-15);
-		robot.moveForwardBy(22);
+		robot.moveForwardBy(25);
 
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(40*1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -205,6 +207,12 @@ public class Offence extends Navigation implements Strategy{
 		travelNearShootingLocation();
 		//localizeHere();
 		super.travelTo(xTarget, yTarget);
+		super.travelTo((int)getNearestXInt(), (int)getNearestYInt());
+		localizeHere();
+		super.travelTo(xTarget, yTarget);
+		localizeHere();
+		super.travelTo(xTarget,yTarget);
+
 	}
 	
 	/**
@@ -213,12 +221,16 @@ public class Offence extends Navigation implements Strategy{
 	public void travelNearShootingLocation(){
 		int xTarget = Decoder.shootX;
 		int yTarget = Decoder.shootY;
-		int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
-		super.travelTo(tilesX, yTarget);
-
+		//int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
+		super.travelTo(xTarget, yTarget);
 	}
 	
-	
+	public void localizeHere(){
+		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
+		LightSampler left = odoCorrection.getLeftLightSampler();
+		left.getLightValue();
+		new LightLocalizer(robot, left).doLocalization();
+	}
 	/**
 	 * Shoots the balls at the goal with the {@link Launcher}
 	 */
@@ -226,4 +238,44 @@ public class Offence extends Navigation implements Strategy{
 		robot.turnTo(0);
 		Launcher.drive(Motor.A, Motor.B, Motor.C);
 	}
+	
+	
+	
+	
+	 /**
+		 * Finds nearest x intercept of tiles to {@code travelTo} to relocalize
+		 * @return Nearest x intercept
+		 */
+		private double getNearestXInt(){
+			Odometer odometer = robot.getOdometer();
+			double currentX = odometer.getX();
+			int tilesTravelled = (int)(currentX/30); 
+			double overflow = currentX%30;
+			if(overflow > 7){
+				return (tilesTravelled+1)*Constants.TILE_DISTANCE;
+			}
+			else {
+				return tilesTravelled*Constants.TILE_DISTANCE;
+			}
+		}
+		
+		/**
+		 * Finds nearest x intercept of tiles to {@code travelTo} to relocalize
+		 * @return Nearest Y intercept
+		 */	
+		private double getNearestYInt(){
+			Odometer odometer = robot.getOdometer();
+			double currentY = odometer.getY();
+			int tilesTravelled = (int)(currentY/30); 
+			double overflow = currentY%30;
+			if(overflow > 7){
+				return (tilesTravelled+1)*Constants.TILE_DISTANCE;
+			}
+			else {
+				return tilesTravelled*Constants.TILE_DISTANCE;
+			}
+		}
+	 
+	 
+	 
 }
