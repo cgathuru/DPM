@@ -39,7 +39,7 @@ public class BallCollection {
 		LightSampler rightLight = new LightSampler(lsRight);
 		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		Decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Decoder.startCorner = StartCorner.TOP_LEFT;
 		Decoder.dispenserX = -30;
 		Decoder.dispenserY = 150;
 		Decoder.shootX = 60;
