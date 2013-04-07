@@ -53,7 +53,27 @@ public class Navigation {
      robot.turnToFace(xTarget, yTarget);
      double distance = calculateDistance(xTarget, yTarget);
      moveForwardBy(distance, xTarget, yTarget);
-     //divider(xTarget, yTarget, distance); //takes in target coords, used to turn off obstacle avoidance when the robot is traveling towards the ball dispenser
+     divider(xTarget, yTarget, distance); //takes in target coords, used to turn off obstacle avoidance when the robot is traveling towards the ball dispenser
+     
+     
+     //try new navigation, move x direction first, then y direction
+    
+    //do the x direction
+    	
+//    robot.turnToFace(xTarget, (int)odometer.getY());
+//     double distance2 = calculateDistance(xTarget, (int)odometer.getY());
+//     moveForwardBy(distance2, xTarget, (int)odometer.getY());
+//     divider((int)distance2, xTarget, odometer.getY());
+//     
+//     //do the y direction now
+//     
+//     robot.turnToFace((int)odometer.getX(), yTarget);
+//     double distance3 = calculateDistance((int)odometer.getX(),yTarget);
+//     moveForwardBy(distance3, (int)odometer.getX(), yTarget);
+//     divider((int)distance3, (int) odometer.getX(), yTarget);
+   
+     
+
      
     }else if(avoidance){ 
      robot.setForwardSpeed(0);
@@ -65,10 +85,10 @@ public class Navigation {
     }
     else{
      //do nothing because obstacle avoidance is off
-    }
-   }  
-   }
-
+    
+    	}  
+   	}
+  }
   /**
    * Corrects the robots heading if it is off the intended target
    * @param xTarget The x ordinate of the target destination

@@ -82,7 +82,8 @@ public final class Constants {
 	/**
 	 * Distance used by the Ultrasonic sensor to determine if the wall is detected
 	 */
-	public static final int WALL_DIST = 60; //for ultrasonic sensor
+	//public static final int WALL_DIST = 60; //for ultrasonic sensor
+	public static final int WALL_DIST  = 50;
 	public static final int US_ANGLE_OFFSET = -26;
 	/**
 	 * The amount of time passed before the {@code OdometryCorrection} is ran again

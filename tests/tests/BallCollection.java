@@ -40,8 +40,8 @@ public class BallCollection {
 		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
 		Decoder.startCorner = StartCorner.TOP_LEFT;
-		Decoder.dispenserX = -30;
-		Decoder.dispenserY = 150;
+		Decoder.dispenserX = 60;
+		Decoder.dispenserY = -30;
 		Decoder.shootX = 60;
 		Decoder.shootY = 60;
 		Offence attack = new Offence(patBot, obstacle, correction);
@@ -55,8 +55,8 @@ public class BallCollection {
 		odo.startTimer();
 		//Decoder.dispenserX = 90;
 		//Decoder.dispenserY = 30;
-		localizer.dolocalise();
 		correction.startCorrectionTimer();
+		localizer.dolocalise();
 		//attack.start();
 		attack.collectBalls();
 		attack.travelToShootingLocation();

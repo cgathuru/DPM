@@ -54,6 +54,7 @@ public class Offence extends Navigation implements Strategy{
 		travelNearCollectionSite(xTarget, yTarget);
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
+		localizeHere();
 		robot.turnToFace(xTarget, yTarget);
 		//localizeHere();
 		//robot.turnToImmediate(-15);
@@ -235,7 +236,7 @@ public class Offence extends Navigation implements Strategy{
 	 * Shoots the balls at the goal with the {@link Launcher}
 	 */
 	public void shoot(){
-		robot.turnTo(0);
+		robot.turnTo(10);
 		Launcher.drive(Motor.A, Motor.B, Motor.C);
 	}
 	

@@ -21,8 +21,8 @@ public class Launcher {
 		for (NXTRegulatedMotor motor : new NXTRegulatedMotor[] { leftMotor, rightMotor, centerMotor }) {
 			motor.stop();
 			//set the acceleration of the three motors
-			motor.setAcceleration(1000);
-			motor.setSpeed(1000);
+			motor.setAcceleration(1500);
+			motor.setSpeed(1500);
 		}
 			/*launchFirstSlow(leftMotor, rightMotor, centerMotor);*/
 		  for(int i =0; i < 5 ; i++){
