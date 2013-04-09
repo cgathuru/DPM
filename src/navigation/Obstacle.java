@@ -45,7 +45,10 @@ public class Obstacle {
 
 	 
 
- 
+	 /**
+	  * Checks if there is an obstacle ahead of the robot
+	  * @return If there is an obstacle ahead of the robot
+	  */
 	 public static  boolean isObstacleAhead(){
 		 if (getLeftUsDistance() < 25){
 			 leftUsDist = usDistance;
@@ -60,6 +63,10 @@ public class Obstacle {
 		 }
 	 }
 
+	 /**
+	  * Gets the distance to an object from the left Ultrasonic sensor
+	  * @return The distance to an object from the left Ultrasonic sensor
+	  */
 	 public static int getLeftUsDistance(){ //filter code left out because it slows down detection
 		 // do a ping
 		 usLeft.ping();   
@@ -67,6 +74,10 @@ public class Obstacle {
 		 return leftUsDist;
 	 }
 
+	 /**
+	  * Gets the distance to an object from the right Ultrasonic sensor
+	  * @return The distance to an object from the right Ultrasonic sensor
+	  */
 	 public static int getRightUsDistance(){ 
 		 // do a ping
 		 usRight.ping();   
@@ -75,15 +86,27 @@ public class Obstacle {
 		 
 	 }
  
- 
+	 /**
+	  * Gets the robots left Ultrasonic sensor
+	  * @return The robots left Ultrasonic sensor
+	  */
 	 public static UltrasonicSensor getLeftUs(){
 		 return usLeft;
 	 }
  
+	 /**
+	  * Gets the robots left Ultrasonic sensor
+	  * @return The robots left Ultrasonic sensor
+	  */
 	 public static UltrasonicSensor getRightUs(){
 		 return usRight;
 	 }
 	 
+	 /**
+	  * Gets the distance between the robot and the obstacle. The distance
+	  * between the robot and the first Ultrasonic sensor to detect the obstacle is returned
+	  * @return
+	  */
 	 public static int getUsDistance(){
 		 return usDistance;
 	 }

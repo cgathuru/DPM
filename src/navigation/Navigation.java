@@ -65,6 +65,9 @@ public class Navigation {
 	  //robot.turnToFace(xTarget, yTarget);
   }
   
+  /**
+   * If the robot is near the ball dispenser region, trun of obstacle avoidance
+   */
   public void determineToDeactivateAvoidanceForBallCollection(){
 	  if(((Decoder.dispenserX - 45) < odometer.getX() && (Decoder.dispenserX + 45) > odometer.getY()) && ((Decoder.dispenserY - 45) < odometer.getY() && (Decoder.dispenserY + 45) > odometer.getY())){
 		  
@@ -76,7 +79,12 @@ public class Navigation {
 	  
   }
  
-
+/**
+ * Moves the robot in a given heading
+ * @param xTarget The x ordinate of the target location
+ * @param yTarget The y ordinate of the target location
+ * @param headingY If the robot is heading in the y direction
+ */
 public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	determineToDeactivateAvoidanceForBallCollection();
 	robot.turnToFace(xTarget, yTarget);
@@ -110,7 +118,10 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	  }
 }
   
-  
+  		/**
+  		 * Check current position and update whether the robots optimal 
+  		 * avoidance direction is to the left or to the right when facing the x direction
+  		 */
   		public void refreshAvoidXStatus(){
   			if(odometer.getY() > 160){
 	  			  avoidLeftX = false;
@@ -129,6 +140,10 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	  		  }
   		}
   		
+  		/**
+  		 * Check current position and update whether the robots optimal 
+  		 * avoidance direction is to the left or to the right when facing the y direction
+  		 */
   		public void refreshAvoidYStatus(){
 	  		if(odometer.getX() > 160){
 	  			  avoidLeftX = true;
@@ -168,6 +183,11 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
   			}
   		}
   
+  		/**
+  		 * Avoids the obstacle
+  		 * @param xTarget The x ordinate of the target the the robot should travel in
+  		 * @param yTarget The y ordinate of the target that the robot should travel in
+  		 */
 	  public void avoidObstacle(int xTarget, int yTarget){
 		  boolean interrupt = false;
 		  NXTRegulatedMotor leftMotor = robot.getLeftMotor(), rightMotor = robot.getRightMotor();
@@ -216,9 +236,10 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 		  		moveInGivenHeading(xTarget, yTarget, true);
 		  		interrupt = true;
 		  	}
-	  	
+	  	//check if the optimal side is possible to avoid in
 		  	if(avoidLeftX){
 			  	robot.turnToImmediate(-90);
+			  	//if not avoid in the other direction
 			  	if(Obstacle.isObstacleAhead()){
 			  		robot.turnToImmediate(90);
 			  		turningRight(xTarget, yTarget, interrupt);
@@ -243,7 +264,13 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 		  	}
 			
 		 }
-
+	
+	 /**
+	  * Initiates the obstacle avoidance path by first turning to the right 
+	  * @param xTarget The x ordinate of the targets location
+	  * @param yTarget The y ordinate of the targets location
+	  * @param interrupt Whether the method is bypassed or not
+	  */
 	public void turningRight(int xTarget, int yTarget, boolean interrupt) {
 		robot.turnToImmediate(90);
 		//if moving along x direction
@@ -294,7 +321,12 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 		}
 	}
 	  
-	
+	/**
+	  * Initiates the obstacle avoidance path by first turning to the left
+	  * @param xTarget The x ordinate of the targets location
+	  * @param yTarget The y ordinate of the targets location
+	  * @param interrupt Whether the method is bypassed or not
+	  */
 	public void turningLeft(int xTarget, int yTarget, boolean interrupt){
 		robot.turnToImmediate(-90);
 		//if moving along x direction
@@ -345,21 +377,22 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 				}
 	}
 	  
-	  
+	  /**
+	   * Checks if the robot is moving along the x axis
+	   * @return If the robot is moving along the x axis
+	   */
 	public boolean isMovingAlongX() {
 		return !(odometer.getTheta() % 180 < 10) || !(odometer.getTheta() % 180 > 170);
 	}
 	 
-	  public void moveInXTo(int xTarget){
-		  while((Math.abs(odometer.getX() - xTarget) > Constants.ALLOWABLE_ERROR)){
-			  break;
-		  }
-	  }
-	  
-	  public void moveInYTo(int yTarget){
-		  
-	  }
-  
+	/**
+	 * Checks if the robot has reached its targets destination. It is based on the head of the robot
+	 * so if the robots heading is y then it will only check if the y values match, and visa versa 
+	 * for the x direction
+	 * @param xTarget The x ordinate of the robots target location
+	 * @param yTarget The y ordinate of the robots target location
+	 * @return If the robot has reached its target location
+	 */
 	  public boolean hasNotReachedDestination(int xTarget, int yTarget) {
 		  if(headingY){
 			  return (Math.abs(odometer.getY() - yTarget) > Constants.ALLOWABLE_ERROR);

@@ -53,20 +53,27 @@ public class DefenseTest {
 				Decoder.defenceY = Constants.TILE_DISTANCE_TRUNCATED * (Constants.GOALY - 2);*/
 				
 				Button.waitForAnyPress();
-				BluetoothConnection connection = new BluetoothConnection();
-				LCD.clear();
-				connection.printTransmission();
+				//BluetoothConnection connection = new BluetoothConnection();
+				//LCD.clear();
+				//connection.printTransmission();
 				new LCDInfo(odo);
-				Transmission trans = connection.getTransmission();
-				trans.decodeTranmission();
+				//Transmission trans = connection.getTransmission();
+				//trans.decodeTranmission();
 				Defence defence = new Defence(patBot, obstacle, correction);
 
-				Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
+				
 				leftLight.startCorrectionTimer();
 				rightLight.startCorrectionTimer();
 				odo.startTimer();
+				Transmission trans = new Transmission();
+				Decoder.startCorner = StartCorner.TOP_RIGHT;
 				Decoder.dispenserX = 90;
 				Decoder.dispenserY = 30;
+				Decoder.defenceX = 150;
+				Decoder.defenceY = 240;
+				Decoder.shootX = 150;
+				Decoder.shootY = 60;
+				Localiser localizer= new Localiser(patBot,usLeft, leftLight, rightLight);
 				localizer.dolocalise();
 				correction.startCorrectionTimer();
 				defence.start();
