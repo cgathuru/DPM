@@ -1,11 +1,13 @@
 package sensors;
 
+import navigation.Obstacle;
 import communication.Decoder;
 import communication.StartCorner;
 
 import robot.Odometer;
 import robot.TwoWheeledRobot;
 import lejos.nxt.Motor;
+import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import main.Constants;
 
@@ -40,17 +42,17 @@ public class Localiser {
 	 */
 	public void dolocalise(){
 		//new LCDInfo(odo);
-				
+				usLeft.getDistance();
 				//if facing towards the wall initially rotate until facing no wall
 				correctStartingDirection();
 				
 				//if facing away from the wall
-				if(usLeft.getDistance()  > Constants.WALL_DIST){
+				if(Obstacle.getLeftUsDistance()  > Constants.WALL_DIST){
 					boolean loacalized = false;
 					while(!loacalized){
 						robot.setRotationSpeed(Constants.ROTATE_SPEED);
 						//rotate clockwise till you see a wall
-						if(usLeft.getDistance()  < Constants.WALL_DIST){
+						if(Obstacle.getLeftUsDistance()  < Constants.WALL_DIST){
 							//patBot.turnToImmediate(-55);
 							robot.stopMotors();
 							doAlignmentRoutine();
@@ -63,6 +65,7 @@ public class Localiser {
 	}//end do localise
 
 	public void doAlignmentRoutine() {
+		robot.turnToImmediate(-25);
 		robot.moveForward(); //move forawrd until you hit a line
 		doFirstAlignment();
 		robot.turnTo(-90);
@@ -77,7 +80,7 @@ public class Localiser {
 	public void doSecondAlignment() {
 		boolean there = false;
 		while(!there){
-			if(leftLight.isDarkLine()){
+			if(leftLight.darkLineCheck()){
 				robot.stopMotors();
 				boolean last = false;
 				Motor.B.setSpeed(-Constants.ROTATE_SPEED);
@@ -157,47 +160,59 @@ public class Localiser {
 	 */
 	public void doFirstAlignment() {
 		boolean light = false;
+		boolean light2 = false;
 		while(!light){
-			if(rightLight.isDarkLine()){
+			if(rightLight.darkLineCheck()){
 				Motor.B.stop(true);
 				Motor.A.stop();
 				Motor.A.setSpeed(-Constants.ROTATE_SPEED);
 				Motor.A.backward();
 				light = true;
-			}
-			
-		}
-		boolean light2 = false;
-		while(!light2){
-			if(leftLight.isDarkLine()){
-				Motor.A.stop();
-				odometer.setTheta(0);
-				double odoX = odometer.getX();
-				double odoY = odometer.getY();
-				int xValue = (int)(odoX/30) *30;
-				int yValue = (int)(odoY/30) *30;
-				switch(startCorner){	
-				case BOTTOM_LEFT:			
-					odometer.setX(xValue);
-					break;
-				case BOTTOM_RIGHT:
-					odometer.setY(yValue);
-					break;
-				case NULL: //for the null case assume bottom left
-					odometer.setX(xValue);
-					break;
-				case TOP_LEFT:
-					odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
-					break;
-				case TOP_RIGHT:
-					odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
-					break;
-				}
+				//Sound.beepSequenceUp();
 				
-				light2 = true;
+			}
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		while(!light2){
+		if(leftLight.darkLineCheck()){
+			Sound.beepSequenceUp();
+			robot.stopMotors();
+			Motor.A.stop();
+			Sound.buzz();
+			odometer.setTheta(0);
+			double odoX = odometer.getX();
+			double odoY = odometer.getY();
+			int xValue = (int)(odoX/30) *30;
+			int yValue = (int)(odoY/30) *30;
+			switch(startCorner){	
+			case BOTTOM_LEFT:			
+				odometer.setX(xValue);
+				break;
+			case BOTTOM_RIGHT:
+				odometer.setY(yValue);
+				break;
+			case NULL: //for the null case assume bottom left
+				odometer.setX(xValue);
+				break;
+			case TOP_LEFT:
+				odometer.setY(fieldSize - (yValue + 2*Constants.TILE_DISTANCE));
+				break;
+			case TOP_RIGHT:
+				odometer.setX(fieldSize - (xValue + 2*Constants.TILE_DISTANCE));
 				break;
 			}
+			
+			light2 = true;
+			light = true;
+			break;
 		}
+	}
+		
 	}
 
 	/**
@@ -206,7 +221,7 @@ public class Localiser {
 	 * required for successful localisation
 	 */
 	public void correctStartingDirection() {
-		if(usLeft.getDistance() < Constants.WALL_DIST){
+		if(Obstacle.getLeftUsDistance() < Constants.WALL_DIST){
 			boolean wrongDirection = true;
 			robot.setRotationSpeed(Constants.ROTATE_SPEED);
 			while(wrongDirection){

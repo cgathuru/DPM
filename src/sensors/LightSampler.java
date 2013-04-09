@@ -113,7 +113,8 @@ public class LightSampler implements TimerListener{
 	 */
 	public boolean darkLineCheck(){
 		double decimal = (lightValue-lightAverage)/lightAverage;
-		if(lightSamples.size() < 10){
+		/*if(lightSamples.size() < 10){
+			Sound.buzz();
 			if(lightValue < Constants.DARK_LINE_VALUE){
 				consecutiveDark++;
 				return true;
@@ -122,9 +123,9 @@ public class LightSampler implements TimerListener{
 				consecutiveDark = 0;
 				return false;
 			}
-		}
-		else if(Math.abs(decimal) > Constants.LIGHT_VALUE_PERCENTAGE){
-			//Sound.buzz();
+		}*/
+		if(decimal < -Constants.LIGHT_VALUE_PERCENTAGE){
+			//Sound.beep();
 			consecutiveDark++;
 			return true;
 		}
@@ -156,5 +157,9 @@ public class LightSampler implements TimerListener{
 	 */
 	public int getLightValue(){
 		return this.lightValue; 
+	}
+	
+	public int getLightAverage(){
+		return (int)this.lightAverage;
 	}
 }

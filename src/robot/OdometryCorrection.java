@@ -735,7 +735,7 @@ public class OdometryCorrection implements TimerListener{
 	 * Gets the right {@code LightSampler} used by {@code OdometerCorrection}
 	 * @return The right {@code LightSampler} used by the robot for {@code OdometeryCorrection}
 	 */
-	public LightSampler getRightLightsmapler(){
+	public LightSampler getRightLightsampler(){
 		return this.rightLs;
 	}
 	

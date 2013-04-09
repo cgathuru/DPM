@@ -55,12 +55,12 @@ public final class Constants {
 	/**
 	 * The default light value for detecting a dark line
 	 */
-	public static final int DARK_LINE_VALUE = 44;
+	public static final int DARK_LINE_VALUE = 46;
 	/**
 	 * Minimum percentage difference needed between the light average and the current light value
 	 * in order for the system to detect a black line in the {@link LightSampler}
 	 */
-	public static final double LIGHT_VALUE_PERCENTAGE = 0.11;
+	public static final double LIGHT_VALUE_PERCENTAGE = 0.135;
 	/**
 	 * The distance between the sensor and the center of the robot needed for light localization
 	 */
@@ -78,12 +78,12 @@ public final class Constants {
 	 * The number of consecutive dark lines detected before the {@link LightSampler} determines that it is traveling on a path that it thinks is a dark. Once this number is reaached the {@code isDarkLine}
 	 * method will return false.
 	 */
-	public static final int CONSECUTIVE_DARK_LINES = 5; //number of consecutive dark lines allowed
+	public static final int CONSECUTIVE_DARK_LINES = 8; //number of consecutive dark lines allowed
 	/**
 	 * Distance used by the Ultrasonic sensor to determine if the wall is detected
 	 */
 	//public static final int WALL_DIST = 60; //for ultrasonic sensor
-	public static final int WALL_DIST  = 50;
+	public static final int WALL_DIST  = 43;
 	public static final int US_ANGLE_OFFSET = -26;
 	/**
 	 * The amount of time passed before the {@code OdometryCorrection} is ran again

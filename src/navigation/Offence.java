@@ -54,14 +54,14 @@ public class Offence extends Navigation implements Strategy{
 		travelNearCollectionSite(xTarget, yTarget);
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
-		localizeHere();
+		//localizeHere();
 		robot.turnToFace(xTarget, yTarget);
 		//localizeHere();
 		//robot.turnToImmediate(-15);
 		robot.moveForwardBy(25);
 
 		try {
-			Thread.sleep(40*1000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,9 +75,14 @@ public class Offence extends Navigation implements Strategy{
 		//}
 
 		//robot.moveForwardBy(-25);
-		robot.moveForwardBy(-20, true);
+		/*robot.getLeftMotor().backward();
+		robot.getRightMotor().backward();
+		robot.setForwardSpeed(Constants.FORWARD_SPEED);
+		*/
+		
 		
 		localizeAtCollection(xTarget, yTarget);
+		robot.turnToImmediate(180);
 		turnOnObstacleAvoidance();
 		//robot.turnToImmediate(15);
 		//super.stopCorrectionTimer();
@@ -92,9 +97,10 @@ public class Offence extends Navigation implements Strategy{
 	private void localizeAtCollection(int xTarget, int yTarget) {
 		//odoCorrection.stopCorrectionTimer(false);
 		LightSampler left = odoCorrection.getLeftLightSampler();
-		LightSampler right = odoCorrection.getRightLightsmapler();
+		LightSampler right = odoCorrection.getRightLightsampler();
 		Odometer odometer = robot.getOdometer();
 		boolean localized = false;
+		robot.moveForwardBy(-30, true);
 		while(!localized){
 			if(left.isDarkLine()){
 				robot.stopMotors();
@@ -209,10 +215,40 @@ public class Offence extends Navigation implements Strategy{
 		//localizeHere();
 		super.travelTo(xTarget, yTarget);
 		super.travelTo((int)getNearestXInt(), (int)getNearestYInt());
-		localizeHere();
+		//localizeHere();
 		super.travelTo(xTarget, yTarget);
-		localizeHere();
+		//localizeHere();
 		super.travelTo(xTarget,yTarget);
+		Odometer odometer = robot.getOdometer();
+		double currentY = odometer.getY();
+		robot.moveForwardBy(-30, true);
+		boolean localized = false;
+		LightSampler leftLight = odoCorrection.getLeftLightSampler();
+		LightSampler rightLight = odoCorrection.getRightLightsampler();
+		boolean leftDone = false, rightDone = false;
+		while(!localized){
+			if(rightLight.isDarkLine() && !leftDone){
+				Motor.B.stop();
+				leftDone = true;
+			}
+			if(leftLight.isDarkLine() && !rightDone){
+				Motor.A.stop();
+				rightDone = true;
+			}
+			
+			if(leftDone && rightDone){
+				
+				if(Math.abs(odometer.getY() - currentY) > 10){
+					odometer.setY(((yTarget/Constants.TILE_DISTANCE_TRUNCATED)*(Constants.TILE_DISTANCE))- Constants.TILE_DISTANCE);
+				}
+				else{
+					odometer.setY(((yTarget/Constants.TILE_DISTANCE_TRUNCATED)*(Constants.TILE_DISTANCE)));
+				}
+				
+				localized = true;
+			}
+			robot.turnTo(0);
+		}
 
 	}
 	
