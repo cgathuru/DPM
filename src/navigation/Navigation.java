@@ -7,6 +7,7 @@ import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
 import sensors.LightSampler;
+import tests.Maze;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
