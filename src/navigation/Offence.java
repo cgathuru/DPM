@@ -56,10 +56,14 @@ public class Offence extends Navigation implements Strategy{
 		turnOffObstacleAvoidance();
 		//super.stopCorrectionTimer();
 		//localizeHere();
-		robot.turnToFace(xTarget, yTarget);
+		//robot.turnToFace(xTarget, yTarget);
+		//robot.turnTo(0);
 		//robot.turnToImmediate(-15);
-		// localizeHere();
-		robot.moveForwardBy(25);
+		//localizeHere();
+		//travelNearCollectionSite(xTarget, yTarget);
+		robot.turnToFace(xTarget, yTarget);
+		robot.moveForwardBy(32);
+		robot.moveForwardBy(Obstacle.getUsDistance());
 
 		try {
 			Thread.sleep(5000);
@@ -167,7 +171,7 @@ public class Offence extends Navigation implements Strategy{
 		//robot.getLeftMotor().forward();
 		//robot.getRightMotor().forward();
 //		int newXTarget
-		robot.turnToFace(xTarget, yTarget);
+		//robot.turnToFace(xTarget, yTarget);
 		
 		//if x ordinate is negative and y is positive
 		if(xTarget < 0){
@@ -181,15 +185,17 @@ public class Offence extends Navigation implements Strategy{
 		}
 		//if x ordinate is positive between 0 and 300 and y ordinate is positive
 		else if (yTarget >0 && yTarget < 300 && xTarget > 0){
-			super.travelTo(xTarget - Constants.TILE_DISTANCE_TRUNCATED, yTarget);
+			super.travelTo(xTarget - 2*Constants.TILE_DISTANCE_TRUNCATED, yTarget);
+		//	localizeHere();
 			super.travelTo(xTarget - Constants.TILE_DISTANCE_TRUNCATED, yTarget);
 		}
 		//if y ordinate is yTarget > 300
 		else{
 			super.travelTo(xTarget, yTarget- Constants.TILE_DISTANCE_TRUNCATED);
 			super.travelTo(xTarget, yTarget- Constants.TILE_DISTANCE_TRUNCATED);
-		}
+			}
 	}
+	
 
 	/**
 	 * Turns off the robots obstacle avoidance so that the robot can
@@ -285,20 +291,27 @@ public class Offence extends Navigation implements Strategy{
 	public void localizeHere(){
 		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
 		LightSampler left = odoCorrection.getLeftLightSampler();
+		LightSampler right = odoCorrection.getRightLightsampler();
 		left.getLightValue();
-		new LightLocalizer(robot, left, (int)robot.getOdometer().getX(), (int)robot.getOdometer().getY() ).doLocalization();
+		new LightLocalizer(robot, right,left, (int)robot.getOdometer().getX(), (int)robot.getOdometer().getY() ).doLocalization();
 	}
 	/**
 	 * Shoots the balls at the goal with the {@link Launcher}
 	 */
 	public void shoot(){
 		//robot.turnTo(10);
-		robot.turnTo(358);
+		robot.turnTo(350);
 		Launcher.drive(Motor.A, Motor.B, Motor.C);
-		//Launcher.drive(Motor.A, Motor.B, Motor.C);
+		robot.turnTo(0);
+		Launcher.drive(Motor.A, Motor.B, Motor.C);
+		robot.turnTo(10);
+		Launcher.drive(Motor.A, Motor.B, Motor.C);
 		super.travelTo(Decoder.shootX-2*Constants.TILE_DISTANCE_TRUNCATED-Constants.TILE_DISTANCE_TRUNCATED/2, Decoder.shootY);
-		robot.turnTo(15);
+		robot.turnTo(8);
 		Launcher.drive(Motor.A, Motor.B, Motor.C);
+		robot.turnTo(13);
+		Launcher.drive(Motor.A, Motor.B, Motor.C);
+
 		
 	}
 	

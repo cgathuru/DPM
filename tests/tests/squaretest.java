@@ -17,14 +17,7 @@ public class squaretest {
 		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		new LCDInfo(odo);
 		Button.waitForAnyPress();
-		patBot.moveForwardBy(30);
-		patBot.turnToImmediate(90);
-		patBot.moveForwardBy(30);
-		patBot.turnToImmediate(90);
-		patBot.moveForwardBy(30);
-		patBot.turnToImmediate(90);
-		patBot.moveForwardBy(30);
-		patBot.turnToImmediate(90);
+		patBot.moveForwardBy(300);
 		Button.waitForAnyPress();
 	}
 		

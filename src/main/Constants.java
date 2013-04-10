@@ -37,7 +37,7 @@ public final class Constants {
 	 * Alternate wheel radii
 	 */
 	public static final double RIGHT_WHEEL_RADIUS = 2.68;
-	public static final double LEFT_WHEEL_RADIUS = 2.70;
+	public static final double LEFT_WHEEL_RADIUS = 2.60;
 	/**
 	 * The wheel to wheel radius of the robot
 	 */

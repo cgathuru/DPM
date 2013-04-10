@@ -6,6 +6,8 @@ import communication.Decoder;
 import robot.Odometer;
 import robot.OdometryCorrection;
 import robot.TwoWheeledRobot;
+import robot.OdometryCorrection.SensorSide;
+import sensors.LightLocalizer;
 import sensors.LightSampler;
 import tests.Maze;
 import lejos.nxt.LCD;
@@ -31,7 +33,8 @@ public class Navigation {
  private Maze maze;
  private boolean avoidLeftX = true, avoidLeftY = true;
  private boolean headingY = true;
- 
+ private int targetX = 0, targetY=0; 
+ private boolean avoiding = false;
  /**
   * Initializes all the variables contained within the class
   * @param robot The {@link TwoWheeledRobot}
@@ -58,15 +61,19 @@ public class Navigation {
 	  while((Math.abs(odometer.getX() - xTarget) > Constants.ALLOWABLE_ERROR) || (Math.abs(odometer.getY() - yTarget) > Constants.ALLOWABLE_ERROR)){
 		  headingY = true;
 		  moveInGivenHeading((int)odometer.getX(), yTarget, headingY);
+		  //if(!avoiding)
+		  //localizeHere();
 		  headingY = false;
 		  moveInGivenHeading(xTarget, yTarget, headingY);
+		  //if(!avoiding)
+		//  localizeHere();
 	  }
 	  
 	  //robot.turnToFace(xTarget, yTarget);
   }
   
   /**
-   * If the robot is near the ball dispenser region, trun of obstacle avoidance
+   * If the robot is near the ball dispenser region, turn of obstacle avoidance
    */
   public void determineToDeactivateAvoidanceForBallCollection(){
 	  if(((Decoder.dispenserX - 45) < odometer.getX() && (Decoder.dispenserX + 45) > odometer.getY()) && ((Decoder.dispenserY - 45) < odometer.getY() && (Decoder.dispenserY + 45) > odometer.getY())){
@@ -86,6 +93,7 @@ public class Navigation {
  * @param headingY If the robot is heading in the y direction
  */
 public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
+
 	determineToDeactivateAvoidanceForBallCollection();
 	robot.turnToFace(xTarget, yTarget);
 	  this.headingY = headingY;
@@ -104,7 +112,9 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 			 // maze.removeIntersection(Obstacle.getUsDistance());
 			  determineToDeactivateAvoidanceForBallCollection();
 			  if(avoidance){
+				  avoiding = true;
 				  avoidObstacle(xTarget, yTarget);
+				  avoiding = false;
 			  }
 			  else{
 				  //do nothing because obstacle avoidance is off
@@ -113,7 +123,17 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 		  }
 		  else{
 			  determineToDeactivateAvoidanceForBallCollection();
-			  robot.moveForwardBy(robot.calculatedCorrectedDistance(xTarget, yTarget), true);
+			  //divider(robot.calculatedCorrectedDistance(xTarget, yTarget), yTarget, yTarget, true);
+			  
+			  if(robot.calculatedCorrectedDistance(xTarget, yTarget) < 2*Constants.TILE_DISTANCE){
+				  robot.moveForwardBy(robot.calculatedCorrectedDistance(xTarget, yTarget), true);
+			  }
+			  else{
+				  robot.turnToFace(xTarget, yTarget);
+				  robot.moveForwardBy(Constants.TILE_DISTANCE);
+			  }
+			  
+			  //robot.moveForwardBy(robot.calculatedCorrectedDistance(xTarget, yTarget), true);
 		  }
 	  }
 }
@@ -411,21 +431,43 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 			    double multiplier = distance/Constants.TILE_DISTANCE;
 			    for(int i = 1; i < multiplier-1; i++){
 			     //Sound.beepSequenceUp();
-			     robot.turnToFace(xTarget, yTarget);
-			     robot.moveForwardBy(Constants.TILE_DISTANCE, immediateReturn);
+			    	robot.turnToFace(xTarget, yTarget);
+			    	if(Obstacle.isObstacleAhead()){
+			    		i = (int) multiplier;
+			    		avoidObstacle(xTarget, xTarget);
+			    	}
+			    	else{
+				    	 robot.moveForwardBy(Constants.TILE_DISTANCE, immediateReturn);
+
+			    		while((distance - robot.calculatedCorrectedDistance(xTarget, yTarget)) < Constants.TILE_DISTANCE){
+					     }
+			    	}
+			     
+			    		 
 			    }
 			    robot.turnToFace(xTarget,yTarget);
 			    robot.moveForwardBy(calculateDistance(xTarget,yTarget), immediateReturn);
+			    while(hasNotReachedDestination(xTarget, yTarget)){}
 			   }
 			   else{
 			    double multiplier = distance/Constants.TILE_DISTANCE;
 			    for(int i = 1; i < multiplier-1; i++){
 			    // Sound.beepSequenceUp();
 			     robot.turnToFace(xTarget, yTarget);
-			     robot.moveForwardBy(Constants.TILE_DISTANCE, immediateReturn);
+			     if(Obstacle.isObstacleAhead()){
+			    		i = (int) multiplier;
+			    		avoidObstacle(xTarget, xTarget);
+			    	}
+			    	else{
+			    		robot.moveForwardBy(Constants.TILE_DISTANCE, immediateReturn);
+			    		while((distance - robot.calculatedCorrectedDistance(xTarget, yTarget)) < Constants.TILE_DISTANCE){
+					    	 
+					     }
+			    	}
 			    }
 			    robot.turnToFace(xTarget,yTarget);
 			    robot.moveForwardBy(calculateDistance(xTarget,yTarget), immediateReturn);
+			    while(hasNotReachedDestination(xTarget, yTarget)){}
 			   }
 	  }
 	
@@ -515,5 +557,12 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	 public Odometer getOdo(){
 		 return this.odometer;
 	 }
+	 public void localizeHere(){
+			odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
+			LightSampler left = odoCorrection.getLeftLightSampler();
+			LightSampler right  = odoCorrection.getRightLightsampler();
+			left.getLightValue();
+			new LightLocalizer(robot, right, left, (int)odometer.getX(), (int)odometer.getY() ).doLocalization();
+		}
 
 }

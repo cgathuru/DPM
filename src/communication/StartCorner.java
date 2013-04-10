@@ -13,9 +13,9 @@ package communication;
  */
 public enum StartCorner {
  BOTTOM_LEFT(1,0,0, "BL"),
- BOTTOM_RIGHT(2,0,10, "BR"),
+ BOTTOM_RIGHT(2,10,0, "BR"),
  TOP_RIGHT(3,10,10, "TR"),
- TOP_LEFT(4,10,0, "TL"),
+ TOP_LEFT(4,0,10, "TL"),
  NULL(0,0,0, "NULL");
  
  private int id, x, y;

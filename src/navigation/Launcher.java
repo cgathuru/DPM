@@ -26,7 +26,7 @@ public class Launcher {
 			
 		}
 			/*launchFirstSlow(leftMotor, rightMotor, centerMotor);*/
-		  for(int i =0; i < 3 ; i++){
+		  for(int i =0; i < 1 ; i++){
 			launchSlow(leftMotor, rightMotor, centerMotor);
 		}
 		  

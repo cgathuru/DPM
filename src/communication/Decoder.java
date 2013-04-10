@@ -83,7 +83,7 @@ public class Decoder {
 	 */
 	public static void processDefence(int w2){
 		defenceX = goalX;
-		defenceY = w2*Constants.TILE_DISTANCE_TRUNCATED;
+		defenceY = (9-w2)*Constants.TILE_DISTANCE_TRUNCATED;
 	}
 	
 	/**

@@ -291,6 +291,18 @@ public class TwoWheeledRobot {
 		 rightMotor.forward();
 		 
 	 }
+	 public void moveBackward(){
+		 leftMotor.setSpeed(forwardSpeed);
+		 rightMotor.setSpeed(forwardSpeed);
+		 leftMotor.backward();
+		 rightMotor.backward();
+	 }
+	 public void stoprightMotor(){
+		 leftMotor.stop();
+	 }
+	 public void stopleftMotor(){
+		 rightMotor.stop();
+	 }
 	 
 	 /**
 	  * Moves the motors forward at the default current speed setting

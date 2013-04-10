@@ -53,7 +53,7 @@ public class DefenseTest {
 				Decoder.defenceY = Constants.TILE_DISTANCE_TRUNCATED * (Constants.GOALY - 2);*/
 				
 				Button.waitForAnyPress();
-				//BluetoothConnection connection = new BluetoothConnection();
+				BluetoothConnection connection = new BluetoothConnection();
 				//LCD.clear();
 				//connection.printTransmission();
 				new LCDInfo(odo);

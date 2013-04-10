@@ -37,7 +37,7 @@ public class Dpm {
 	 */
 	public static void main(String[] args) {
 		new Initializer().run();
-		Button.waitForAnyPress();
+
 	}
 
 }
