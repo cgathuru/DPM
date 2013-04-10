@@ -507,4 +507,13 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	 public void moveForwardBy(double distance){
 	  robot.moveForwardBy(distance);
 	 }
+	
+	 /**
+	  * Returns odometer for use in other classes (offense)
+	  * @return odometer 
+	  */
+	 public Odometer getOdo(){
+		 return this.odometer;
+	 }
+
 }

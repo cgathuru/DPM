@@ -29,6 +29,12 @@ public class Decoder {
 	public static int shootY;
 	
 	/**
+	 * An alternate x Shooting location in case there is an obstacle at the original location
+	 */
+	public static int altShootX;
+	
+	
+	/**
 	 * The x-ordinate of the defence target location
 	 */
 	public static int defenceX;
@@ -42,6 +48,8 @@ public class Decoder {
 	 * The x-ordinate of the ball dispensers location
 	 */
 	public static int dispenserX;
+	
+	
 	
 	/**
 	 * The y-ordinate of the ball dispensers location
@@ -63,8 +71,10 @@ public class Decoder {
 	 * method has been called
 	 */
 	public static void processAttack() {
-		shootX = goalX -(Constants.TILE_DISTANCE_TRUNCATED/2 -2);
+		//shootX = goalX -(Constants.TILE_DISTANCE_TRUNCATED/2 -2);
+		shootX = goalX;
 		shootY = Constants.TILE_DISTANCE_TRUNCATED*determineYTarget(goalX/Constants.TILE_DISTANCE_TRUNCATED, goalY/Constants.TILE_DISTANCE_TRUNCATED);
+		altShootX = goalX - 2*Constants.TILE_DISTANCE_TRUNCATED + Constants.TILE_DISTANCE_TRUNCATED/2;
 	}
 	
 	/**

@@ -23,9 +23,10 @@ public class Launcher {
 			//set the acceleration of the three motors
 			motor.setAcceleration(1500);
 			motor.setSpeed(1500);
+			
 		}
 			/*launchFirstSlow(leftMotor, rightMotor, centerMotor);*/
-		  for(int i =0; i < 5 ; i++){
+		  for(int i =0; i < 3 ; i++){
 			launchSlow(leftMotor, rightMotor, centerMotor);
 		}
 		  
@@ -50,7 +51,6 @@ public class Launcher {
 
 			//rotation of the motor's arm from initial position to pulling position
 			centerMotor.rotate(-210,true);
-			
 			//wait time at pulling position
 			try {
 				Thread.sleep(5000);

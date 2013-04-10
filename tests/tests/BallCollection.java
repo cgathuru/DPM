@@ -39,9 +39,9 @@ public class BallCollection {
 		LightSampler rightLight = new LightSampler(lsRight);
 		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		Decoder.startCorner = StartCorner.BOTTOM_RIGHT;
+		Decoder.startCorner = StartCorner.TOP_LEFT;
 		Decoder.dispenserX = 330;
-		Decoder.dispenserY = 180;
+		Decoder.dispenserY = 120;
 		Decoder.shootX = 150;
 		Decoder.shootY = 60;
 		Offence attack = new Offence(patBot, obstacle, correction);
@@ -62,8 +62,19 @@ public class BallCollection {
 		attack.collectBalls();
 		attack.travelToShootingLocation();
 		attack.stopCorrectionTimer();
-		patBot.turnTo(0);
-		//attack.shoot();
+		//patBot.turnTo(0);
+	//	correction.stopCorrectionTimer();
+		
+		attack.shoot();
+		
+		//shoot  a second time
+		
+		attack.startCorrectionTimer();
+		attack.collectBalls();
+		attack.travelToShootingLocation();
+		attack.stopCorrectionTimer();
+		attack.shoot();
+		
 		Button.waitForAnyPress();
 	}
 

@@ -19,6 +19,7 @@ import communication.Decoder;
 public class Offence extends Navigation implements Strategy{
 	private OdometryCorrection odoCorrection;
 	private TwoWheeledRobot robot;
+	private boolean altLoc;
 
 	/**
 	 * Initializes all the parameters needed {@link Navigation}
@@ -56,8 +57,8 @@ public class Offence extends Navigation implements Strategy{
 		//super.stopCorrectionTimer();
 		//localizeHere();
 		robot.turnToFace(xTarget, yTarget);
-		//localizeHere();
 		//robot.turnToImmediate(-15);
+		// localizeHere();
 		robot.moveForwardBy(25);
 
 		try {
@@ -165,6 +166,7 @@ public class Offence extends Navigation implements Strategy{
 		//robot.getRightMotor().setSpeed(Constants.FORWARD_SPEED);
 		//robot.getLeftMotor().forward();
 		//robot.getRightMotor().forward();
+//		int newXTarget
 		robot.turnToFace(xTarget, yTarget);
 		
 		//if x ordinate is negative and y is positive
@@ -225,7 +227,7 @@ public class Offence extends Navigation implements Strategy{
 		boolean localized = false;
 		LightSampler leftLight = odoCorrection.getLeftLightSampler();
 		LightSampler rightLight = odoCorrection.getRightLightsampler();
-		boolean leftDone = false, rightDone = false;
+	/*	boolean leftDone = false, rightDone = false;
 		while(!localized){
 			if(rightLight.isDarkLine() && !leftDone){
 				Motor.B.stop();
@@ -248,7 +250,10 @@ public class Offence extends Navigation implements Strategy{
 				localized = true;
 			}
 			robot.turnTo(0);
-		}
+			super.turnOffObstacleAvoidance();
+		}*/
+		robot.turnTo(0);
+		super.turnOffObstacleAvoidance();
 
 	}
 	
@@ -258,22 +263,43 @@ public class Offence extends Navigation implements Strategy{
 	public void travelNearShootingLocation(){
 		int xTarget = Decoder.shootX;
 		int yTarget = Decoder.shootY;
-		//int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
+		int altXTarget = Decoder.altShootX;
+		////int tilesX = (xTarget + Constants.TILE_DISTANCE_TRUNCATED/2 +2);
 		super.travelTo(xTarget, yTarget);
+		boolean travelling = true;
+		while(travelling){
+			super.travelTo(xTarget, yTarget);
+			if(Math.abs(robot.getOdometer().getX()-xTarget) <25 && Math.abs(robot.getOdometer().getY()- yTarget)<25 && Obstacle.isObstacleAhead()){
+			super.travelTo(altXTarget, yTarget);
+			altLoc=true;
+			
+				}
+			travelling=false;}
+		
+//		super.travelTo(xTarget, yTarget);}
+//		if((Math.abs(robot.getOdometer().getX()-xTarget) <10 && Math.abs(robot.getOdometer().getY()- yTarget)<10 && Obstacle.isObstacleAhead())){
+//		super.travelTo(altXTarget, yTarget);
+//		}
 	}
 	
 	public void localizeHere(){
 		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
 		LightSampler left = odoCorrection.getLeftLightSampler();
 		left.getLightValue();
-		new LightLocalizer(robot, left).doLocalization();
+		new LightLocalizer(robot, left, (int)robot.getOdometer().getX(), (int)robot.getOdometer().getY() ).doLocalization();
 	}
 	/**
 	 * Shoots the balls at the goal with the {@link Launcher}
 	 */
 	public void shoot(){
-		robot.turnTo(10);
+		//robot.turnTo(10);
+		robot.turnTo(358);
 		Launcher.drive(Motor.A, Motor.B, Motor.C);
+		//Launcher.drive(Motor.A, Motor.B, Motor.C);
+		super.travelTo(Decoder.shootX-2*Constants.TILE_DISTANCE_TRUNCATED-Constants.TILE_DISTANCE_TRUNCATED/2, Decoder.shootY);
+		robot.turnTo(15);
+		Launcher.drive(Motor.A, Motor.B, Motor.C);
+		
 	}
 	
 	

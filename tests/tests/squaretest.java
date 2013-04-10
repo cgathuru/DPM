@@ -16,8 +16,7 @@ public class squaretest {
 		Odometer odo = new Odometer(true);
 		TwoWheeledRobot patBot = new TwoWheeledRobot(odo, Motor.A, Motor.B);
 		new LCDInfo(odo);
-		int buttonChoice = Button.waitForAnyPress();
-		if(buttonChoice== Button.ID_LEFT){
+		Button.waitForAnyPress();
 		patBot.moveForwardBy(30);
 		patBot.turnToImmediate(90);
 		patBot.moveForwardBy(30);
@@ -28,8 +27,5 @@ public class squaretest {
 		patBot.turnToImmediate(90);
 		Button.waitForAnyPress();
 	}
-		else{
-			patBot.motorFloat();
-		}
-	}
+		
 }

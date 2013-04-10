@@ -19,16 +19,20 @@ public class LightLocalizer {
 	private TwoWheeledRobot robot;
 	private LightSampler sampler;
 	private LightSensor ls;
+	private int xOffset;
+	private int yOffset;
 	
 	/**
 	 * Initializes all the variables contained within the class
 	 * @param robot The {@link Robot} that controls the robots movements
 	 * @param ls Light sensor
 	 */
-	public LightLocalizer(TwoWheeledRobot robot, LightSampler ls) {
+	public LightLocalizer(TwoWheeledRobot robot, LightSampler ls, int xOffset, int yOffset) {
 		this.odo = robot.getOdometer();
 		this.robot = robot;
 		this.sampler = ls;
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
 		//sampler = new LightSampler(ls);
 		
 		// turn on the light
@@ -74,7 +78,7 @@ public class LightLocalizer {
 		double deltaTheta = 180 + (angles[3] -angles[1])/2 - angles[3];//angle change
 		double newTheta = deltaTheta + odo.getTheta();
 		if(angles[0]-angles[1] <60){
-		odo.setPosition(new double [] {xDist + getNearestXInt(), yDist+getNearestYInt(), newTheta}, new boolean [] {true, true, true});
+		odo.setPosition(new double [] {xDist + xOffset, yDist+yOffset, newTheta}, new boolean [] {true, true, true});
 			}
 		//adjust the position to calcuated position
 		//robot.turnTo(0);
