@@ -43,6 +43,10 @@ public class Offence extends Navigation implements Strategy{
 		//super.startCorrectionTimer();
 		travelToShootingLocation();
 		shoot();
+		collectBalls();
+		travelToShootingLocation();
+		shoot();
+		
 		
 	}
 	
@@ -62,11 +66,11 @@ public class Offence extends Navigation implements Strategy{
 		//localizeHere();
 		//travelNearCollectionSite(xTarget, yTarget);
 		robot.turnToFace(xTarget, yTarget);
-		robot.moveForwardBy(32);
+		robot.moveForwardBy(33);
 		robot.moveForwardBy(Obstacle.getUsDistance());
 
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(40*1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,6 +91,7 @@ public class Offence extends Navigation implements Strategy{
 		
 		
 		localizeAtCollection(xTarget, yTarget);
+		robot.moveForwardBy(-30);
 		robot.turnToImmediate(180);
 		turnOnObstacleAvoidance();
 		//robot.turnToImmediate(15);
@@ -132,7 +137,6 @@ public class Offence extends Navigation implements Strategy{
 				localized =true;
 			}
 		}
-		
 		
 		
 		//robot.turnToImmediate(10);

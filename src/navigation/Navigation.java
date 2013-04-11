@@ -76,7 +76,7 @@ public class Navigation {
    * If the robot is near the ball dispenser region, turn of obstacle avoidance
    */
   public void determineToDeactivateAvoidanceForBallCollection(){
-	  if(((Decoder.dispenserX - 45) < odometer.getX() && (Decoder.dispenserX + 45) > odometer.getY()) && ((Decoder.dispenserY - 45) < odometer.getY() && (Decoder.dispenserY + 45) > odometer.getY())){
+	  if(((Decoder.dispenserX - 55) < odometer.getX() && (Decoder.dispenserX + 55) > odometer.getY()) && ((Decoder.dispenserY - 55) < odometer.getY() && (Decoder.dispenserY + 55) > odometer.getY())){
 		  
 		turnOffObstacleAvoidance();  	
 	  }

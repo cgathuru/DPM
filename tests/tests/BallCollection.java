@@ -25,7 +25,7 @@ public class BallCollection {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+ public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		NXTRegulatedMotor leftMotor = Motor.A;
 		NXTRegulatedMotor rightMotor = Motor.B;
@@ -39,8 +39,8 @@ public class BallCollection {
 		LightSampler rightLight = new LightSampler(lsRight);
 		Obstacle obstacle = new Obstacle(usRight, usLeft, odo, patBot);
 		OdometryCorrection correction = new OdometryCorrection(patBot, leftLight, rightLight);
-		Decoder.startCorner = StartCorner.TOP_LEFT;;
-		Decoder.dispenserX = 330;
+		Decoder.startCorner = StartCorner.BOTTOM_LEFT;
+		Decoder.dispenserX = 0;
 		Decoder.dispenserY = 120;
 		Decoder.shootX = 150;
 		Decoder.shootY = 60;
@@ -58,23 +58,23 @@ public class BallCollection {
 		//correction.startCorrectionTimer();
 		localizer.dolocalise();
 		correction.startCorrectionTimer();
-		//attack.start();
+	//	attack.start();
 		attack.collectBalls();
-		attack.travelToShootingLocation();
-		attack.stopCorrectionTimer();
-		//patBot.turnTo(0);
-	//	correction.stopCorrectionTimer();
-		
-		attack.shoot();
-		
-		//shoot  a second time
-		
-		attack.startCorrectionTimer();
-		attack.collectBalls();
-		attack.travelToShootingLocation();
-		attack.stopCorrectionTimer();
-		attack.shoot();
-		
+//		attack.travelToShootingLocation();
+//		attack.stopCorrectionTimer();
+//		//patBot.turnTo(0);
+//	//	correction.stopCorrectionTimer();
+//		
+//		attack.shoot();
+//		
+//		//shoot  a second time
+//		
+//		attack.startCorrectionTimer();
+//		attack.collectBalls();
+//		attack.travelToShootingLocation();
+//		attack.stopCorrectionTimer();
+//		attack.shoot();
+//		
 		Button.waitForAnyPress();
 	}
 
