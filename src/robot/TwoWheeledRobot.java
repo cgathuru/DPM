@@ -288,20 +288,47 @@ public class TwoWheeledRobot {
 		 leftMotor.setSpeed(forwardSpeed);
 		 rightMotor.setSpeed(forwardSpeed);
 		 leftMotor.forward();
-		 rightMotor.forward();
-		 
+		 rightMotor.forward();	 
 	 }
+	 
+	 /**
+	  * Moves the robot backwards
+	  */
 	 public void moveBackward(){
 		 leftMotor.setSpeed(forwardSpeed);
 		 rightMotor.setSpeed(forwardSpeed);
 		 leftMotor.backward();
 		 rightMotor.backward();
 	 }
-	 public void stoprightMotor(){
+	 
+	 /**
+	  * Stops the robots right motor
+	  */
+	 public void stopRightMotor(){
 		 leftMotor.stop();
 	 }
-	 public void stopleftMotor(){
+	 
+	 /**
+	  * Stops the robot right motor
+	  * @param immediateReturn The return type. True if method should immediately return
+	  */
+	 public void stopRightMotor(boolean immediateReturn){
+		 leftMotor.stop(immediateReturn);
+	 }
+	 
+	 /**
+	  * Stops the robots left motor
+	  */
+	 public void stopLeftMotor(){
 		 rightMotor.stop();
+	 }
+	 
+	 /**
+	  * Stops the robot left motor
+	  * @param immediateReturn The return type. True if method should immediately return
+	  */
+	 public void stopLeftMotor(boolean immediateReturn){
+		 leftMotor.stop(immediateReturn);
 	 }
 	 
 	 /**
@@ -353,7 +380,7 @@ public class TwoWheeledRobot {
 	 }
 	 
 	 /**
-	  * 
+	  * Checks if the robot is rotating
 	  * @return True if the robot is rotating
 	  */
 	 public boolean isRotating(){

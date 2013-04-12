@@ -74,9 +74,23 @@ public class OdometryCorrection implements TimerListener{
 	 */
 	public static int tCor = 0;
 	
+	/**
+	 * The value of the first line detected
+	 */
 	public static double y1 = 0;
+	/**
+	 * The value of the next line detected
+	 */
 	public static double y2 = 0;
-	public static String left= "", right = "";
+	
+	/**
+	 * The {@link LineType} detected by the left light sensor
+	 */
+	public static String left= "";
+	/**
+	 * The {@link LineType} detected by the right light sensor
+	 */
+	public static String right = "";
 	/**
 	 * The current light value reading from the {@link LightSensor} on the left side of the {@link TwoWheeledRobot}.
 	 */
@@ -94,8 +108,8 @@ public class OdometryCorrection implements TimerListener{
 	 * Initializes the class timer and the stacks used to store the {@link LineType}, {@link SensorSide}, and
 	 * the value of the x or y line detected  
 	 * @param odometer The {@link Odometer}
-	 * @param ls1 The {@link LightSensor} on the left side of the robot
-	 * @param ls2 The {@link LightSensor} on the right side of the robot
+	 * @param ls1 The {@link LightSampler} associated with the left side of the robot
+	 * @param ls2 The {@link LightSampler} associated with the right side of the robot
 	 */
 	public OdometryCorrection(TwoWheeledRobot robot, LightSampler ls1, LightSampler ls2){
 		this.odometer = robot.getOdometer();
@@ -272,12 +286,19 @@ public class OdometryCorrection implements TimerListener{
 		
 	}//timeout
 
+	/**
+	 * Clears out the values stored when a {@link LineType} of y is detected
+	 */
 	public void clearStoredYValues() {
 		lineY.clear();
 		tachoCountY.clear();
 		sensorSideY.clear();
 	}
 
+
+	/**
+	 * Clears out the values stored when a {@link LineType} of x is detected
+	 */
 	public void clearStoredXValues() {
 		lineX.clear();
 		tachoCountX.clear();

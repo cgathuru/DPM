@@ -1,8 +1,11 @@
-package navigation;
+/**
+	 * The {@link LineType} detected by the left light sensor
+	 */package navigation;
+import robot.OdometryCorrection.LineType;
 import lejos.nxt.*;
 
 /**
- * Controls the robots catapult arm, responsible for shooting of the balls at the target destination
+ * Controls the robots launcher arm, responsible for shooting of the balls at the target destination
  * @author anthony
  *
  */
@@ -12,7 +15,7 @@ public class Launcher {
 	 * Starts the ball launching sequence.
 	 * @param leftMotor The robots left wheel
 	 * @param rightMotor The robots right wheel
-	 * @param centerMotor The robots catapult arm
+	 * @param centerMotor The robots launcher arm
 	 */
 	public static void drive(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor, NXTRegulatedMotor centerMotor) {
 		
@@ -34,10 +37,10 @@ public class Launcher {
 		}
 	//slow launch
 	/**
-	 * Launches a ball at the target and corrects the robots wheels to counter the effects felt by recoil of the the catapults arm
+	 * Launches a ball at the target and corrects the robots wheels to counter the effects felt by recoil of the the launchers arm
 	 * @param leftMotor The robots left wheel
 	 * @param rightMotor The robots right wheel
-	 * @param centerMotor The robots catapult arm
+	 * @param centerMotor The robots launcher arm
 	 */
 	private static void launchSlow(NXTRegulatedMotor leftMotor,
 			NXTRegulatedMotor rightMotor, NXTRegulatedMotor centerMotor) {

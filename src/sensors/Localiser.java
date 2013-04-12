@@ -11,6 +11,11 @@ import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import main.Constants;
 
+/**
+ * Localises the robot based on a given starting corner, setting the initial values of x y and theta on the {@link Odometer}
+ * @author charles
+ *
+ */
 public class Localiser {
 	private LightSampler leftLight, rightLight;
 	private UltrasonicSensor usLeft;
@@ -64,6 +69,9 @@ public class Localiser {
 				}//end if facing away from wall
 	}//end do localise
 
+	/**
+	 * Aligns the robot with the robots center on a grid line
+	 */
 	public void doAlignmentRoutine() {
 		robot.turnToImmediate(-25);
 		robot.moveForward(); //move forawrd until you hit a line

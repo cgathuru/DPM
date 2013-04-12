@@ -46,6 +46,10 @@ public class BluetoothConnection {
 		conn.close();
 	}
 	
+	/**
+	 * Gets the current {@link Transmission}
+	 * @return The current {@link Transmission}
+	 */
 	public Transmission getTransmission() {
 		return this.trans;
 	}

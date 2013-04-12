@@ -122,7 +122,12 @@ public class LightLocalizer {
 		
 	}
 
-	private void align(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
+	/**
+	 * Aligns the robot to a grid line
+	 * @param leftMotor The robots left wheel
+	 * @param rightMotor The robots right wheel
+	 */
+	public void align(NXTRegulatedMotor leftMotor, NXTRegulatedMotor rightMotor) {
 		boolean aligned = false;
 		boolean rightDone = false;
 		boolean leftDone = false;

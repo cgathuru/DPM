@@ -32,7 +32,7 @@ public class USLocalizer {
 	 /**
 	  * Initializes the class attributes
 	  * @param robot The {@link TwoWheelRobot} that controls the robots movement
-	  * @param us
+	  * @param us The ultrasonic sensor used in localisation
 	  */
 	 public USLocalizer(TwoWheeledRobot robot, UltrasonicSensor us) {
 	  

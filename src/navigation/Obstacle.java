@@ -11,12 +11,10 @@ import lejos.nxt.UltrasonicSensor;
 import main.Constants;
 
 /**
- * 
- * @author Madeleine Incutiyayezu
- * April 2, 2013
+ * This class controls the ultrasonic sesnors by getting data from them to determine if there is an obstacle ahead or not
+ * @author charles
  *
  */
-
 public class Obstacle {
  private static int leftUsDist;
  private static int rightUsDist;  
@@ -29,6 +27,13 @@ public class Obstacle {
  private static int usDistance = 0;
  private int leftDistance =0, rightDistance = 0;
  
+ /**
+  * Initialises the parameters in the class.
+  * @param usLeft The left Ultrasonic sensor
+  * @param usRight The right Ultrasonic sensor
+  * @param odometer The {@link Odometer} of the {@link TwoWheeledRobot}
+  * @param robot The {@link TwoWheeledRobot}
+  */
 	 public Obstacle(UltrasonicSensor usLeft, UltrasonicSensor usRight, Odometer odometer, TwoWheeledRobot robot){  
 		  this.usLeft = usLeft;
 		  this.usRight = usRight; 
@@ -37,12 +42,6 @@ public class Obstacle {
 	 } 
  
  
-	 public void travelToNextBestLocation(int xTarget, int yTarget){
-		 
-	 }
-
-	 
-
 	 
 
 	 /**

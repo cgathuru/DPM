@@ -152,13 +152,17 @@ public class LightSampler implements TimerListener{
 	}
 	
 	/**
-	 * 
+	 * Gets the light sensors current light value reading
 	 * @return The current light value from the light sensor
 	 */
 	public int getLightValue(){
 		return this.lightValue; 
 	}
 	
+	/**
+	 * Gets the sensors current light average
+	 * @return The light sensors light average
+	 */
 	public int getLightAverage(){
 		return (int)this.lightAverage;
 	}

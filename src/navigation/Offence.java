@@ -292,6 +292,9 @@ public class Offence extends Navigation implements Strategy{
 //		}
 	}
 	
+	/**
+	 * Localises the robot at the given location
+	 */
 	public void localizeHere(){
 		odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
 		LightSampler left = odoCorrection.getLeftLightSampler();

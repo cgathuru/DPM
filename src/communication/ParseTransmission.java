@@ -21,6 +21,11 @@ import main.Constants;
 public class ParseTransmission {
 
 
+	/**
+	 * Receives the transmitted information via bluetooth
+	 * @param dis A {@code DataInputStram}
+	 * @return A {@link Transmission} containing all the information received during a bluetooth connection 
+	 */
 	public static Transmission parse (DataInputStream dis) {
 		Transmission trans = null;
 		try {
@@ -54,6 +59,11 @@ public class ParseTransmission {
 		
 	}
 	
+	/**
+	 * Ignores characters transmitted during the bluetooth connection
+	 * @param dis The {@code DataInputStream}
+	 * @throws IOException Throws and Input Output exception
+	 */
 	public static void ignore(DataInputStream dis) throws IOException {
 		dis.readChar();
 	}

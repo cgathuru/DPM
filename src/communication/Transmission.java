@@ -1,23 +1,13 @@
 /**
-* @author Sean Lawlor, Stepan Salenikovich
-* @date November 3, 2011
-* @class ECSE 211 - Design Principle and Methods
+* @author Sean Lawlor, Stepan Salenikovich, Charles
+* 
 */
 package communication;
 
 import main.Constants;
 
 /**
- * Skeleton class to hold datatypes needed for final project
- * 
- * Simply all public variables so can be accessed with 
- * Transmission t = new Transmission();
- * int fx = t.fx;
- * 
- * and so on...
- * 
- * Also the role is an enum, converted from the char transmitted. (It should never be
- * Role.NULL)
+ * The transmission information to be received when information is received via bluetooth
  */
 
 public class Transmission {
@@ -53,6 +43,7 @@ public class Transmission {
 	
 	/**
 	 * Translates the data in the {@link Transmission} into usable information
+	 * which is then stored in the {@link Decoder} 
 	 */
 	public void decodeTranmission(){
 		Decoder.goalX = Constants.GOALX * Constants.TILE_DISTANCE_TRUNCATED;

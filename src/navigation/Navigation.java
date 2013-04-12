@@ -182,27 +182,6 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	  		  }
   		}
   		
-  		public void obstacleAvoidance(int xTarget, int yTarget){
-  			//back up
-  			robot.moveForwardBy(-15);
-  			refreshAvoidXStatus();
-  			if(avoidLeftX){
-  				robot.turnToImmediate(-90);
-  			}
-  			else{
-  				robot.turnToImmediate(90);
-  			}
-  			robot.moveForwardBy(15);
-  			if(odometer.getTheta() % 180 < 10){
-  				moveInGivenHeading((int)odometer.getX(), yTarget, headingY);
-  				moveInGivenHeading(xTarget, yTarget, headingY);
-  			}
-  			else{
-  				moveInGivenHeading(xTarget, (int)odometer.getY(), headingY);
-  				moveInGivenHeading(xTarget, yTarget, headingY);
-  			}
-  		}
-  
   		/**
   		 * Avoids the obstacle
   		 * @param xTarget The x ordinate of the target the the robot should travel in
@@ -211,39 +190,7 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	  public void avoidObstacle(int xTarget, int yTarget){
 		  boolean interrupt = false;
 		  NXTRegulatedMotor leftMotor = robot.getLeftMotor(), rightMotor = robot.getRightMotor();
-		  //stop correction but keep the sensors on
-			/*robot.stopMotors();
-			leftMotor.forward();
-			rightMotor.forward();
-			leftMotor.setSpeed(Constants.FORWARD_SPEED);
-			rightMotor.setSpeed(Constants.FORWARD_SPEED);
-			robot.moveForwardBy(-Constants.TILE_DISTANCE, true);
-			boolean there = false, aligned = false;
-			while(!there){
-				//if left sensor first
-				 if(leftLight.isDarkLine()){
-					 leftMotor.stop();
-					 while(!aligned){
-						 if(rightLight.isDarkLine()){
-							 rightMotor.stop();
-							 there = true;
-							 aligned = true;
-						 }
-					 }
-				 }
-				 //if right sensor first
-				 if(rightLight.isDarkLine()){
-					 rightMotor.stop();
-					 while(!aligned){
-						 if(leftLight.isDarkLine()){
-							 leftMotor.stop();
-							 there = true;
-							 aligned = true;
-						 }
-					 }
-				 }// end right is dark line
-			 }//end while
-*/			
+
 		  	if((headingY && (odometer.getY() > yTarget)) && (odometer.getTheta() < 10 && odometer.getTheta() > 350)){
 		  		Sound.beepSequence();
 		  		moveInGivenHeading(xTarget, (int)odometer.getY(), false);
@@ -422,7 +369,15 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	  }
 	  
 	 
-	  
+	  /**
+	   * Increases the number of way points to allow for the robots physical correction without 
+	   * actually calling {@code travelTo}
+	   * multiple times
+	   * @param distance The total distance the the robot neeeds to move forward by to get it its target destination
+	   * @param xTarget The x ordinate of the robots target location
+	   * @param yTarget The y ordinate of the robots target location
+	   * @param immediateReturn The return type
+	   */
 	  public void divider(double distance, int xTarget, int yTarget, boolean immediateReturn){
 		  if(distance <= 60){
 			    robot.moveForwardBy(distance, immediateReturn);
@@ -557,6 +512,10 @@ public void moveInGivenHeading(int xTarget, int yTarget, boolean headingY) {
 	 public Odometer getOdo(){
 		 return this.odometer;
 	 }
+	 
+	 /**
+	  * Localises the robot at the given location
+	  */
 	 public void localizeHere(){
 			odoCorrection.stopCorrectionTimer(SensorSide.LEFT);
 			LightSampler left = odoCorrection.getLeftLightSampler();

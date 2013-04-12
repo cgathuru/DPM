@@ -11,8 +11,17 @@ package communication;
  *
  */
 public enum PlayerRole {
+	/**
+	 * The defender
+	 */
 	DEFENDER(2, "D"),
+	/**
+	 * The attacker
+	 */
 	ATTACKER(1, "A"),
+	/**
+	 * Nothing
+	 */
 	NULL(0, "");
 	
 	private int role;
@@ -23,17 +32,26 @@ public enum PlayerRole {
 		this.str = str;
 	}
 	
+	/**
+	 * Converts the {@code PlayerRole} to a String
+	 */
 	public String toString() {
 		return this.str;
 	}
 	
 	/**
+	 * Gets the ID of the role
 	 * @return the value of the role
 	 */
 	public int getId() {
 		return this.role;
 	}
 	
+	/**
+	 * Gets the role of the player given an ID
+	 * @param rl The players ID
+	 * @return The {@code PlayerRole} corresponding to the given ID 
+	 */
 	public static PlayerRole lookupRole(int rl) {
 		for (PlayerRole role : PlayerRole.values())
 			if (role.getId() == rl)

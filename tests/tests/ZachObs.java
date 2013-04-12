@@ -1,8 +1,6 @@
 package tests;
 
 import navigation.Obstacle;
-import navigation.ZachNavigation;
-import navigation.ZachObstacle;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
@@ -17,6 +15,8 @@ import sensors.LightSampler;
 import sensors.USLocalizer;
 
 import display.LCDInfo;
+import expermental.ZachNavigation;
+import expermental.ZachObstacle;
 
 public class ZachObs {
 
